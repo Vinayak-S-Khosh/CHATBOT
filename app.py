@@ -12,6 +12,8 @@ import csv
 import io
 import re
 import sys
+import requests
+from urllib.parse import quote
 
 # Add PORTFOLIO directory to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'PORTFOLIO'))
@@ -223,6 +225,40 @@ def format_response(response, tag):
     
     return response
 
+def detect_language(text):
+    """Detect language of user input using simple heuristics"""
+    # Check for specific language characters
+    if any('\u0D00' <= c <= '\u0D7F' for c in text):  # Malayalam
+        return 'ml'
+    elif any('\u0B80' <= c <= '\u0BFF' for c in text):  # Tamil
+        return 'ta'
+    elif any('\u0C80' <= c <= '\u0CFF' for c in text):  # Kannada
+        return 'kn'
+    elif any('\u0900' <= c <= '\u097F' for c in text):  # Hindi/Devanagari
+        return 'hi'
+    else:
+        return 'en'  # Default to English
+
+def translate_text(text, target_lang='en', source_lang='en'):
+    """Translate text using Google Translate API"""
+    if target_lang == source_lang or target_lang == 'en':
+        return text
+    
+    try:
+        url = f"https://translate.googleapis.com/translate_a/single?client=gtx&sl={source_lang}&tl={target_lang}&dt=t&q={quote(text)}"
+        response = requests.get(url, timeout=5)
+        
+        if response.status_code == 200:
+            result = response.json()
+            if result and result[0]:
+                # Combine all translated segments
+                translated = ''.join([segment[0] for segment in result[0] if segment[0]])
+                return translated
+    except Exception as e:
+        print(f"Translation error: {e}")
+    
+    return text  # Return original if translation fails
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -414,6 +450,15 @@ def chat():
             'suggestions': QUICK_REPLIES['default']
         })
     
+    # Detect user's language
+    user_lang = detect_language(user_message)
+    
+    # Translate to English if needed (for intent recognition)
+    if user_lang != 'en':
+        message_for_processing = translate_text(user_message, target_lang='en', source_lang=user_lang)
+    else:
+        message_for_processing = user_message
+    
     # Initialize session conversation history
     if 'conversation' not in session:
         session['conversation'] = []
@@ -488,7 +533,7 @@ def chat():
     })
     
     # Tokenize and predict
-    sentence = tokenize(user_message)
+    sentence = tokenize(message_for_processing)
     X = bag_of_words(sentence, all_words)
     X = X.reshape(1, X.shape[0])
     X = torch.from_numpy(X).to(device)
@@ -511,13 +556,23 @@ def chat():
                 # Format response for better readability
                 response = format_response(response, tag)
                 
+                # Translate response to user's language
+                if user_lang != 'en':
+                    response = translate_text(response, target_lang=user_lang, source_lang='en')
+                
                 # Add helpful context for certain intents
                 if tag in ['contact', 'location', 'working_hours']:
-                    response += "\n\n💡 Tip: You can also click the chat bubble to ask more questions!"
+                    tip_text = "\n\n💡 Tip: You can also click the chat bubble to ask more questions!"
+                    if user_lang != 'en':
+                        tip_text = translate_text(tip_text, target_lang=user_lang, source_lang='en')
+                    response += tip_text
                 
                 # Add image suggestion for vehicle-related intents
                 if tag in ['force_urbania', 'caravan', 'force_traveller', 'special_purpose', 'luxury_interior']:
-                    response += "\n\n📸 Want to see examples? Just ask 'show me images' or 'show photos'!"
+                    img_text = "\n\n📸 Want to see examples? Just ask 'show me images' or 'show photos'!"
+                    if user_lang != 'en':
+                        img_text = translate_text(img_text, target_lang=user_lang, source_lang='en')
+                    response += img_text
                 
                 # Get relevant suggestions
                 suggestions = QUICK_REPLIES.get(tag, QUICK_REPLIES['default'])
@@ -536,20 +591,27 @@ def chat():
                     'response': response,
                     'confidence': round(confidence * 100, 1),
                     'intent': tag,
-                    'suggestions': suggestions
+                    'suggestions': suggestions,
+                    'detected_language': user_lang
                 })
     
     elif confidence > LOW_CONFIDENCE:
         # Medium confidence - ask for clarification
         session['failed_attempts'] += 1
         response = f"I think you're asking about {tag.replace('_', ' ')}. Could you please provide more details or rephrase your question?"
+        
+        # Translate clarification request
+        if user_lang != 'en':
+            response = translate_text(response, target_lang=user_lang, source_lang='en')
+        
         suggestions = QUICK_REPLIES.get(tag, QUICK_REPLIES['default'])
         
         return jsonify({
             'response': response,
             'confidence': round(confidence * 100, 1),
             'suggestions': suggestions,
-            'needsClarification': True
+            'needsClarification': True,
+            'detected_language': user_lang
         })
     
     else:
@@ -568,6 +630,10 @@ Or try asking about:"""
         else:
             response = "I'm not quite sure about that. Could you rephrase or try one of these questions?"
         
+        # Translate help message
+        if user_lang != 'en':
+            response = translate_text(response, target_lang=user_lang, source_lang='en')
+        
         suggestions = [
             'What services do you offer?',
             'Tell me about custom caravans',
@@ -579,7 +645,8 @@ Or try asking about:"""
             'response': response,
             'confidence': round(confidence * 100, 1),
             'suggestions': suggestions,
-            'lowConfidence': True
+            'lowConfidence': True,
+            'detected_language': user_lang
         })
 
 @app.route('/reset-session', methods=['POST'])
