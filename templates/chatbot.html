@@ -7,6 +7,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Google Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Lottie Animation Library -->
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <style>
@@ -876,6 +878,41 @@
         .developer-badge {
             display: none;
         }
+
+        /* Material Icons alignment */
+        .material-icons {
+            vertical-align: middle;
+            line-height: 1;
+        }
+
+        button .material-icons {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Icon button styles */
+        .new-chat-btn .material-icons,
+        .website-btn .material-icons,
+        .reset-btn .material-icons,
+        .upload-btn .material-icons,
+        .voice-btn .material-icons,
+        #send-btn .material-icons {
+            vertical-align: middle;
+        }
+
+        /* Ensure buttons with icons are centered */
+        .new-chat-btn,
+        .website-btn,
+        .reset-btn,
+        .upload-btn,
+        .voice-btn,
+        #send-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
     </style>
 </head>
 <body>
@@ -890,7 +927,7 @@
                 Kalapuraparambil Auto
             </h2>
             <button class="new-chat-btn" onclick="createNewChat()">
-                <span>➕</span> New Conversation
+                <span class="material-icons" style="font-size: 18px;">add</span> New Conversation
             </button>
         </div>
         <div class="chat-history" id="chat-history">
@@ -901,13 +938,17 @@
     <!-- Main Chat Area -->
     <div class="chat-main">
         <div class="chat-header">
-            <button class="toggle-sidebar" onclick="toggleSidebar()">☰</button>
+            <button class="toggle-sidebar" onclick="toggleSidebar()">
+                <span class="material-icons" style="font-size: 20px;">menu</span>
+            </button>
             <h1>AI Vehicle Expert</h1>
             <div class="header-buttons">
                 <button class="website-btn" onclick="goToWebsite()">
-                    <span>🏠</span> Back to Website
+                    <span class="material-icons" style="font-size: 18px;">home</span> Back to Website
                 </button>
-                <button class="reset-btn" onclick="resetConversation()">🔄 New Chat</button>
+                <button class="reset-btn" onclick="resetConversation()">
+                    <span class="material-icons" style="font-size: 18px;">refresh</span> New Chat
+                </button>
             </div>
         </div>
         
@@ -927,8 +968,8 @@
             <div class="quick-replies" id="quick-replies">
                 <div class="quick-replies-header">
                     <div class="quick-replies-title" style="font-size: 11px; color: #6b6b6b; text-transform: uppercase; letter-spacing: 0.5px;">Suggestions</div>
-                    <button class="toggle-quick-replies" onclick="toggleQuickReplies()" title="Hide quick actions" style="background: none; border: none; cursor: pointer; color: #6b6b6b; font-size: 16px;">
-                        <span id="toggle-quick-replies-text">−</span>
+                    <button class="toggle-quick-replies" onclick="toggleQuickReplies()" title="Hide quick actions" style="background: none; border: none; cursor: pointer; color: #6b6b6b; font-size: 18px;">
+                        <span class="material-icons" id="toggle-quick-replies-text">remove</span>
                     </button>
                 </div>
                 <button class="quick-reply-btn" onclick="sendQuickReply('Tell me about custom caravans')">Custom Caravans</button>
@@ -958,15 +999,23 @@
             <!-- Image Preview Container -->
             <div class="image-preview-container" id="image-preview-container">
                 <img id="image-preview" class="image-preview" alt="Preview">
-                <button class="remove-image" onclick="removeImage()">🗑️ Remove Image</button>
+                <button class="remove-image" onclick="removeImage()">
+                    <span class="material-icons" style="font-size: 16px;">delete</span> Remove Image
+                </button>
             </div>
             
             <div class="chat-input-container">
                 <div class="input-row">
                     <input type="text" id="user-input" placeholder="Message Kalapuraparambil Auto Assistant..." autocomplete="off">
-                    <button class="upload-btn" id="upload-btn" title="Attach file">📎</button>
-                    <button class="voice-btn" id="voice-btn" title="Use microphone">🎤</button>
-                    <button id="send-btn">↑</button>
+                    <button class="upload-btn" id="upload-btn" title="Attach file">
+                        <span class="material-icons" style="font-size: 20px;">attach_file</span>
+                    </button>
+                    <button class="voice-btn" id="voice-btn" title="Use microphone">
+                        <span class="material-icons" style="font-size: 20px;">mic</span>
+                    </button>
+                    <button id="send-btn">
+                        <span class="material-icons" style="font-size: 20px;">arrow_upward</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -1026,8 +1075,12 @@
                     <div class="chat-title-container">
                         <div class="chat-title" title="${chat.title}">${chat.title}</div>
                         <div class="chat-actions">
-                            <button class="rename-btn" onclick="renameChat('${chat.id}')" title="Rename chat">✏️</button>
-                            <button class="delete-btn" onclick="deleteChat('${chat.id}')" title="Delete chat">🗑️</button>
+                            <button class="rename-btn" onclick="renameChat('${chat.id}')" title="Rename chat">
+                                <span class="material-icons" style="font-size: 14px;">edit</span>
+                            </button>
+                            <button class="delete-btn" onclick="deleteChat('${chat.id}')" title="Delete chat">
+                                <span class="material-icons" style="font-size: 14px;">delete</span>
+                            </button>
                         </div>
                     </div>
                     <div class="chat-preview">${chat.preview}</div>
@@ -1314,7 +1367,7 @@
             recognition.onstart = function() {
                 isListening = true;
                 voiceBtn.classList.add('listening');
-                voiceBtn.textContent = '🔴';
+                voiceBtn.innerHTML = '<span class="material-icons" style="font-size: 20px;">stop_circle</span>';
                 showVoiceStatus(`Listening in ${languageNames[currentLanguage]}...`);
             };
             
@@ -1379,7 +1432,7 @@
         function stopListening() {
             isListening = false;
             voiceBtn.classList.remove('listening');
-            voiceBtn.textContent = '🎤';
+            voiceBtn.innerHTML = '<span class="material-icons" style="font-size: 20px;">mic</span>';
             setTimeout(() => {
                 hideVoiceStatus();
             }, 3000);
@@ -1518,12 +1571,12 @@
             if (quickReplies.classList.contains('hidden')) {
                 // Show quick replies
                 quickReplies.classList.remove('hidden');
-                toggleBtn.textContent = '−';
+                toggleBtn.textContent = 'remove';
                 toggleBtn.title = 'Hide quick actions';
             } else {
                 // Hide quick replies
                 quickReplies.classList.add('hidden');
-                toggleBtn.textContent = '+';
+                toggleBtn.textContent = 'add';
                 toggleBtn.title = 'Show quick actions';
             }
         }
