@@ -715,33 +715,6 @@
             font-size: 14px;
         }
 
-        .suggestions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            padding: 15px 30px;
-            background: #f8f9fa;
-        }
-
-        .suggestion-btn {
-            padding: 10px 18px;
-            background: white;
-            border: 1px solid #1e3c72;
-            color: #1e3c72;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 13px;
-            transition: all 0.3s;
-            font-weight: 500;
-        }
-
-        .suggestion-btn:hover {
-            background: #1e3c72;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(30, 60, 114, 0.2);
-        }
-
         .confidence-badge {
             display: inline-block;
             padding: 2px 8px;
@@ -992,7 +965,6 @@
                     </p>
                 </div>
             </div>
-            <div class="suggestions" id="suggestions"></div>
             
             <!-- Quick Reply Buttons -->
             <div class="quick-replies" id="quick-replies">
@@ -1061,7 +1033,6 @@
         const userInput = document.getElementById('user-input');
         const sendBtn = document.getElementById('send-btn');
         const typingIndicator = document.getElementById('typing-indicator');
-        const suggestionsContainer = document.getElementById('suggestions');
         const chatHistory = document.getElementById('chat-history');
         const sidebar = document.getElementById('sidebar');
 
@@ -1285,20 +1256,9 @@
         }
 
         function displaySuggestions(suggestions) {
-            suggestionsContainer.innerHTML = '';
-            
-            if (!suggestions || suggestions.length === 0) return;
-            
-            suggestions.forEach(suggestion => {
-                const btn = document.createElement('button');
-                btn.className = 'suggestion-btn';
-                btn.textContent = suggestion;
-                btn.onclick = () => {
-                    userInput.value = suggestion;
-                    sendMessage();
-                };
-                suggestionsContainer.appendChild(btn);
-            });
+            // Suggestions are now handled by the static quick reply buttons
+            // This function is kept for compatibility but does nothing
+            return;
         }
 
         async function sendMessage() {
@@ -1308,7 +1268,6 @@
             addMessage(message, true);
             const userMsg = message;
             userInput.value = '';
-            suggestionsContainer.innerHTML = '';
 
             typingIndicator.style.display = 'block';
 
@@ -1332,17 +1291,11 @@
                     
                     // Update chat history
                     updateCurrentChat(userMsg, data.response, data);
-                    
-                    // Display suggestions
-                    if (data.suggestions) {
-                        displaySuggestions(data.suggestions);
-                    }
                 }, typingDelay);
 
             } catch (error) {
                 typingIndicator.style.display = 'none';
                 addMessage('Sorry, something went wrong. Please try again or contact us directly at +91 81481 45706', false);
-                displaySuggestions(['Contact us', 'Try again']);
             }
         }
 
@@ -1371,15 +1324,6 @@
                 sendBtn.style.display = 'none';
             }
         });
-
-        // Show initial suggestions
-        setTimeout(() => {
-            displaySuggestions([
-                'What services do you offer?',
-                'Tell me about custom caravans',
-                'Contact information'
-            ]);
-        }, 1000);
 
         userInput.focus();
 
