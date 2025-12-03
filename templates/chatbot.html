@@ -1035,6 +1035,8 @@
         const typingIndicator = document.getElementById('typing-indicator');
         const chatHistory = document.getElementById('chat-history');
         const sidebar = document.getElementById('sidebar');
+        const voiceBtn = document.getElementById('voice-btn');
+        const voiceStatus = document.getElementById('voice-status');
 
         let currentChatId = null;
         let chats = JSON.parse(localStorage.getItem('chatHistory')) || [];
@@ -1121,7 +1123,6 @@
             });
 
             loadChatHistory();
-            suggestionsContainer.innerHTML = '';
         }
 
         function saveChatHistory() {
@@ -1335,9 +1336,6 @@
         let recognition = null;
         let isListening = false;
         let speechSynthesis = window.speechSynthesis;
-        
-        const voiceBtn = document.getElementById('voice-btn');
-        const voiceStatus = document.getElementById('voice-status');
         
         // Language names for display
         const languageNames = {
