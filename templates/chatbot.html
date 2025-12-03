@@ -576,6 +576,26 @@
             margin-bottom: 8px;
         }
 
+        .toggle-quick-replies {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #6b6b6b;
+            font-size: 18px;
+            padding: 4px;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .toggle-quick-replies:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
         .quick-replies-title {
             font-size: 12px;
             color: #64748b;
@@ -978,14 +998,22 @@
             <div class="quick-replies" id="quick-replies">
                 <div class="quick-replies-header">
                     <div class="quick-replies-title" style="font-size: 11px; color: #6b6b6b; text-transform: uppercase; letter-spacing: 0.5px;">Suggestions</div>
-                    <button class="toggle-quick-replies" onclick="toggleQuickReplies()" title="Hide quick actions" style="background: none; border: none; cursor: pointer; color: #6b6b6b; font-size: 18px;">
-                        <span class="material-icons" id="toggle-quick-replies-text">remove</span>
+                    <button class="toggle-quick-replies" onclick="toggleQuickReplies()" title="Hide suggestions">
+                        <span class="material-icons" id="toggle-quick-replies-text">expand_less</span>
                     </button>
                 </div>
                 <button class="quick-reply-btn" onclick="sendQuickReply('Tell me about custom caravans')">Custom Caravans</button>
                 <button class="quick-reply-btn" onclick="sendQuickReply('What is the price range?')">Pricing</button>
                 <button class="quick-reply-btn" onclick="sendQuickReply('Show me Force Urbania modifications')">Force Urbania</button>
                 <button class="quick-reply-btn" onclick="sendQuickReply('I need a consultation')">Book Consultation</button>
+            </div>
+            
+            <!-- Show Quick Replies Button (when hidden) -->
+            <div id="show-quick-replies-container" style="display: none; padding: 8px 20px; background: transparent;">
+                <button onclick="toggleQuickReplies()" style="background: #10a37f; color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 13px; display: flex; align-items: center; gap: 6px; margin: 0 auto;">
+                    <span class="material-icons" style="font-size: 18px;">expand_more</span>
+                    Show Suggestions
+                </button>
             </div>
             
             <div class="typing-indicator" id="typing-indicator">
@@ -1585,18 +1613,21 @@
         // Toggle quick replies visibility
         function toggleQuickReplies() {
             const quickReplies = document.getElementById('quick-replies');
+            const showButton = document.getElementById('show-quick-replies-container');
             const toggleBtn = document.getElementById('toggle-quick-replies-text');
             
             if (quickReplies.classList.contains('hidden')) {
                 // Show quick replies
                 quickReplies.classList.remove('hidden');
-                toggleBtn.textContent = 'remove';
-                toggleBtn.title = 'Hide quick actions';
+                showButton.style.display = 'none';
+                toggleBtn.textContent = 'expand_less';
+                toggleBtn.parentElement.title = 'Hide suggestions';
             } else {
                 // Hide quick replies
                 quickReplies.classList.add('hidden');
-                toggleBtn.textContent = 'add';
-                toggleBtn.title = 'Show quick actions';
+                showButton.style.display = 'block';
+                toggleBtn.textContent = 'expand_more';
+                toggleBtn.parentElement.title = 'Show suggestions';
             }
         }
         
