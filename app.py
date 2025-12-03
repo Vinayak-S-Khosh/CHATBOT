@@ -442,6 +442,7 @@ def serve_images(filename):
 @app.route('/chat', methods=['POST'])
 def chat():
     user_message = request.json.get('message')
+    preferred_language = request.json.get('preferredLanguage', 'en')  # Get user's selected language
     
     if not user_message:
         return jsonify({
@@ -450,8 +451,11 @@ def chat():
             'suggestions': QUICK_REPLIES['default']
         })
     
-    # Detect user's language
-    user_lang = detect_language(user_message)
+    # Use preferred language if provided, otherwise auto-detect
+    if preferred_language and preferred_language != 'en':
+        user_lang = preferred_language
+    else:
+        user_lang = detect_language(user_message)
     
     # Translate to English if needed (for intent recognition)
     if user_lang != 'en':

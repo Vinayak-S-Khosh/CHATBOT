@@ -1278,7 +1278,10 @@
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ message: message })
+                    body: JSON.stringify({ 
+                        message: message,
+                        preferredLanguage: userPreferredLanguage // Send user's preferred language
+                    })
                 });
 
                 const data = await response.json();
@@ -1333,6 +1336,7 @@
         // ==========================================
         
         let currentLanguage = 'en-IN'; // Default: English (India)
+        let userPreferredLanguage = 'en'; // For typed messages (en, ml, ta, kn, hi)
         let recognition = null;
         let isListening = false;
         let speechSynthesis = window.speechSynthesis;
@@ -1440,14 +1444,24 @@
         function setLanguage(lang) {
             currentLanguage = lang;
             
+            // Map language codes for typed messages
+            const langMap = {
+                'en-IN': 'en',
+                'ml-IN': 'ml',
+                'ta-IN': 'ta',
+                'kn-IN': 'kn',
+                'hi-IN': 'hi'
+            };
+            userPreferredLanguage = langMap[lang];
+            
             // Update active button
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             event.target.classList.add('active');
             
-            showVoiceStatus(`Language set to ${languageNames[lang]}`);
-            setTimeout(hideVoiceStatus, 2000);
+            showVoiceStatus(`Language set to ${languageNames[lang]} - Bot will respond in this language`);
+            setTimeout(hideVoiceStatus, 3000);
         }
         
         // Google Translate API function
