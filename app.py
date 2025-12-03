@@ -555,20 +555,14 @@ def chat():
         session['last_intent'] = tag  # Store the intent for image requests
         for intent in intents['intents']:
             if tag == intent["tag"]:
-                # Choose response based on user's language
-                response_key = f'responses_{user_lang}' if user_lang != 'en' else 'responses'
-                
-                # Check if native language responses exist
-                if response_key in intent and intent[response_key]:
-                    response = random.choice(intent[response_key])
-                else:
-                    # Fallback to English and translate
-                    response = random.choice(intent['responses'])
-                    if user_lang != 'en':
-                        response = translate_text(response, target_lang=user_lang, source_lang='en')
+                response = random.choice(intent['responses'])
                 
                 # Format response for better readability
                 response = format_response(response, tag)
+                
+                # Translate response to user's language
+                if user_lang != 'en':
+                    response = translate_text(response, target_lang=user_lang, source_lang='en')
                 
                 # Add helpful context for certain intents
                 if tag in ['contact', 'location', 'working_hours']:
