@@ -1,0 +1,25 @@
+{
+  "programming": [
+    "Python",
+    "PHP"
+  ],
+  "database": [
+    "MySQL"
+  ],
+  "web": [
+    "HTML",
+    "CSS"
+  ],
+  "ai_ml": [
+    "NLP (Basics)"
+  ],
+  "tools": [
+    "Git",
+    "Canva"
+  ],
+  "other": [
+    "APIs",
+    "Basic Linux",
+    "Photoshop (Basics)"
+  ]
+}

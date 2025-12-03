@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}About - Vinayak S Khosh{% endblock %}
+
+{% block content %}
+<section class="about-section" style="padding: var(--spacing-xl) 0;">
+    <div class="container">
+        <div class="row mb-5 align-items-center">
+            <div class="col-lg-4 text-center mb-5 mb-lg-0">
+                <div class="position-relative d-inline-block">
+                    <img src="{{ url_for('static', filename='images/profile.jpg') }}" 
+                         alt="Vinayak S Khosh" 
+                         class="img-fluid rounded-circle shadow-lg mb-4"
+                         style="max-width: 320px; border: 6px solid var(--border-color);"
+                         onerror="this.src='https://via.placeholder.com/320x320/667eea/ffffff?text=Vinayak+S+Khosh'">
+                    <div class="position-absolute bottom-0 end-0 bg-success rounded-circle" 
+                         style="width: 24px; height: 24px; border: 4px solid var(--bg-primary);"
+                         title="Available for opportunities"></div>
+                </div>
+                <h2 class="fw-bold mt-4 mb-2">Vinayak S Khosh</h2>
+                <p class="text-muted mb-4">BCA Student • Ernakulam, Kerala</p>
+                <div class="contact-info">
+                    <p class="mb-2">
+                        <i class="fas fa-phone text-primary me-2"></i>
+                        <a href="tel:9744360607" class="text-decoration-none">9744360607</a>
+                    </p>
+                    <p class="mb-2">
+                        <i class="fas fa-envelope text-primary me-2"></i>
+                        <a href="mailto:vinayaksunilkhosh@gmail.com" class="text-decoration-none">vinayaksunilkhosh@gmail.com</a>
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="mb-4">
+                    <span class="badge bg-glass px-4 py-2 mb-3 text-gradient">👨‍💻 About Me</span>
+                </div>
+                <h1 class="display-5 fw-bold mb-4">Passionate Developer & Quick Learner</h1>
+                <p class="lead text-muted mb-5">
+                    I'm a motivated BCA student with a deep passion for technology and innovation. 
+                    My journey in tech has been driven by curiosity and a commitment to continuous learning.
+                </p>
+                
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <h3 class="card-title mb-3">
+                            <i class="fas fa-bullseye text-primary"></i> Career Objective
+                        </h3>
+                        <p class="card-text lead">
+                            Motivated BCA student with a strong interest in Python, Backend Development, and AI. 
+                            Seeking an internship to gain hands-on experience, learn under industry professionals, 
+                            and contribute to real-world projects in backend and AI development.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <h3 class="card-title mb-3">
+                            <i class="fas fa-user-tie text-primary"></i> Professional Summary
+                        </h3>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Strong foundation in Python programming and backend development</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Experience with web technologies (HTML, CSS, PHP)</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Basic knowledge of AI/ML and NLP techniques</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Database management with MySQL</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Active volunteer and social initiative participant</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h3 class="card-title mb-3">
+                            <i class="fas fa-fire text-primary"></i> What Drives Me
+                        </h3>
+                        <p class="card-text">
+                            I'm passionate about leveraging technology to solve real-world problems. 
+                            Whether it's automating processes to save time or building intelligent systems 
+                            that can interact naturally with users, I'm always eager to learn and implement 
+                            cutting-edge solutions. My goal is to become a proficient backend developer and 
+                            AI specialist who can contribute meaningfully to innovative projects.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

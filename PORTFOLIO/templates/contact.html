@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}Contact - Vinayak S Khosh{% endblock %}
+
+{% block content %}
+<section class="contact-section py-5">
+    <div class="container">
+        <h1 class="display-4 fw-bold text-center mb-5">Get In Touch</h1>
+        
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h3 class="card-title mb-4">
+                            <i class="fas fa-address-card text-primary"></i> Contact Information
+                        </h3>
+                        
+                        <div class="contact-item mb-4">
+                            <h5><i class="fas fa-map-marker-alt text-danger"></i> Location</h5>
+                            <p class="text-muted">{{ contact.location }}</p>
+                        </div>
+                        
+                        <div class="contact-item mb-4">
+                            <h5><i class="fas fa-phone text-success"></i> Phone</h5>
+                            <p><a href="tel:{{ contact.phone }}" class="text-decoration-none">{{ contact.phone }}</a></p>
+                        </div>
+                        
+                        <div class="contact-item mb-4">
+                            <h5><i class="fas fa-envelope text-primary"></i> Email</h5>
+                            <p><a href="mailto:{{ contact.email }}" class="text-decoration-none">{{ contact.email }}</a></p>
+                        </div>
+                        
+                        <div class="contact-item mb-4">
+                            <h5><i class="fab fa-github text-dark"></i> GitHub</h5>
+                            <p><a href="{{ contact.github }}" target="_blank" class="text-decoration-none">{{ contact.github }}</a></p>
+                        </div>
+                        
+                        <div class="contact-item mb-4">
+                            <h5><i class="fab fa-linkedin text-info"></i> LinkedIn</h5>
+                            <p><a href="{{ contact.linkedin }}" target="_blank" class="text-decoration-none">View Profile</a></p>
+                        </div>
+                        
+                        <div class="social-links-large mt-4">
+                            <a href="{{ contact.github }}" class="btn btn-dark btn-lg me-2 mb-2" target="_blank">
+                                <i class="fab fa-github"></i> GitHub
+                            </a>
+                            <a href="{{ contact.linkedin }}" class="btn btn-primary btn-lg me-2 mb-2" target="_blank">
+                                <i class="fab fa-linkedin"></i> LinkedIn
+                            </a>
+                            <a href="mailto:{{ contact.email }}" class="btn btn-danger btn-lg mb-2">
+                                <i class="fas fa-envelope"></i> Email
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h3 class="card-title mb-4">
+                            <i class="fas fa-paper-plane text-primary"></i> Send a Message
+                        </h3>
+                        
+                        <form id="contactForm">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Your Name</label>
+                                <input type="text" class="form-control" id="name" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Your Email</label>
+                                <input type="email" class="form-control" id="email" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">Subject</label>
+                                <input type="text" class="form-control" id="subject" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="message" class="form-label">Message</label>
+                                <textarea class="form-control" id="message" rows="5" required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-lg w-100">
+                                <i class="fas fa-paper-plane"></i> Send Message
+                            </button>
+                        </form>
+                        
+                        <div class="alert alert-info mt-3">
+                            <i class="fas fa-info-circle"></i> 
+                            Or email directly at: <strong>{{ contact.email }}</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% block extra_js %}
+<script>
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const subject = document.getElementById('subject').value;
+    const message = document.getElementById('message').value;
+    
+    // Create mailto link
+    const mailtoLink = `mailto:{{ contact.email }}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\nMessage:\n' + message)}`;
+    
+    window.location.href = mailtoLink;
+});
+</script>
+{% endblock %}
+{% endblock %}

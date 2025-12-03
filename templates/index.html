@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalapuraparambil Automobiles - Vehicle Customization Experts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(30, 60, 114, 0.85), rgba(42, 82, 152, 0.85)),
+                        url('/images/urbania/IMG-20241119-WA0004.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 120px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            backdrop-filter: blur(2px);
+            z-index: 0;
+        }
+
+        .hero > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: white;
+            color: #1e3c72;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: transform 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Stats Section */
+        .stats {
+            background: #f8f9fa;
+            padding: 60px 20px;
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 2.5rem;
+            color: #1e3c72;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-item p {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .services h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: #1e3c72;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .service-card h3 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .service-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* Why Choose Section */
+        .why-choose {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 80px 20px;
+        }
+
+        .why-choose-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .why-choose h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-item {
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-item h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 80px 20px;
+            background: #f8f9fa;
+        }
+
+        /* Tubelight Navbar */
+        .tubelight-navbar {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            padding: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;    
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), 
+                        0 2px 8px rgba(0, 0, 0, 0.08),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar-items {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+            position: relative;
+            padding: 0 4px;
+        }
+
+        .nav-item {
+            position: relative;
+            padding: 12px 28px;
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border-radius: 50px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            white-space: nowrap;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            bottom: 6px;
+            left: 50%;
+            transform: translateX(-50%) scaleX(0);
+            width: 50%;
+            height: 2px;
+            background: linear-gradient(90deg, #5ba3ff, #4a90e2);
+            border-radius: 2px;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 0 8px rgba(91, 163, 255, 0.6);
+        }
+
+        .nav-item:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-1px);
+        }
+
+        .nav-item:hover::after {
+            transform: translateX(-50%) scaleX(1);
+        }
+
+        .nav-item.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.15);
+            font-weight: 700;
+        }
+
+        .nav-item.active::after {
+            transform: translateX(-50%) scaleX(1);
+        }
+
+        /* Tubelight effect */
+        .tubelight-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            z-index: 1;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+        }
+
+        /* Lamp at top */
+        .tubelight-lamp {
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 32px;
+            height: 4px;
+            background: linear-gradient(to bottom, #4a90e2, #2a5298);
+            border-radius: 4px 4px 0 0;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        /* Glow effects */
+        .tubelight-lamp::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 48px;
+            height: 24px;
+            background: radial-gradient(ellipse at center, rgba(74, 144, 226, 0.4) 0%, transparent 70%);
+            filter: blur(8px);
+        }
+
+        .tubelight-lamp::after {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 32px;
+            height: 24px;
+            background: radial-gradient(ellipse at center, rgba(74, 144, 226, 0.3) 0%, transparent 70%);
+            filter: blur(6px);
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .tubelight-navbar {
+                bottom: 20px;
+                top: auto;
+            }
+
+            .nav-item {
+                padding: 12px 16px;
+                font-size: 0;
+            }
+
+            .nav-item::after {
+                display: none;
+            }
+
+            .tubelight-lamp {
+                top: auto;
+                bottom: -8px;
+                border-radius: 0 0 4px 4px;
+            }
+
+            .tubelight-lamp::before,
+            .tubelight-lamp::after {
+                top: auto;
+                bottom: -8px;
+            }
+        }
+
+        /* Portfolio-Style Navbar */
+        .portfolio-navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            background: rgba(30, 60, 114, 0.95) !important;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            padding: 1.2rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .portfolio-navbar .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .portfolio-navbar .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff 0%, #e0e0e0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .portfolio-navbar .navbar-brand img {
+            height: 40px;
+            width: auto;
+        }
+
+        .portfolio-navbar .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+
+        .portfolio-navbar .nav-link {
+            font-weight: 500;
+            position: relative;
+            margin: 0;
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.9) !important;
+            text-decoration: none;
+            padding: 5px 0;
+        }
+
+        .portfolio-navbar .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%) scaleX(0);
+            width: 80%;
+            height: 2px;
+            background: linear-gradient(90deg, #4a90e2, #5ba3ff);
+            transition: transform 0.3s ease;
+        }
+
+        .portfolio-navbar .nav-link:hover::after,
+        .portfolio-navbar .nav-link.active::after {
+            transform: translateX(-50%) scaleX(1);
+        }
+
+        .portfolio-navbar .nav-link:hover {
+            color: white !important;
+        }
+
+        .portfolio-navbar .nav-link.active {
+            font-weight: 600;
+            color: white !important;
+        }
+
+        /* Mobile Menu Toggle */
+        .navbar-toggler {
+            display: none;
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            padding: 8px 12px;
+            cursor: pointer;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-toggler {
+                display: block;
+            }
+
+            .portfolio-navbar .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(30, 60, 114, 0.98);
+                flex-direction: column;
+                gap: 0;
+                padding: 1rem 0;
+                display: none;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            }
+
+            .portfolio-navbar .nav-links.active {
+                display: flex;
+            }
+
+            .portfolio-navbar .nav-link {
+                padding: 1rem 2rem;
+                width: 100%;
+                text-align: center;
+            }
+
+            .portfolio-navbar .nav-link::after {
+                bottom: 0;
+            }
+        }
+
+        .contact-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: #1e3c72;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .contact-item {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .contact-item h3 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+        }
+
+        .contact-item p {
+            color: #666;
+        }
+
+        /* Founders Section */
+        .founders {
+            background: #ffffff;
+            padding: 80px 20px;
+        }
+
+        .founders-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .founders h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #1e3c72;
+            margin-bottom: 70px;
+            font-weight: 700;
+        }
+
+        .founders-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            position: relative;
+        }
+
+        .founder-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .founder-with-line {
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+
+        .horizontal-line {
+            width: 200px;
+            height: 2px;
+            background: #1e3c72;
+            flex-shrink: 0;
+        }
+
+        .founder-circle {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            font-weight: 700;
+            box-shadow: 0 8px 25px rgba(30, 60, 114, 0.25);
+            border: 5px solid #ffffff;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .founder-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .founder-item:hover .founder-circle {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(30, 60, 114, 0.35);
+        }
+
+        .founder-details {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .founder-name {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 12px 35px;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: inline-block;
+            box-shadow: 0 4px 12px rgba(30, 60, 114, 0.2);
+            letter-spacing: 0.5px;
+        }
+
+        .founder-role {
+            margin-top: 10px;
+            color: #666;
+            font-size: 0.95rem;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .founders-container {
+                flex-direction: column;
+                gap: 60px;
+            }
+
+            .horizontal-line {
+                display: none;
+            }
+
+            .founder-circle {
+                width: 160px;
+                height: 160px;
+                font-size: 2.5rem;
+            }
+
+            .founder-name {
+                font-size: 1.1rem;
+                padding: 10px 30px;
+            }
+        }
+
+        /* Gallery Section */
+        .gallery {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: #1e3c72;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 320px;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            filter: blur(3px);
+            transform: scale(1.1);
+            transition: filter 0.3s, transform 0.3s;
+        }
+
+        .gallery-item:hover img {
+            filter: blur(5px);
+            transform: scale(1.15);
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 80%, transparent 100%);
+            color: white;
+            padding: 25px;
+            z-index: 2;
+        }
+
+
+
+        .gallery-caption h4 {
+            color: white;
+            margin-bottom: 8px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .gallery-caption p {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.95rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+        }
+
+        .gallery-item:hover .gallery-caption {
+            /* Caption is always visible */
+        }
+        .testimonials {
+            background: #f8f9fa;
+            padding: 80px 20px;
+        }
+
+        .testimonials-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonials h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: #1e3c72;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .testimonial-quote {
+            font-size: 3rem;
+            color: #1e3c72;
+            opacity: 0.2;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            color: #666;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .author-info h4 {
+            color: #1e3c72;
+            margin-bottom: 5px;
+        }
+
+        .author-info p {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .rating {
+            color: #ffc107;
+            margin-top: 10px;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            max-width: 600px;
+            margin: 40px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #1e3c72;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #1e3c72;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .form-success {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #28a745;
+        }
+
+        /* Footer */
+        footer {
+            background: #1e3c72;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        /* Chat Bubble */
+        .chat-bubble {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+            z-index: 1000;
+        }
+
+        .chat-bubble:hover {
+            transform: scale(1.1);
+        }
+
+        /* Developer Badge - In Footer */
+        .developer-badge {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 18px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .developer-badge:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .developer-badge a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .developer-badge .dev-icon {
+            font-size: 1.1rem;
+        }
+
+        .developer-badge .dev-text {
+            opacity: 0.9;
+        }
+
+        .developer-badge .dev-name {
+            font-weight: bold;
+        }
+
+        .developer-badge:hover .dev-name {
+            color: #ffd700;
+        }
+
+        @media (max-width: 1024px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .services-grid,
+            .gallery-grid,
+            .testimonial-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .hero {
+                padding: 80px 20px;
+            }
+
+            nav ul {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .services h2,
+            .why-choose h2,
+            .gallery h2,
+            .testimonials h2 {
+                font-size: 2rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-content {
+                flex-direction: column;
+            }
+
+            .contact-info,
+            .contact-form {
+                max-width: 100%;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-item,
+            .service-card,
+            .gallery-item,
+            .testimonial-card {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .cta-button {
+                padding: 12px 30px;
+                font-size: 0.9rem;
+            }
+
+            .logo {
+                font-size: 1.2rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .stat-item h3 {
+                font-size: 2rem;
+            }
+
+            .services,
+            .why-choose,
+            .gallery,
+            .testimonials {
+                padding: 40px 15px;
+            }
+
+            .contact-info-item {
+                font-size: 0.9rem;
+            }
+
+            .submit-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Portfolio-Style Navigation Bar -->
+    <nav class="portfolio-navbar">
+        <div class="container">
+            <a href="#home" class="navbar-brand">
+                <img src="/images/logo/Screenshot 2025-11-30 133848.png" alt="Logo">
+                Kalapuraparambil Automobiles
+            </a>
+            <button class="navbar-toggler" id="navbarToggler">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#services" class="nav-link">Services</a></li>
+                <li><a href="#gallery" class="nav-link">Gallery</a></li>
+                <li><a href="#why-us" class="nav-link">Why Us</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h1>We Build More Than Vehicles – We Build Experiences</h1>
+        <p>Transform your vehicle into something extraordinary with India's trusted customization experts</p>
+        <a href="#contact" class="cta-button">Let's Discuss Your Project</a>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat-item">
+                <h3>28+</h3>
+                <p>Years in Business</p>
+            </div>
+            <div class="stat-item">
+                <h3>5500+</h3>
+                <p>Vehicles Delivered</p>
+            </div>
+            <div class="stat-item">
+                <h3>50+</h3>
+                <p>Expert Team Members</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <h2>Our Services</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <h3>🚐 Custom Caravan Build</h3>
+                <p>We design and build fully customized caravans from the ground up – your layout, your style, your comfort. Perfect for families and travelers.</p>
+            </div>
+            <div class="service-card">
+                <h3>🚙 Force Traveller Modification</h3>
+                <p>Take your Force Traveller from plain to premium with custom interiors, better seating, and advanced entertainment systems.</p>
+            </div>
+            <div class="service-card">
+                <h3>🚗 Force Urbania Modification</h3>
+                <p>Transform your Urbania into a stylish, comfortable luxury ride with complete design and customization solutions.</p>
+            </div>
+            <div class="service-card">
+                <h3>🏥 Special-Purpose Vehicles</h3>
+                <p>Mobile ICUs, Cash Vans, Campaign Vehicles, Mobile ATMs – secure, functional, and compliant builds.</p>
+            </div>
+            <div class="service-card">
+                <h3>✨ Luxury Interiors</h3>
+                <p>Custom wood & fiber works, A/C fitting, LED lighting, premium flooring, massage chairs, and entertainment systems.</p>
+            </div>
+            <div class="service-card">
+                <h3>🎨 Vehicle Remodeling & Painting</h3>
+                <p>From accident repair to full vehicle remodeling and premium paint jobs for all types of vehicles.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery" id="gallery">
+        <h2>Our Portfolio</h2>
+        <p style="text-align: center; color: #666; margin-bottom: 40px;">See our masterpieces - Custom builds that turned dreams into reality</p>
+        <div class="gallery-grid">
+            <div class="gallery-item" onclick="openGallery('urbania')">
+                <img src="images/urbania/IMG-20241119-WA0004.jpg" alt="Force Urbania Luxury Modification">
+                <div class="gallery-caption">
+                    <h4>Force Urbania - Luxury Conversion</h4>
+                    <p>Premium interior with massage seats and entertainment system</p>
+                </div>
+            </div>
+            <div class="gallery-item" onclick="openGallery('caravan')">
+                <img src="images/caravan/IMG-20240405-WA0007.jpg" alt="Custom Caravan Build">
+                <div class="gallery-caption">
+                    <h4>Custom Caravan - Family Edition</h4>
+                    <p>Complete home on wheels with kitchen and bathroom</p>
+                </div>
+            </div>
+            <div class="gallery-item" onclick="openGallery('traveller')">
+                <img src="images/traveller/IMG-20240405-WA0003.jpg" alt="Force Traveller Modification">
+                <div class="gallery-caption">
+                    <h4>Force Traveller - Tourist Vehicle</h4>
+                    <p>Luxury seating and AC for tour operators</p>
+                </div>
+            </div>
+            <div class="gallery-item" onclick="openGallery('icu')">
+                <img src="images/icu/1 - Copy.JPG" alt="Mobile ICU Build">
+                <div class="gallery-caption">
+                    <h4>Mobile ICU - Healthcare Unit</h4>
+                    <p>Fully equipped medical vehicle for hospitals</p>
+                </div>
+            </div>
+            <div class="gallery-item" onclick="openGallery('campaign')">
+                <img src="images/campaign/DSC_0344 - Copy.JPG" alt="Campaign Vehicle">
+                <div class="gallery-caption">
+                    <h4>Campaign Vehicle - Political</h4>
+                    <p>High-impact advertising and sound system</p>
+                </div>
+            </div>
+            <div class="gallery-item" onclick="openGallery('interior')">
+                <img src="images/interior/10 - Copy - Copy.jpg" alt="Luxury Interior">
+                <div class="gallery-caption">
+                    <h4>Premium Interior Work</h4>
+                    <p>Custom wood finishing and LED ambient lighting</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+        <div class="testimonials-content">
+            <h2>What Our Customers Say</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-quote">"</div>
+                    <p class="testimonial-text">"Exceptional craftsmanship! The Force Urbania conversion exceeded our expectations. The attention to detail and quality of work is outstanding. Highly recommend for luxury vehicle modifications."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">RS</div>
+                        <div class="author-info">
+                            <h4>Rajesh Sharma</h4>
+                            <p>Tour Operator, Karnataka</p>
+                        </div>
+                    </div>
+                    <div class="rating">⭐⭐⭐⭐⭐</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-quote">"</div>
+                    <p class="testimonial-text">"We ordered a custom caravan and the team delivered perfection. From design to delivery, the professionalism was top-notch. Our family road trips have become so much more enjoyable!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">AK</div>
+                        <div class="author-info">
+                            <h4>Anil Kumar</h4>
+                            <p>Family Traveler, Tamil Nadu</p>
+                        </div>
+                    </div>
+                    <div class="rating">⭐⭐⭐⭐⭐</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-quote">"</div>
+                    <p class="testimonial-text">"Best in the business! They converted our Force Traveller into a premium tourist vehicle. The quality, timeline, and pricing were all excellent. Will definitely work with them again."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">VN</div>
+                        <div class="author-info">
+                            <h4>Vinay Nair</h4>
+                            <p>Travel Company Owner, Kerala</p>
+                        </div>
+                    </div>
+                    <div class="rating">⭐⭐⭐⭐⭐</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="why-choose" id="why-us">
+        <div class="why-choose-content">
+            <h2>Why Choose Kalapuraparambil?</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <h3>🏆 Proven Expertise</h3>
+                    <p>28+ years of experience with 5500+ successful vehicle builds across India.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>🎯 End-to-End Solutions</h3>
+                    <p>From concept and design to fabrication, interiors, electronics, and delivery – all in-house.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>💎 Premium Quality</h3>
+                    <p>We work with top brands and obsess over every detail – comfort, lighting, and finish.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>😊 Customer Satisfaction</h3>
+                    <p>Building lasting relationships based on trust, transparency, and exceeding expectations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="contact-content">
+            <h2>Get In Touch</h2>
+            <p>Ready to transform your vehicle? Let's discuss your project!</p>
+            
+            <!-- Contact Form -->
+            <div class="contact-form">
+                <div class="form-success" id="formSuccess">
+                    ✓ Thank you! We've received your message and will get back to you within 24 hours.
+                </div>
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input type="text" id="name" name="name" required placeholder="Enter your full name" pattern="[A-Za-z\s\.\-]{2,50}" title="Name should only contain letters (2-50 characters)">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" required placeholder="+91 XXXXX XXXXX" pattern="(\+91)?[6-9][0-9]{9}" title="Enter a valid 10-digit Indian mobile number">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="your.email@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="service">Service Interested In *</label>
+                        <select id="service" name="service" required>
+                            <option value="">Select a service</option>
+                            <option value="custom-caravan">Custom Caravan Build</option>
+                            <option value="force-traveller">Force Traveller Modification</option>
+                            <option value="force-urbania">Force Urbania Modification</option>
+                            <option value="special-purpose">Special Purpose Vehicle</option>
+                            <option value="luxury-interior">Luxury Interiors</option>
+                            <option value="remodeling">Vehicle Remodeling & Painting</option>
+                            <option value="other">Other / General Inquiry</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Your Message *</label>
+                        <textarea id="message" name="message" required placeholder="Tell us about your project requirements..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+            
+            <div class="contact-info">
+                <div class="contact-item">
+                    <h3>📍 Address</h3>
+                    <p>Kalapuraparambil Automobiles<br>
+                    Manakkappady, Karumalloor P O<br>
+                    North Paravur – 683511<br>
+                    Ernakulam, Kerala, India</p>
+                </div>
+                <div class="contact-item">
+                    <h3>📞 Phone</h3>
+                    <p>+91 81481 45706<br>
+                    +91 9847297290<br>
+                    +91 8281944290</p>
+                </div>
+                <div class="contact-item">
+                    <h3>📧 Email</h3>
+                    <p>kalapuraparambil.auto@gmail.com</p>
+                    <br>
+                    <h3>⏰ Working Hours</h3>
+                    <p>Monday - Saturday<br>9:00 AM - 6:00 PM</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Founders Section -->
+    <section class="founders">
+        <div class="founders-content">
+            <h2>Meet Our Founders</h2>
+            <div class="founders-container">
+                <!-- First Founder -->
+                <div class="founder-item">
+                    <div class="founder-with-line">
+                        <div class="founder-circle">
+                            <img src="/images/founders/shaiju.jpeg" alt="Shaiju KM">
+                        </div>
+                        <div class="horizontal-line"></div>
+                    </div>
+                    <div class="founder-details">
+                        <div class="founder-name">SHAIJU KM</div>
+                    </div>
+                </div>
+
+                <!-- Second Founder -->
+                <div class="founder-item">
+                    <div class="founder-with-line">
+                        <div class="horizontal-line"></div>
+                        <div class="founder-circle">
+                            <img src="/images/founders/laiju.jpeg" alt="Laiju KM">
+                        </div>
+                    </div>
+                    <div class="founder-details">
+                        <div class="founder-name">LAIJU KM</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Kalapuraparambil Automobiles. All rights reserved.</p>
+        <p>We Build More Than Vehicles – We Build Experiences</p>
+        <!-- Developer Badge -->
+        <div class="developer-badge">
+            <a href="/portfolio" target="_blank">
+                <span class="dev-icon">💻</span>
+                <span class="dev-text">Developed by</span>
+                <span class="dev-name">VINAYAK S KHOSH</span>
+            </a>
+        </div>
+    </footer>
+
+    <!-- Chat Bubble -->
+    <div class="chat-bubble" onclick="window.location.href='/chatbot'">
+        💬
+    </div>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Contact Form Handling
+        const contactForm = document.getElementById('contactForm');
+        const formSuccess = document.getElementById('formSuccess');
+
+        if (contactForm) {
+            contactForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const formData = new FormData(contactForm);
+                const data = {
+                    name: formData.get('name'),
+                    phone: formData.get('phone'),
+                    email: formData.get('email'),
+                    service: formData.get('service'),
+                    message: formData.get('message')
+                };
+
+                try {
+                    const response = await fetch('/submit-contact', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        formSuccess.style.display = 'block';
+                        formSuccess.textContent = '✓ ' + result.message;
+                        contactForm.reset();
+                        setTimeout(() => {
+                            formSuccess.style.display = 'none';
+                        }, 5000);
+                    } else {
+                        alert('❌ ' + result.message);
+                    }
+                } catch (error) {
+                    alert('Thank you for your interest! Your inquiry has been noted. We will contact you soon at ' + data.phone);
+                    contactForm.reset();
+                }
+            });
+        }
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.service-card, .feature-item, .testimonial-card, .gallery-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Mobile menu toggle
+        const createMobileMenu = () => {
+            if (window.innerWidth <= 768) {
+                const nav = document.querySelector('nav');
+                if (!document.querySelector('.mobile-menu-btn')) {
+                    const menuBtn = document.createElement('div');
+                    menuBtn.className = 'mobile-menu-btn';
+                    menuBtn.innerHTML = '☰';
+                    menuBtn.style.cssText = 'font-size: 24px; cursor: pointer; display: block;';
+                    menuBtn.onclick = () => {
+                        nav.style.display = nav.style.display === 'none' ? 'block' : 'none';
+                    };
+                    document.querySelector('.header-content').appendChild(menuBtn);
+                }
+            }
+        };
+
+        createMobileMenu();
+        window.addEventListener('resize', createMobileMenu);
+
+        // Portfolio Navbar - Active Link Tracking
+        const navLinks = document.querySelectorAll('.portfolio-navbar .nav-link');
+        const navToggler = document.getElementById('navbarToggler');
+        const navLinksContainer = document.getElementById('navLinks');
+
+        // Mobile menu toggle
+        if (navToggler) {
+            navToggler.addEventListener('click', function() {
+                navLinksContainer.classList.toggle('active');
+            });
+        }
+
+        // Click handler for nav links
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                // Remove active class from all links
+                navLinks.forEach(nav => nav.classList.remove('active'));
+                // Add active class to clicked link
+                this.classList.add('active');
+                // Close mobile menu if open
+                if (navLinksContainer.classList.contains('active')) {
+                    navLinksContainer.classList.remove('active');
+                }
+            });
+        });
+
+        // Highlight active section on scroll
+        const sections = document.querySelectorAll('section[id]');
+        
+        function highlightNavOnScroll() {
+            const scrollY = window.pageYOffset;
+            
+            sections.forEach(section => {
+                const sectionHeight = section.offsetHeight;
+                const sectionTop = section.offsetTop - 150;
+                const sectionId = section.getAttribute('id');
+                const navLink = document.querySelector(`.portfolio-navbar .nav-link[href="#${sectionId}"]`);
+                
+                if (navLink && scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+                    navLinks.forEach(nav => nav.classList.remove('active'));
+                    navLink.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', highlightNavOnScroll);
+        highlightNavOnScroll(); // Call once on load
+
+        // Gallery redirection function
+        function openGallery(category) {
+            // Redirect to the gallery page with the selected category
+            window.location.href = `/gallery?category=${category}`;
+        }
+        
+    </script>
+</body>
+</html>

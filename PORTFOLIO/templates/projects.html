@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Projects - Vinayak S Khosh{% endblock %}
+
+{% block content %}
+<section class="projects-section py-5">
+    <div class="container">
+        <h1 class="display-4 fw-bold text-center mb-5">My Projects</h1>
+        
+        <div class="row">
+            {% for project in projects %}
+            <div class="col-lg-6 mb-4">
+                <div class="card h-100 shadow-sm hover-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h3 class="card-title">
+                                {% if 'Timetable' in project.title %}
+                                <i class="fas fa-calendar-alt text-primary"></i>
+                                {% elif 'Chatbot' in project.title %}
+                                <i class="fas fa-robot text-primary"></i>
+                                {% else %}
+                                <i class="fas fa-project-diagram text-primary"></i>
+                                {% endif %}
+                                {{ project.title }}
+                            </h3>
+                            {% if project.status == 'Completed' %}
+                            <span class="badge bg-success">{{ project.status }}</span>
+                            {% else %}
+                            <span class="badge bg-warning text-dark">{{ project.status }}</span>
+                            {% endif %}
+                        </div>
+                        
+                        <p class="card-text">{{ project.description }}</p>
+                        
+                        <div class="mb-3">
+                            <h5 class="text-muted small">Key Features:</h5>
+                            <ul class="small">
+                                {% for feature in project.features %}
+                                <li>{{ feature }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        
+                        <div class="tech-stack mb-3">
+                            <h5 class="text-muted small mb-2">Technologies Used:</h5>
+                            {% for tech in project.tech %}
+                            <span class="badge bg-secondary me-2 mb-2">{{ tech }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

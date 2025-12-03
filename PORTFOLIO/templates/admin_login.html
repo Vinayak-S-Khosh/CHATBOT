@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Login - Vinayak S Khosh{% endblock %}
+
+{% block content %}
+<section class="admin-login-section" style="padding: var(--spacing-xl) 0; min-height: 80vh; display: flex; align-items: center;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="card shadow-lg">
+                    <div class="card-body p-5">
+                        <div class="text-center mb-4">
+                            <i class="fas fa-lock fa-3x text-primary mb-3"></i>
+                            <h2 class="fw-bold mb-2">Admin Panel</h2>
+                            <p class="text-muted">Enter password to access admin features</p>
+                        </div>
+
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+
+                        <form method="POST">
+                            <div class="mb-4">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" 
+                                       class="form-control form-control-lg" 
+                                       id="password" 
+                                       name="password" 
+                                       required 
+                                       autofocus
+                                       placeholder="Enter admin password">
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-lg w-100">
+                                <i class="fas fa-sign-in-alt me-2"></i> Login
+                            </button>
+                        </form>
+
+                        <div class="text-center mt-4">
+                            <a href="{{ url_for('home') }}" class="text-decoration-none text-muted">
+                                <i class="fas fa-arrow-left me-2"></i> Back to Portfolio
+                            </a>
+                        </div>
+
+                        <div class="alert alert-info mt-4 small" role="alert">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>Default Password:</strong> admin123<br>
+                            <small>Change this in app.py (ADMIN_PASSWORD)</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

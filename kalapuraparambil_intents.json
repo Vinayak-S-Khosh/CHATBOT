@@ -1,0 +1,519 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hi", "Hello", "Hey", "Good morning", "Good afternoon", "Good evening",
+        "Hai", "Greetings", "What's up", "Namaste", "Hi there", "Hello there",
+        "Hii", "Helo", "Hola", "Hey there", "Yo", "Sup", "Howdy",
+        "Good day", "Morning", "Evening", "Afternoon"
+      ],
+      "responses": [
+        "Hi! Welcome to Kalapuraparambil Automobiles. How can I assist you today?",
+        "Hello! Welcome to Kalapuraparambil Automobiles. We build more than vehicles – we build experiences. How can I help you?",
+        "Hi there! Welcome to Kalapuraparambil Automobiles. What brings you here today?",
+        "Good day! Welcome to Kalapuraparambil Automobiles. Looking to transform your vehicle? I'm here to help!",
+        "Hello! Welcome to Kalapuraparambil Automobiles. With 28+ years of experience, we're here to make your dream vehicle a reality. What can I do for you?"
+      ]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": [
+        "Bye", "See you later", "Goodbye", "Have a nice day", "Talk to you later",
+        "I'll get back to you", "Thanks bye"
+      ],
+      "responses": [
+        "Goodbye! Feel free to reach out anytime. Drive safe!",
+        "Thank you for connecting with Kalapuraparambil Automobiles. Have a great day!",
+        "See you soon! We're always here to help with your vehicle needs."
+      ]
+    },
+    {
+      "tag": "thanks",
+      "patterns": [
+        "Thank you", "Thanks", "That's helpful", "Thanks a lot",
+        "I appreciate it", "Thanks for the info"
+      ],
+      "responses": [
+        "You're welcome! Happy to help.",
+        "Anytime! Feel free to ask if you have more questions.",
+        "Glad I could assist you!"
+      ]
+    },
+    {
+      "tag": "company_info",
+      "patterns": [
+        "Tell me about your company", "What do you do", "Who are you",
+        "What is Kalapuraparambil", "About your company", "Company information",
+        "What services do you provide", "What do you specialize in"
+      ],
+      "responses": [
+        "Kalapuraparambil Automobiles is one of India's most trusted vehicle customization and modification experts with 28+ years of experience. We build custom caravans, luxury vehicles, special-purpose vehicles, and more. We've delivered over 5500 vehicles!",
+        "We're Kerala's premier caravan builders and vehicle modification specialists. From luxury Force Urbania conversions to custom caravans, mobile ICUs, campaign vehicles, and cash vans – we turn ordinary vehicles into extraordinary experiences.",
+        "With 28 years in business and 5500+ vehicles delivered, we specialize in custom caravan builds, Force Traveller modifications, Force Urbania conversions, luxury interiors, and special-purpose vehicles. We build more than vehicles – we build experiences!"
+      ]
+    },
+    {
+      "tag": "services",
+      "patterns": [
+        "What services do you offer", "What can you do", "Services available",
+        "What kind of work do you do", "List your services", "What modifications do you do"
+      ],
+      "responses": [
+        "We offer: 1) Force Traveller Modification 2) Custom Caravan Design & Build 3) Force Urbania Modification 4) Special-Purpose Vehicles (Mobile ICU, Cash Vans, Campaign Vehicles, Mobile ATMs) 5) Luxury Interiors & Installations 6) Vehicle Remodeling, Repair & Painting",
+        "Our main services include custom caravan building, Force Traveller and Urbania modifications, luxury interior installations, special-purpose vehicle builds (ambulances, cash vans, campaign vehicles), and complete vehicle remodeling and painting.",
+        "We provide end-to-end vehicle customization: Custom caravans, Force Traveller/Urbania luxury conversions, A/C fitting, entertainment systems, massage chairs, wood & fiber works, digital painting, and special-purpose vehicle builds."
+      ]
+    },
+    {
+      "tag": "caravan",
+      "patterns": [
+        "Tell me about caravans", "I want a caravan", "Custom caravan",
+        "Build me a caravan", "Caravan design", "Mobile home", "Home on wheels",
+        "Can you build a caravan", "Caravan modification"
+      ],
+      "responses": [
+        "We design and build fully customized caravans from the ground up – your layout, your style, your comfort. Perfect for families, travelers, and anyone who wants their vehicle to be a true home on wheels. We can convert vehicles like Tata Winger, Force Traveller into luxury caravans.",
+        "Our custom caravans are built with premium materials and include luxury interiors, sleeping areas, kitchen facilities, bathrooms, entertainment systems, A/C, and more. Each caravan is designed specifically for your needs and lifestyle.",
+        "We're caravan specialists with 28+ years of experience. We create mobile homes on wheels with custom layouts, luxury amenities, and attention to every detail – from seating comfort to climate control and entertainment."
+      ]
+    },
+    {
+      "tag": "force_traveller",
+      "patterns": [
+        "Force Traveller modification", "Modify Force Traveller", "Traveller customization",
+        "Force Traveller interior", "Tourist vehicle modification", "Traveller conversion"
+      ],
+      "responses": [
+        "We transform Force Travellers into premium luxury vehicles! Whether it's a family caravan, tourist vehicle, or campaign ride, we provide custom interiors, better seating, advanced entertainment systems, A/C, and complete interior makeovers.",
+        "Our Force Traveller modifications include: luxury seating, entertainment systems, A/C installation, custom wood/fiber interiors, LED lighting, flooring, curtaining, and complete exterior painting. Turn your plain Traveller into a head-turner!",
+        "Force Traveller modification is one of our specialties. We can convert it into a luxury tourist vehicle, family caravan, campaign vehicle, or any custom design you envision. All work done in-house with premium quality."
+      ]
+    },
+    {
+      "tag": "force_urbania",
+      "patterns": [
+        "Force Urbania modification", "Urbania customization", "Modify Urbania",
+        "Urbania interior", "Luxury Urbania", "Urbania conversion"
+      ],
+      "responses": [
+        "We specialize in Force Urbania modifications! We transform your Urbania into a stylish, comfortable luxury ride with custom interiors, premium seating, entertainment systems, massage chairs, A/C, and complete design solutions.",
+        "Our Force Urbania conversions include luxury interiors, reclining massage seats, entertainment systems, ambient lighting, wood/fiber works, flooring, and complete exterior painting. We've done projects for clients across Kerala, Karnataka, Tamil Nadu, Telangana, and Andhra Pradesh.",
+        "Force Urbania modification is our expertise. We provide complete design and customization – luxury seating, entertainment, A/C, custom interiors, and premium finishes that make your Urbania stand out on the road."
+      ]
+    },
+    {
+      "tag": "special_purpose",
+      "patterns": [
+        "Special purpose vehicle", "Mobile ICU", "Ambulance", "Cash van",
+        "Campaign vehicle", "Mobile ATM", "Election vehicle", "Advertising vehicle",
+        "Mobile supermarket", "Food truck", "Awareness vehicle"
+      ],
+      "responses": [
+        "We build various special-purpose vehicles: Mobile ICUs, Ambulances, RBI-compliant Cash Vans, Mobile ATMs, Election Campaign Vehicles, Public Awareness Vehicles, Mobile Supermarkets, and Food Trucks. All built to exact specifications and compliance requirements.",
+        "Our special-purpose vehicle builds are trusted by hospitals, banks, political parties, NGOs, government bodies, and retailers. We ensure security, functionality, and compliance in every build – from mobile medical units to cash transport vehicles.",
+        "Need a specialized vehicle? We've built mobile homes, cash vans, mobile ATMs, mobile ICUs, campaign vehicles, and advertising vehicles for clients across India. Fully customized, secure, and compliant with all regulations."
+      ]
+    },
+    {
+      "tag": "luxury_interior",
+      "patterns": [
+        "Luxury interior", "Custom interior", "Interior design", "Vehicle interior",
+        "Wood work", "Fiber work", "A/C installation", "Entertainment system",
+        "Massage chairs", "LED lighting", "Flooring", "Curtains"
+      ],
+      "responses": [
+        "Our luxury interior services include: Custom wood & fiber works, digital painting, A/C fitting and maintenance, LED & ambient lighting, premium flooring, curtaining, massage chair installation, sliding doors, and entertainment systems. All designed to match your vision!",
+        "We obsess over every detail – seating comfort, lighting, climate control, entertainment, and finish. Our luxury interiors feature premium materials, custom woodwork, advanced A/C systems, entertainment setups, and beautiful aesthetics.",
+        "Transform your vehicle's interior with our luxury installation services: Reclining massage seats, entertainment systems, custom wood panels, fiber works, LED mood lighting, A/C systems, premium flooring, and elegant curtaining."
+      ]
+    },
+    {
+      "tag": "repair_painting",
+      "patterns": [
+        "Vehicle repair", "Accident repair", "Painting", "Remodeling",
+        "Body work", "Dent repair", "Paint job", "Vehicle restoration",
+        "Can you repair my vehicle", "Do you do painting"
+      ],
+      "responses": [
+        "Yes! We provide vehicle remodeling, accident repair, and premium paint jobs. Our team restores and upgrades all kinds of vehicles – cars, trucks, commercial vans, and more. We'll bring your vehicle back to perfection!",
+        "We handle complete vehicle remodeling, body repairs, dent fixes, accident restoration, and professional painting services. All work is done with precision and quality materials to restore your vehicle to its best condition.",
+        "From minor dent repairs to major accident restoration and complete paint jobs – we do it all. Our painting and remodeling services cover cars, trucks, commercial vehicles, and custom builds."
+      ]
+    },
+    {
+      "tag": "contact",
+      "patterns": [
+        "Contact details", "Phone number", "How to contact", "Email address",
+        "Contact you", "WhatsApp number", "Call you", "How do I reach you"
+      ],
+      "responses": [
+        "You can reach us at: Phone: +91 81481 45706 or +91 9847297290 or +91 8281944290 | Email: kalapuraparambil.auto@gmail.com | We're open Monday to Saturday, 9 AM to 6 PM.",
+        "Contact Kalapuraparambil Automobiles: 📞 +91 81481 45706, +91 9847297290, +91 8281944290 | 📧 kalapuraparambil.auto@gmail.com | ⏰ Mon-Sat: 9 AM - 6 PM",
+        "Call us at +91 81481 45706 or +91 9847297290. Email: kalapuraparambil.auto@gmail.com. We're available Monday to Saturday from 9 AM to 6 PM."
+      ]
+    },
+    {
+      "tag": "location",
+      "patterns": [
+        "Where are you located", "Address", "Location", "Where is your workshop",
+        "How to reach", "Directions", "Where are you", "Workshop location"
+      ],
+      "responses": [
+        "We're located at: Kalapuraparambil Automobiles, Manakkappady, Karumalloor P O, North Paravur – 683511, Ernakulam District, Kerala, India.",
+        "Our workshop address: Manakkappady, Karumalloor P O, North Paravur – 683511, Ernakulam, Kerala. We're easily accessible from Ernakulam.",
+        "Visit us at: Kalapuraparambil Automobiles, Manakkappady, Karumalloor, North Paravur, Ernakulam – 683511, Kerala."
+      ]
+    },
+    {
+      "tag": "working_hours",
+      "patterns": [
+        "Working hours", "Timings", "When are you open", "Business hours",
+        "What time do you open", "Are you open today", "Opening hours"
+      ],
+      "responses": [
+        "We're open Monday to Saturday from 9 AM to 6 PM. We're closed on Sundays.",
+        "Our working hours: Monday to Saturday, 9:00 AM to 6:00 PM. Sunday closed.",
+        "Visit us Monday through Saturday between 9 AM and 6 PM. We take Sundays off."
+      ]
+    },
+    {
+      "tag": "cost_pricing",
+      "patterns": [
+        "How much does it cost", "Pricing", "Cost estimate", "Price",
+        "What are your charges", "How much for modification", "Budget",
+        "Is it expensive", "Cost of caravan", "Modification cost"
+      ],
+      "responses": [
+        "The cost depends on the type of modification, vehicle model, and customization level. For an accurate quote, please contact us at +91 81481 45706 or email kalapuraparambil.auto@gmail.com with your requirements.",
+        "Pricing varies based on your specific needs – vehicle type, interior design, features, and customization. Contact our team for a personalized quote: +91 9847297290 or kalapuraparambil.auto@gmail.com",
+        "Each project is unique, so costs vary. Share your requirements with us and we'll provide a detailed estimate. Call +91 81481 45706 or email kalapuraparambil.auto@gmail.com"
+      ]
+    },
+    {
+      "tag": "timeline",
+      "patterns": [
+        "How long does it take", "Project duration", "Timeline", "Delivery time",
+        "When will it be ready", "How many days", "Project completion time"
+      ],
+      "responses": [
+        "Project timelines vary based on complexity and customization level. Typically, modifications take 2-8 weeks. For an accurate timeline for your project, please contact us with your specific requirements.",
+        "The duration depends on the scope of work. Simple modifications may take 2-3 weeks, while complete custom builds can take 6-8 weeks. We'll give you an exact timeline once we discuss your project.",
+        "Timeline varies by project complexity. Contact us at +91 81481 45706 with your requirements, and we'll provide a specific delivery schedule."
+      ]
+    },
+    {
+      "tag": "booking_consultation",
+      "patterns": [
+        "Book a consultation", "Schedule a meeting", "Can I visit",
+        "Appointment", "I want to discuss my project", "Can we meet",
+        "Visit your workshop", "Book a visit"
+      ],
+      "responses": [
+        "Absolutely! You can visit our workshop or schedule a consultation. Call us at +91 81481 45706 or +91 9847297290 to book an appointment. We're open Monday to Saturday, 9 AM to 6 PM.",
+        "We'd love to discuss your project! Call +91 81481 45706 to schedule a consultation or visit us at Manakkappady, Karumalloor, North Paravur, Ernakulam. Monday to Saturday, 9 AM - 6 PM.",
+        "Yes, please visit us or book a consultation call. Reach out at +91 9847297290 or email kalapuraparambil.auto@gmail.com to schedule your appointment."
+      ]
+    },
+    {
+      "tag": "experience_portfolio",
+      "patterns": [
+        "Show me your work", "Portfolio", "Previous projects", "Examples",
+        "What have you built", "Can I see your builds", "Past projects",
+        "Customer reviews", "Testimonials"
+      ],
+      "responses": [
+        "We've delivered 5500+ vehicles in 28 years! You can see our portfolio of luxury caravans, Force Urbania conversions, and special-purpose vehicles on our website: kalapuraparambil.com/our-builds",
+        "Check out our builds portfolio at kalapuraparambil.com to see luxury caravans, Force Traveller modifications, Urbania conversions, and special vehicles we've created for clients across India.",
+        "With 5500+ successful builds and 28+ years of experience, we have an extensive portfolio. Visit kalapuraparambil.com/our-builds or our social media to see our work!"
+      ]
+    },
+    {
+      "tag": "customer_segments",
+      "patterns": [
+        "Who are your customers", "Who do you work with", "Customer types",
+        "Do you work with tour operators", "Do you work with hospitals"
+      ],
+      "responses": [
+        "We work with: Families & Travelers, Tour Operators, Hospitals & Ambulance Services, Banks & Security Firms, Political Parties, NGOs & Government Bodies, Retailers & Entrepreneurs (food trucks, mobile shops).",
+        "Our clients include tour operators, hospitals, banks, political campaign managers, government organizations, families, and businesses needing custom vehicle solutions. We serve diverse needs across India.",
+        "We cater to tour operators, medical facilities, banks, political parties, NGOs, government bodies, retailers, and individual families looking for custom caravans or vehicle modifications."
+      ]
+    },
+    {
+      "tag": "why_choose",
+      "patterns": [
+        "Why should I choose you", "What makes you different", "Why Kalapuraparambil",
+        "Your advantages", "What's special about you", "Why choose your company"
+      ],
+      "responses": [
+        "Why choose us? 1) 28+ years of proven expertise 2) 5500+ vehicles delivered 3) End-to-end in-house solutions 4) Attention to every detail 5) India's trusted vehicle customization experts 6) Premium quality with customer satisfaction focus.",
+        "We're different because we obsess over every detail – seating comfort, lighting, climate control, and finish. With 28 years of experience, 50+ expert team members, and 5500+ successful builds, we deliver perfection every time.",
+        "Choose Kalapuraparambil for: Proven expertise in custom builds, end-to-end in-house solutions (design to delivery), obsessive attention to detail, trusted by thousands across India, and a passion for creating experiences, not just vehicles."
+      ]
+    },
+    {
+      "tag": "brands_partners",
+      "patterns": [
+        "What brands do you work with", "Partners", "Which brands",
+        "What products do you use", "Quality brands"
+      ],
+      "responses": [
+        "We work with premium brands including: Force Traveller, Ebco, Cera, Jaguar, Roots, DuPont, Amaron, Hella, Jindal, 3M, TVS, Century Laminates, Hafele, Hettich, and more. Only the best for our builds!",
+        "We use top-quality brands and materials: Force, 3M, Amaron, Hella, Hafele, Hettich, Century Laminates, DuPont, and other trusted partners to ensure premium quality in every project.",
+        "Our trusted partners include leading brands like Force, 3M, Jaguar, Roots, Amaron, Cera, Ebco, Century Laminates, Hafele, and Hettich – ensuring quality and durability in all our work."
+      ]
+    },
+    {
+      "tag": "government_association",
+      "patterns": [
+        "Do you work with government", "Government projects", "Official work",
+        "Kerala government", "Police vehicles"
+      ],
+      "responses": [
+        "Yes! We collaborate with Kerala Government, Kerala Police, National Insurance, and other government authorities for special-purpose vehicle builds and modifications.",
+        "We're proud to associate with Kerala Government, Kerala Police, and National Insurance for official vehicle projects and special-purpose builds.",
+        "We have official associations with government bodies including Kerala Government and Kerala Police for building special-purpose and official vehicles."
+      ]
+    },
+    {
+      "tag": "help",
+      "patterns": [
+        "I need help", "Can you assist me", "I have a question",
+        "Need information", "Help me", "I'm confused"
+      ],
+      "responses": [
+        "Sure! I'm here to help. What would you like to know about our vehicle customization services?",
+        "Of course! Whether it's about caravans, modifications, or custom builds – I'm here to assist. What's your question?",
+        "I'd be happy to help! Ask me anything about our services, pricing, projects, or how we can transform your vehicle."
+      ]
+    },
+    {
+      "tag": "quote_inquiry",
+      "patterns": [
+        "I want a quote", "Get me a quotation", "Send me an estimate",
+        "I need pricing details", "Can you send a quote"
+      ],
+      "responses": [
+        "I'd be happy to help with that! Please contact our team at +91 81481 45706 or email kalapuraparambil.auto@gmail.com with your vehicle details and requirements for a detailed quote.",
+        "For a personalized quote, please share your requirements with our team. Call +91 9847297290 or email kalapuraparambil.auto@gmail.com with vehicle type, modification needs, and any specific features you want.",
+        "Let's get you a quote! Contact us at +91 81481 45706 or kalapuraparambil.auto@gmail.com with your project details, and we'll provide a comprehensive estimate."
+      ]
+    },
+    {
+      "tag": "how_are_you",
+      "patterns": [
+        "How are you", "How are you doing", "How's it going", "How do you do",
+        "Are you okay", "How are things", "What's going on", "How have you been",
+        "How are u", "Hows it going", "You good", "You ok"
+      ],
+      "responses": [
+        "I'm doing great, thank you! Ready to help you with all your vehicle customization needs. What can I assist you with?",
+        "I'm excellent! Thanks for asking. How can I help you today with your vehicle project?",
+        "Doing wonderful! I'm here to help you transform your vehicle. What are you looking for?"
+      ]
+    },
+    {
+      "tag": "bot_name",
+      "patterns": [
+        "What's your name", "What is your name", "Who are you",
+        "Tell me your name", "What should I call you", "Your name",
+        "What do I call you", "Whats ur name"
+      ],
+      "responses": [
+        "I'm the Kalapuraparambil Auto Bot, your virtual assistant for all vehicle customization queries. How can I help you today?",
+        "You can call me Kalapuraparambil Bot! I'm here to assist you with information about our custom caravans, modifications, and services.",
+        "I'm Kalapuraparambil Auto Bot, representing one of India's most trusted vehicle customization experts. What can I help you with?"
+      ]
+    },
+    {
+      "tag": "small_talk_weather",
+      "patterns": [
+        "Nice weather", "How's the weather", "Beautiful day", "Lovely day",
+        "Weather is good", "Great weather", "Its raining", "Hot today"
+      ],
+      "responses": [
+        "Indeed! It's a perfect day to think about your next road trip in a custom caravan! How can I assist you?",
+        "Absolutely! Great weather for planning your dream vehicle modification. What brings you here today?",
+        "Yes! Days like this remind us why having a comfortable, customized vehicle makes all the difference. What can I help you with?"
+      ]
+    },
+    {
+      "tag": "jokes_fun",
+      "patterns": [
+        "Tell me a joke", "Make me laugh", "Say something funny",
+        "Do you know any jokes", "Joke please", "Can you joke"
+      ],
+      "responses": [
+        "Why did the car get a job? Because it wanted to be more driven! 😄 Now, let's talk about driving YOUR dream vehicle. What can I help you with?",
+        "What do you call a car that never stops? Exhausting! 🚗 Speaking of cars, are you looking to customize or modify your vehicle?",
+        "I'm better at building dream vehicles than telling jokes! But I'll try: What's a car's favorite meal? Brake-fast! 😅 Now, how can I assist you with your vehicle needs?"
+      ]
+    },
+    {
+      "tag": "yes_affirmative",
+      "patterns": [
+        "Yes", "Yeah", "Yep", "Sure", "Okay", "Ok", "Alright",
+        "That's right", "Correct", "Exactly", "Absolutely", "Of course",
+        "Indeed", "Definitely", "Certainly", "Yup", "Uh huh"
+      ],
+      "responses": [
+        "Great! How can I assist you further?",
+        "Perfect! What else would you like to know?",
+        "Excellent! Is there anything specific you'd like to discuss?"
+      ]
+    },
+    {
+      "tag": "no_negative",
+      "patterns": [
+        "No", "Nope", "Not really", "Nah", "No thanks", "I'm good",
+        "That's not right", "Incorrect", "Not quite", "Negative"
+      ],
+      "responses": [
+        "No problem! Is there something else I can help you with?",
+        "That's okay! Feel free to ask me anything about our services.",
+        "Alright! Let me know if you have any other questions."
+      ]
+    },
+    {
+      "tag": "capability",
+      "patterns": [
+        "What can you do", "What are you capable of", "What can you help with",
+        "What do you know", "Can you help me", "What can you tell me",
+        "What information do you have"
+      ],
+      "responses": [
+        "I can help you with information about our custom caravan builds, Force Traveller and Urbania modifications, luxury interiors, special-purpose vehicles, pricing, timelines, contact details, and much more! What would you like to know?",
+        "I'm here to answer questions about Kalapuraparambil Automobiles' services including vehicle modifications, custom builds, pricing, our portfolio, contact information, and booking consultations. How can I assist you?",
+        "I can provide information about our 28+ years of vehicle customization expertise, services, past projects, pricing, timelines, and how we can transform your vehicle. What specific information are you looking for?"
+      ]
+    },
+    {
+      "tag": "founders",
+      "patterns": [
+        "Who are the founders", "Tell me about the founders", "Who started this company",
+        "Who owns this", "Founder", "Owner", "Who is the founder",
+        "Company founders", "Who runs this", "Management", "Leadership"
+      ],
+      "responses": [
+        "Kalapuraparambil Automobiles was founded by Mr. Shaiju KM and Mr. Laiju KM. Together with their 50+ expert team members, they've built this company into one of India's most trusted vehicle customization experts over the past 28+ years.",
+        "Our founders are Mr. Shaiju KM and Mr. Laiju KM. With their vision and dedication spanning over 28 years, they've transformed Kalapuraparambil Automobiles into Kerala's premier caravan builders and vehicle modification specialists.",
+        "The company is founded and led by Mr. Shaiju KM and Mr. Laiju KM. Their commitment to quality and customer satisfaction has helped us deliver 5500+ custom vehicles across India!"
+      ]
+    },
+    {
+      "tag": "team_size",
+      "patterns": [
+        "How many people work here", "Team size", "Number of employees",
+        "How big is your team", "Staff", "Workforce", "How many workers"
+      ],
+      "responses": [
+        "We have a dedicated team of 50+ expert craftsmen, technicians, and designers who bring your dream vehicles to life. Each member is skilled in their specialized area – from woodwork to electronics to painting.",
+        "Our team consists of 50+ skilled professionals including designers, technicians, carpenters, electricians, and painters. Together, we've delivered 5500+ custom vehicles!",
+        "We're proud to have 50+ experienced team members who are masters in their craft. This allows us to handle everything in-house – from design to delivery."
+      ]
+    },
+    {
+      "tag": "years_experience",
+      "patterns": [
+        "How long have you been in business", "Years of experience", "How old is the company",
+        "When did you start", "Since when", "Company age", "How many years",
+        "How long established"
+      ],
+      "responses": [
+        "We've been in business for 28+ years! Since our founding, we've continuously evolved and improved our craft, delivering over 5500 vehicles to satisfied customers across India.",
+        "Kalapuraparambil Automobiles has 28+ years of proven expertise in vehicle customization. Nearly three decades of building dreams on wheels!",
+        "We're established for over 28 years now. That's nearly three decades of experience transforming ordinary vehicles into extraordinary experiences!"
+      ]
+    },
+    {
+      "tag": "confused_help",
+      "patterns": [
+        "I don't know what I need", "I'm not sure", "Confused", "Don't understand",
+        "I'm lost", "Can you guide me", "Not sure where to start",
+        "What should I do", "Help me decide"
+      ],
+      "responses": [
+        "No worries! Let me help you. Are you looking to: 1) Build a custom caravan for travel? 2) Modify your existing vehicle (Traveller/Urbania)? 3) Create a special-purpose vehicle? Or 4) Just exploring options? Tell me what interests you!",
+        "That's perfectly fine! I'm here to guide you. What's your main goal - family travel, business use, tour operations, or something else? Once I know that, I can suggest the best options for you.",
+        "Don't worry, we'll figure it out together! Do you already have a vehicle you want to modify, or are you looking to build something from scratch? What's your primary use case?"
+      ]
+    },
+    {
+      "tag": "compliment",
+      "patterns": [
+        "You're helpful", "Great service", "Good job", "Awesome", "Amazing",
+        "You're good", "Nice", "Excellent", "Perfect", "Wonderful",
+        "You're smart", "Impressive"
+      ],
+      "responses": [
+        "Thank you so much! I'm glad I could help. Is there anything else you'd like to know about our services?",
+        "That's very kind of you! We strive to provide the best service. Feel free to ask me anything else!",
+        "Thank you! Our goal is to make your vehicle customization journey smooth and enjoyable. What else can I help you with?"
+      ]
+    },
+    {
+      "tag": "apology",
+      "patterns": [
+        "Sorry", "My apologies", "I apologize", "My bad", "Excuse me",
+        "Pardon me", "Forgive me"
+      ],
+      "responses": [
+        "No need to apologize! I'm here to help. What can I do for you?",
+        "That's absolutely fine! How can I assist you?",
+        "No worries at all! Feel free to ask me anything."
+      ]
+    },
+    {
+      "tag": "waiting_response",
+      "patterns": [
+        "Are you there", "Hello?", "Anyone there", "You there",
+        "Are you available", "Can you hear me", "Still there"
+      ],
+      "responses": [
+        "Yes, I'm here! How can I assist you?",
+        "I'm right here! What would you like to know?",
+        "Always available to help! What do you need?"
+      ]
+    },
+    {
+      "tag": "social_media",
+      "patterns": [
+        "Social media", "Facebook", "Instagram", "YouTube", "Twitter",
+        "Do you have Instagram", "Social profiles", "Follow you",
+        "Online presence"
+      ],
+      "responses": [
+        "Yes! You can follow us on social media to see our latest builds and projects. For our social media links and updates, please contact us at +91 81481 45706 or visit our website.",
+        "We showcase our amazing builds on social media! Contact us at +91 81481 45706 or kalapuraparambil.auto@gmail.com for our social media handles and to see our portfolio.",
+        "Absolutely! We regularly share our projects on social media. Reach out to us at +91 9847297290 for our social media links and latest updates!"
+      ]
+    },
+    {
+      "tag": "recommendation",
+      "patterns": [
+        "What do you recommend", "What should I get", "Your suggestion",
+        "Best option", "What's popular", "Most requested",
+        "What do most people choose", "Recommend something"
+      ],
+      "responses": [
+        "It depends on your needs! For families and travelers, custom caravans are very popular. For tour operators, Force Traveller modifications work great. For luxury rides, Force Urbania conversions are trending. What's your primary use case?",
+        "Great question! Our most requested services are: 1) Custom Caravans for family travel, 2) Force Urbania luxury conversions for corporate/VIP use, and 3) Special-purpose vehicles for businesses. What interests you most?",
+        "I'd love to recommend the best option! Tell me - are you looking for personal use (family travel), business use (tours/transport), or something specialized (medical, security, etc.)?"
+      ]
+    },
+    {
+      "tag": "warranty_quality",
+      "patterns": [
+        "Do you provide warranty", "Warranty", "Quality guarantee",
+        "After sales service", "Maintenance", "Quality assurance",
+        "What if something breaks", "Support after delivery"
+      ],
+      "responses": [
+        "Yes! We stand behind our work with quality assurance and after-sales support. For specific warranty details and service packages, please contact our team at +91 81481 45706. We use premium materials and trusted brands to ensure longevity.",
+        "Absolutely! We provide support and maintenance services. For detailed warranty information specific to your project, contact us at +91 9847297290 or kalapuraparambil.auto@gmail.com.",
+        "Quality is our priority! We use premium brands like 3M, Amaron, Hella, and more. For warranty details and after-sales service packages, call us at +91 81481 45706."
+      ]
+    }
+  ]
+}

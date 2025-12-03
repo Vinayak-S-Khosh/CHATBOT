@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "name": "Web Development",
+    "issuer": "Elewayte"
+  },
+  {
+    "id": 2,
+    "name": "Cyber Security Add-on Certification",
+    "issuer": "Tech By Heart"
+  },
+  {
+    "id": 3,
+    "name": "AI & ML Orientation",
+    "issuer": "Technovalley"
+  }
+]

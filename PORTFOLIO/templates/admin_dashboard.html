@@ -1,0 +1,254 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Vinayak S Khosh{% endblock %}
+
+{% block content %}
+<section class="admin-dashboard" style="padding: var(--spacing-lg) 0;">
+    <div class="container">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-5">
+            <div>
+                <h1 class="fw-bold mb-2">
+                    <i class="fas fa-tachometer-alt text-primary me-2"></i>
+                    Admin Dashboard
+                </h1>
+                <p class="text-muted">Manage your portfolio content</p>
+            </div>
+            <a href="{{ url_for('admin_logout') }}" class="btn btn-outline-danger">
+                <i class="fas fa-sign-out-alt me-2"></i> Logout
+            </a>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle me-2"></i> {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Quick Stats -->
+        <div class="row g-4 mb-5">
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-certificate fa-3x text-success mb-3"></i>
+                        <h3 class="fw-bold">{{ certificates|length }}</h3>
+                        <p class="text-muted mb-0">Total Certificates</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-code fa-3x text-primary mb-3"></i>
+                        <h3 class="fw-bold">
+                            {% set total_skills = namespace(count=0) %}
+                            {% for category, skill_list in skills.items() %}
+                                {% set total_skills.count = total_skills.count + skill_list|length %}
+                            {% endfor %}
+                            {{ total_skills.count }}
+                        </h3>
+                        <p class="text-muted mb-0">Total Skills</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Certificates Management -->
+        <div class="card shadow-sm mb-5">
+            <div class="card-header bg-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">
+                        <i class="fas fa-certificate text-success me-2"></i>
+                        Certificates Management
+                    </h4>
+                    <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addCertModal">
+                        <i class="fas fa-plus me-2"></i> Add Certificate
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Certificate Name</th>
+                                <th>Issuer</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cert in certificates %}
+                            <tr>
+                                <td>{{ cert.id }}</td>
+                                <td><strong>{{ cert.name }}</strong></td>
+                                <td>{{ cert.issuer }}</td>
+                                <td class="text-end">
+                                    <button class="btn btn-sm btn-outline-primary" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#editCertModal{{ cert.id }}">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <form method="POST" action="{{ url_for('delete_certificate', cert_id=cert.id) }}" class="d-inline">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" 
+                                                onclick="return confirm('Delete this certificate?')">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+
+                            <!-- Edit Modal for each certificate -->
+                            <div class="modal fade" id="editCertModal{{ cert.id }}" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form method="POST" action="{{ url_for('edit_certificate', cert_id=cert.id) }}">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Edit Certificate</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Certificate Name</label>
+                                                    <input type="text" class="form-control" name="name" value="{{ cert.name }}" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Issuer</label>
+                                                    <input type="text" class="form-control" name="issuer" value="{{ cert.issuer }}" required>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Skills Management -->
+        <div class="card shadow-sm">
+            <div class="card-header bg-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">
+                        <i class="fas fa-code text-primary me-2"></i>
+                        Skills Management
+                    </h4>
+                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addSkillModal">
+                        <i class="fas fa-plus me-2"></i> Add Skill
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                {% for category, skill_list in skills.items() %}
+                <div class="mb-4">
+                    <h5 class="text-capitalize mb-3">
+                        <span class="badge bg-primary">{{ category.replace('_', ' ') }}</span>
+                    </h5>
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for skill in skill_list %}
+                        <div class="badge bg-light text-dark border p-2">
+                            {{ skill }}
+                            <form method="POST" action="{{ url_for('delete_skill') }}" class="d-inline ms-2">
+                                <input type="hidden" name="category" value="{{ category }}">
+                                <input type="hidden" name="skill_name" value="{{ skill }}">
+                                <button type="submit" class="btn btn-sm btn-link text-danger p-0" 
+                                        onclick="return confirm('Delete {{ skill }}?')"
+                                        style="text-decoration: none; vertical-align: baseline;">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </form>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Add Certificate Modal -->
+<div class="modal fade" id="addCertModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST" action="{{ url_for('add_certificate') }}">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-plus-circle me-2"></i> Add New Certificate
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Certificate Name</label>
+                        <input type="text" class="form-control" name="name" placeholder="e.g., Python Programming" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Issuer</label>
+                        <input type="text" class="form-control" name="issuer" placeholder="e.g., Coursera" required>
+                    </div>
+                    <div class="alert alert-info small">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Don't forget to add the certificate image as <code>cert_{{ certificates|length + 1 }}.jpg</code> in <code>static/images/</code>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save me-2"></i> Add Certificate
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Add Skill Modal -->
+<div class="modal fade" id="addSkillModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST" action="{{ url_for('add_skill') }}">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-plus-circle me-2"></i> Add New Skill
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Category</label>
+                        <select class="form-select" name="category" required>
+                            <option value="">Select Category</option>
+                            {% for category in skills.keys() %}
+                            <option value="{{ category }}">{{ category.replace('_', ' ').title() }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Skill Name</label>
+                        <input type="text" class="form-control" name="skill_name" placeholder="e.g., React.js" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i> Add Skill
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

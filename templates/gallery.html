@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Kalapuraparambil Automobiles</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f4f8;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .back-button {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-button:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Gallery Section */
+        .gallery-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .gallery-header h1 {
+            font-size: 2.5rem;
+            color: #1e3c72;
+            margin-bottom: 10px;
+        }
+
+        .gallery-header p {
+            color: #666;
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .category-selector {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .category-btn {
+            padding: 10px 20px;
+            background: white;
+            border: 1px solid #cbd5e1;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .category-btn:hover, .category-btn.active {
+            background: #1e3c72;
+            color: white;
+            border-color: #1e3c72;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .gallery-item {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+            cursor: pointer;
+        }
+
+        .gallery-item-content {
+            display: none;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 5px;
+        }
+
+        .close-lightbox {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+        }
+
+        .lightbox-caption {
+            text-align: center;
+            color: white;
+            padding: 15px;
+            font-size: 18px;
+        }
+
+        /* Footer */
+        footer {
+            background: #1e3c72;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+
+            .gallery-header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-selector {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .category-btn {
+                width: 80%;
+            }
+        }
+
+        /* Developer Badge - In Footer */
+        .developer-badge {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 18px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .developer-badge:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .developer-badge a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .developer-badge .dev-name {
+            font-weight: bold;
+        }
+
+        .developer-badge:hover .dev-name {
+            color: #ffd700;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <img src="/images/logo/Screenshot 2025-11-30 133848.png" alt="Kalapuraparambil Automobiles Logo">
+                Kalapuraparambil Automobiles
+            </div>
+            <a href="/" class="back-button">
+                <span>←</span> Back to Home
+            </a>
+        </div>
+    </header>
+
+    <!-- Gallery Section -->
+    <section class="gallery-container">
+        <div class="gallery-header">
+            <h1 id="gallery-title">Our Portfolio</h1>
+            <p>Browse our collection of custom vehicle builds and modifications</p>
+        </div>
+
+        <div class="category-selector">
+            <button class="category-btn active" data-category="all">All</button>
+            <button class="category-btn" data-category="urbania">Force Urbania</button>
+            <button class="category-btn" data-category="caravan">Custom Caravans</button>
+            <button class="category-btn" data-category="traveller">Force Traveller</button>
+            <button class="category-btn" data-category="icu">Mobile ICU</button>
+            <button class="category-btn" data-category="campaign">Campaign Vehicles</button>
+            <button class="category-btn" data-category="interior">Luxury Interiors</button>
+        </div>
+
+        <div class="gallery-grid" id="gallery-grid">
+            <!-- Gallery items will be populated by JavaScript -->
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <span class="close-lightbox" onclick="closeLightbox()">&times;</span>
+        <div class="lightbox-content">
+            <img id="lightbox-img" src="" alt="">
+            <div class="lightbox-caption" id="lightbox-caption"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Kalapuraparambil Automobiles. All rights reserved.</p>
+        <!-- Developer Badge -->
+        <div class="developer-badge">
+            <a href="/portfolio" target="_blank">
+                <span class="dev-icon">💻</span>
+                <span class="dev-text">Developed by</span>
+                <span class="dev-name">VINAYAK S KHOSH</span>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // Gallery data with actual uploaded images
+        const galleryData = {
+            urbania: [
+                { id: 1, title: "Force Urbania Custom Build", description: "Premium Force Urbania modification with luxury features", image: "images/urbania/IMG-20241119-WA0004.jpg" },
+                { id: 2, title: "Executive Urbania Interior", description: "High-end executive interior setup", image: "images/urbania/IMG-20241119-WA0008.jpg" },
+                { id: 3, title: "Luxury Urbania Conversion", description: "Complete luxury conversion with premium amenities", image: "images/urbania/IMG-20250627-WA0039.jpg" },
+                { id: 4, title: "Custom Urbania Design", description: "Custom designed Urbania with modern features", image: "images/urbania/IMG-20250719-WA0024.jpg" },
+                { id: 5, title: "Premium Urbania Build", description: "Premium quality Urbania modification", image: "images/urbania/WhatsApp Image 2025-06-17 at 14.43.59_54626bc7.jpg" },
+                { id: 6, title: "Executive Urbania Setup", description: "Executive class Urbania interior", image: "images/urbania/WhatsApp Image 2025-08-06 at 16.12.31_99582b16 - Copy.jpg" },
+                { id: 7, title: "Luxury Urbania Interior", description: "Luxury interior with custom features", image: "images/urbania/WhatsApp Image 2025-08-07 at 11.41.06_da569ae5.jpg" },
+                { id: 8, title: "Modern Urbania Build", description: "Modern design with advanced features", image: "images/urbania/WhatsApp Image 2025-08-07 at 11.41.08_0809dce4.jpg" },
+                { id: 9, title: "Custom Urbania Project", description: "Custom project with unique specifications", image: "images/urbania/WhatsApp Image 2025-09-09 at 11.58.15_b6cf88d8.jpg" },
+                { id: 10, title: "Premium Urbania Design", description: "Premium design with luxury touches", image: "images/urbania/WhatsApp Image 2025-09-09 at 12.03.55_a68aff4f.jpg" },
+                { id: 11, title: "Executive Urbania Build", description: "Executive build with high-end features", image: "images/urbania/WhatsApp Image 2025-09-09 at 12.06.03_7bdc69a5 - Copy.jpg" },
+                { id: 12, title: "Luxury Urbania Setup", description: "Luxury setup with premium materials", image: "images/urbania/WhatsApp Image 2025-09-09 at 12.06.44_c10a8b52 - Copy.jpg" },
+                { id: 13, title: "Custom Urbania Interior", description: "Custom interior with personalized design", image: "images/urbania/WhatsApp Image 2025-09-09 at 12.06.45_50bf7549 - Copy.jpg" },
+                { id: 14, title: "Modern Urbania Conversion", description: "Modern conversion with latest technology", image: "images/urbania/WhatsApp Image 2025-09-20 at 15.30.10_4d0c3789.jpg" },
+                { id: 15, title: "Premium Urbania Project", description: "Premium project with attention to detail", image: "images/urbania/WhatsApp Image 2025-10-03 at 17.43.13_1777c857.jpg" },
+                { id: 16, title: "Luxury Urbania Modification", description: "Complete luxury modification package", image: "images/urbania/WhatsApp Image 2025-10-03 at 17.43.24_ea518f61.jpg" }
+            ],
+            caravan: [
+                { id: 17, title: "Custom Caravan Build", description: "Custom built caravan with all amenities", image: "images/caravan/IMG-20240405-WA0007.jpg" },
+                { id: 18, title: "Luxury Caravan Interior", description: "Luxury interior setup for caravans", image: "images/caravan/IMG-20240405-WA0008.jpg" },
+                { id: 19, title: "Premium Caravan Design", description: "Premium caravan with modern features", image: "images/caravan/PIC_8489.JPG" },
+                { id: 20, title: "Family Caravan Setup", description: "Family-friendly caravan configuration", image: "images/caravan/WhatsApp Image 2022-06-15 at 2.44.58 PM (4).jpeg" },
+                { id: 21, title: "Adventure Caravan", description: "Adventure-ready caravan with robust features", image: "images/caravan/WhatsApp Image 2022-06-15 at 2.44.58 PM.jpeg" },
+                { id: 22, title: "Custom Caravan Project", description: "Custom caravan project with unique design", image: "images/caravan/WhatsApp Image 2022-06-15 at 2.44.59 PM (1).jpeg" },
+                { id: 23, title: "Modern Caravan Build", description: "Modern caravan with contemporary design", image: "images/caravan/WhatsApp Image 2022-12-10 at 4.02.40 PM (4).jpeg" },
+                { id: 24, title: "Luxury Caravan Conversion", description: "Complete luxury caravan conversion", image: "images/caravan/WhatsApp Image 2022-12-10 at 4.02.41 PM (1).jpeg" },
+                { id: 25, title: "Premium Caravan Interior", description: "Premium interior finishing for caravans", image: "images/caravan/WhatsApp Image 2023-09-18 at 4.06.23 PM (1).jpeg" }
+            ],
+            traveller: [
+                { id: 26, title: "Force Traveller Custom", description: "Custom Force Traveller modification", image: "images/traveller/IMG-20240405-WA0003.jpg" },
+                { id: 27, title: "Tourist Traveller Build", description: "Tourist-focused Traveller build", image: "images/traveller/IMG-20240405-WA0004.jpg" },
+                { id: 28, title: "Executive Traveller", description: "Executive class Traveller interior", image: "images/traveller/IMG-20240405-WA0005.jpg" },
+                { id: 29, title: "Corporate Traveller Setup", description: "Corporate transport solution", image: "images/traveller/IMG-20240405-WA0006.jpg" },
+                { id: 30, title: "Luxury Traveller Interior", description: "Luxury interior for Force Traveller", image: "images/traveller/IMG-20240405-WA0009.jpg" },
+                { id: 31, title: "Premium Traveller Build", description: "Premium quality Traveller modification", image: "images/traveller/IMG-20240405-WA0010.jpg" },
+                { id: 32, title: "Custom Traveller Project", description: "Custom project with unique features", image: "images/traveller/IMG-20240405-WA0011.jpg" },
+                { id: 33, title: "Modern Traveller Design", description: "Modern design with comfort features", image: "images/traveller/IMG-20240405-WA0012.jpg" },
+                { id: 34, title: "Executive Traveller Interior", description: "Executive interior configuration", image: "images/traveller/IMG-20240405-WA0013.jpg" },
+                { id: 35, title: "Luxury Traveller Setup", description: "Luxury setup with premium seating", image: "images/traveller/IMG-20240405-WA0014.jpg" },
+                { id: 36, title: "Premium Traveller Design", description: "Premium design with advanced features", image: "images/traveller/IMG-20240405-WA0015.jpg" },
+                { id: 37, title: "Custom Traveller Interior", description: "Custom interior with personalized touch", image: "images/traveller/IMG-20240405-WA0016.jpg" },
+                { id: 38, title: "Tourist Traveller Interior", description: "Tourist comfort-focused interior", image: "images/traveller/IMG-20240405-WA0017.jpg" },
+                { id: 39, title: "Executive Traveller Build", description: "Executive build with high-end features", image: "images/traveller/IMG-20240718-WA0013.jpg" },
+                { id: 40, title: "Luxury Traveller Project", description: "Complete luxury Traveller project", image: "images/traveller/IMG-20240718-WA0017.jpg" },
+                { id: 41, title: "Premium Traveller Interior", description: "Premium interior finishing", image: "images/traveller/IMG_9444.JPG" },
+                { id: 42, title: "Custom Traveller Build", description: "Custom build with unique specifications", image: "images/traveller/PIC_8481.JPG" },
+                { id: 43, title: "Modern Traveller Project", description: "Modern project with contemporary design", image: "images/traveller/PIC_8482.JPG" },
+                { id: 44, title: "Executive Traveller Design", description: "Executive design with luxury amenities", image: "images/traveller/PIC_8484.JPG" },
+                { id: 45, title: "Luxury Traveller Conversion", description: "Complete luxury conversion package", image: "images/traveller/PIC_8490.JPG" }
+            ],
+            icu: [
+                { id: 46, title: "Mobile ICU Unit", description: "Fully equipped mobile ICU vehicle", image: "images/icu/1 - Copy.JPG" },
+                { id: 47, title: "Advanced ICU Setup", description: "Advanced medical equipment setup", image: "images/icu/15.jpg" },
+                { id: 48, title: "Medical ICU Vehicle", description: "Complete medical ICU configuration", image: "images/icu/20140826_132556.jpg" },
+                { id: 49, title: "Emergency ICU Unit", description: "Emergency response ICU vehicle", image: "images/icu/20140826_132616.jpg" },
+                { id: 50, title: "Mobile Hospital Setup", description: "Mobile hospital with ICU facilities", image: "images/icu/20140826_133001.jpg" },
+                { id: 51, title: "ICU Medical Vehicle", description: "Medical vehicle with ICU capabilities", image: "images/icu/6 - Copy - Copy - Copy - Copy.JPG" },
+                { id: 52, title: "Advanced ICU Build", description: "Advanced ICU build with monitoring systems", image: "images/icu/7 - Copy (2) - Copy.jpg" },
+                { id: 53, title: "Medical Emergency Unit", description: "Emergency medical unit with ICU", image: "images/icu/DSC_0163 (8).jpg" },
+                { id: 54, title: "Mobile ICU Interior", description: "ICU interior with medical equipment", image: "images/icu/WhatsApp Image 2022-05-23 at 6.24.11 PM.jpeg" },
+                { id: 55, title: "ICU Vehicle Setup", description: "Complete ICU vehicle setup", image: "images/icu/WhatsApp Image 2022-05-23 at 6.24.12 PM (1).jpeg" },
+                { id: 56, title: "Advanced Medical Unit", description: "Advanced medical unit configuration", image: "images/icu/WhatsApp Image 2022-05-23 at 6.24.13 PM (2).jpeg" },
+                { id: 57, title: "Emergency ICU Build", description: "Emergency ICU build with life support", image: "images/icu/WhatsApp Image 2022-05-23 at 6.24.14 PM (1).jpeg" },
+                { id: 58, title: "Mobile ICU Project", description: "Complete mobile ICU project", image: "images/icu/WhatsApp Image 2022-05-23 at 6.24.14 PM.jpeg" },
+                { id: 59, title: "Medical ICU Interior", description: "Medical ICU interior design", image: "images/icu/WhatsApp Image 2022-05-23 at 6.24.16 PM (1).jpeg" },
+                { id: 60, title: "ICU Ambulance Setup", description: "ICU ambulance with advanced features", image: "images/icu/WhatsApp Image 2023-04-28 at 9.22.33 PM.jpeg" },
+                { id: 61, title: "Emergency Medical Vehicle", description: "Emergency medical vehicle with ICU", image: "images/icu/WhatsApp Image 2023-04-28 at 9.22.47 PM (2).jpeg" },
+                { id: 62, title: "Advanced ICU Ambulance", description: "Advanced ICU ambulance configuration", image: "images/icu/WhatsApp Image 2023-04-28 at 9.22.49 PM.jpeg" }
+            ],
+            campaign: [
+                { id: 63, title: "Political Campaign Vehicle", description: "High-impact campaign vehicle with LED displays", image: "images/campaign/DSC_0344 - Copy.JPG" },
+                { id: 64, title: "Campaign Vehicle Design", description: "Campaign vehicle with advanced sound system", image: "images/campaign/DSC_0349.JPG" }
+            ],
+            interior: [
+                { id: 64, title: "Luxury Wood Finishing", description: "Premium wood finishing work", image: "images/interior/10 - Copy - Copy.jpg" },
+                { id: 65, title: "Custom Interior Design", description: "Custom interior design and finishing", image: "images/interior/12.jpg" },
+                { id: 66, title: "Premium Interior Work", description: "Premium quality interior finishing", image: "images/interior/632A0129.JPG" },
+                { id: 67, title: "Luxury Cabinetry", description: "Handcrafted luxury cabinetry", image: "images/interior/632A0132.JPG" },
+                { id: 68, title: "Custom Wood Work", description: "Custom woodwork with fine detailing", image: "images/interior/632A0143.JPG" },
+                { id: 69, title: "Interior Finishing", description: "High-quality interior finishing", image: "images/interior/DSC_0051 - Copy - Copy - Copy - Copy - Copy.JPG" },
+                { id: 70, title: "Luxury Interior Setup", description: "Luxury interior setup with premium materials", image: "images/interior/DSC_0053.JPG" },
+                { id: 71, title: "Premium Cabinetry Work", description: "Premium cabinetry and woodwork", image: "images/interior/DSC_0347.JPG" },
+                { id: 72, title: "Custom Interior Build", description: "Custom interior build with unique design", image: "images/interior/DSC_1917.JPG" },
+                { id: 73, title: "Interior Modification", description: "Complete interior modification", image: "images/interior/IMG-20240405-WA0011.jpg" },
+                { id: 74, title: "Luxury Interior Design", description: "Luxury interior design work", image: "images/interior/IMG-20240405-WA0014.jpg" },
+                { id: 75, title: "Premium Interior Finishing", description: "Premium interior finishing touches", image: "images/interior/IMG-20240405-WA0017.jpg" },
+                { id: 76, title: "Custom Interior Project", description: "Custom interior project execution", image: "images/interior/IMG-20240718-WA0013.jpg" },
+                { id: 77, title: "Modern Interior Design", description: "Modern interior design solutions", image: "images/interior/IMG-20240718-WA0017.jpg" },
+                { id: 78, title: "Luxury Interior Work", description: "Luxury interior work with fine details", image: "images/interior/IMG-20250317-WA0326.jpg" },
+                { id: 79, title: "Premium Interior Setup", description: "Premium interior setup and design", image: "images/interior/IMG-20250317-WA0327.jpg" },
+                { id: 80, title: "Custom Interior Finishing", description: "Custom interior finishing work", image: "images/interior/IMG-20250317-WA0328.jpg" },
+                { id: 81, title: "Interior Woodwork", description: "Custom woodwork for interiors", image: "images/interior/IMG_9443.JPG" },
+                { id: 82, title: "Luxury Finishing Work", description: "Luxury finishing work details", image: "images/interior/IMG_9444.JPG" },
+                { id: 83, title: "Premium Wood Design", description: "Premium wood design and finishing", image: "images/interior/IMG_9445.JPG" },
+                { id: 84, title: "Custom Cabinetry", description: "Custom cabinetry solutions", image: "images/interior/IMG_9446.JPG" },
+                { id: 85, title: "Interior Design Work", description: "Complete interior design work", image: "images/interior/PIC_8481.JPG" },
+                { id: 86, title: "Luxury Interior Project", description: "Luxury interior project completion", image: "images/interior/PIC_8482.JPG" },
+                { id: 87, title: "Premium Interior Build", description: "Premium interior build quality", image: "images/interior/PIC_8484.JPG" },
+                { id: 88, title: "Custom Interior Solution", description: "Custom interior solutions", image: "images/interior/PIC_8490.JPG" },
+                { id: 89, title: "Modern Interior Work", description: "Modern interior work execution", image: "images/interior/PIC_8493.JPG" },
+                { id: 90, title: "Luxury Interior Modification", description: "Luxury interior modification work", image: "images/interior/PIC_8495.JPG" },
+                { id: 91, title: "Premium Interior Design", description: "Premium interior design project", image: "images/interior/PIC_8497.JPG" },
+                { id: 92, title: "Interior Finishing Details", description: "Interior finishing with attention to detail", image: "images/interior/WhatsApp Image 2021-09-17 at 11.05.37 AM (1).jpeg" },
+                { id: 93, title: "Custom Interior Work", description: "Custom interior work and design", image: "images/interior/WhatsApp Image 2021-09-17 at 11.05.37 AM.jpeg" },
+                { id: 94, title: "Luxury Interior Touches", description: "Luxury interior finishing touches", image: "images/interior/WhatsApp Image 2021-09-17 at 11.05.38 AM.jpeg" },
+                { id: 95, title: "Premium Interior Project", description: "Premium interior project work", image: "images/interior/WhatsApp Image 2021-09-17 at 11.05.39 AM (1).jpeg" },
+                { id: 96, title: "Interior Design Solution", description: "Complete interior design solution", image: "images/interior/WhatsApp Image 2021-11-13 at 12.31.46 PM.jpeg" },
+                { id: 97, title: "Custom Interior Build", description: "Custom interior build project", image: "images/interior/WhatsApp Image 2021-11-13 at 12.32.00 PM.jpeg" },
+                { id: 98, title: "Modern Interior Finishing", description: "Modern interior finishing work", image: "images/interior/WhatsApp Image 2022-05-23 at 6.24.15 PM (1).jpeg" },
+                { id: 99, title: "Luxury Interior Details", description: "Luxury interior detail work", image: "images/interior/WhatsApp Image 2022-05-23 at 6.24.15 PM (2).jpeg" },
+                { id: 100, title: "Premium Interior Work", description: "Premium interior work quality", image: "images/interior/WhatsApp Image 2022-05-23 at 6.24.15 PM.jpeg" },
+                { id: 101, title: "Custom Interior Design", description: "Custom interior design execution", image: "images/interior/WhatsApp Image 2022-05-23 at 6.24.16 PM (2).jpeg" },
+                { id: 102, title: "Interior Modification Work", description: "Interior modification project", image: "images/interior/WhatsApp Image 2022-06-15 at 2.44.58 PM (5).jpeg" },
+                { id: 103, title: "Luxury Wood Finishing", description: "Luxury wood finishing details", image: "images/interior/WhatsApp Image 2022-06-15 at 2.44.59 PM (2).jpeg" },
+                { id: 104, title: "Premium Interior Solution", description: "Premium interior design solution", image: "images/interior/WhatsApp Image 2022-06-15 at 2.44.59 PM (3).jpeg" },
+                { id: 105, title: "Custom Interior Finishing", description: "Custom interior finishing project", image: "images/interior/WhatsApp Image 2022-06-15 at 2.44.59 PM (4).jpeg" },
+                { id: 106, title: "Modern Interior Build", description: "Modern interior build work", image: "images/interior/WhatsApp Image 2022-06-15 at 2.44.59 PM (5).jpeg" },
+                { id: 107, title: "Luxury Interior Setup", description: "Luxury interior setup project", image: "images/interior/WhatsApp Image 2022-06-15 at 2.44.59 PM (6).jpeg" },
+                { id: 108, title: "Premium Interior Finishing", description: "Premium interior finishing touches", image: "images/interior/WhatsApp Image 2022-06-15 at 2.44.59 PM (7).jpeg" },
+                { id: 109, title: "Custom Interior Project", description: "Custom interior project execution", image: "images/interior/WhatsApp Image 2022-12-10 at 4.02.40 PM (3).jpeg" },
+                { id: 110, title: "Interior Design Work", description: "Complete interior design work", image: "images/interior/WhatsApp Image 2022-12-10 at 4.02.40 PM (5).jpeg" },
+                { id: 111, title: "Luxury Interior Work", description: "Luxury interior work project", image: "images/interior/WhatsApp Image 2022-12-10 at 4.02.40 PM (7).jpeg" },
+                { id: 112, title: "Premium Interior Details", description: "Premium interior detail work", image: "images/interior/WhatsApp Image 2022-12-10 at 4.02.40 PM (8).jpeg" },
+                { id: 113, title: "Custom Interior Solution", description: "Custom interior solution work", image: "images/interior/WhatsApp Image 2022-12-10 at 4.02.40 PM (9).jpeg" },
+                { id: 114, title: "Modern Interior Project", description: "Modern interior project work", image: "images/interior/WhatsApp Image 2022-12-10 at 4.02.40 PM.jpeg" },
+                { id: 115, title: "Interior Finishing Work", description: "Interior finishing work details", image: "images/interior/WhatsApp Image 2023-03-29 at 12.26.27 PM.jpeg" },
+                { id: 116, title: "Luxury Interior Build", description: "Luxury interior build project", image: "images/interior/WhatsApp Image 2023-03-29 at 12.26.28 PM.jpeg" },
+                { id: 117, title: "Premium Interior Work", description: "Premium interior work execution", image: "images/interior/WhatsApp Image 2023-03-29 at 12.27.22 PM (1).jpeg" },
+                { id: 118, title: "Custom Interior Design", description: "Custom interior design work", image: "images/interior/WhatsApp Image 2023-03-29 at 12.27.22 PM.jpeg" },
+                { id: 119, title: "Modern Interior Finishing", description: "Modern interior finishing project", image: "images/interior/WhatsApp Image 2023-04-28 at 9.22.38 PM.jpeg" },
+                { id: 120, title: "Luxury Interior Project", description: "Luxury interior project completion", image: "images/interior/WhatsApp Image 2023-04-28 at 9.22.40 PM.jpeg" },
+                { id: 121, title: "Premium Interior Setup", description: "Premium interior setup work", image: "images/interior/WhatsApp Image 2023-04-28 at 9.22.43 PM (1).jpeg" }
+            ]
+        };
+
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const category = urlParams.get('category') || 'all';
+
+        // Set page title based on category
+        const titles = {
+            urbania: "Force Urbania Gallery",
+            caravan: "Custom Caravan Gallery",
+            traveller: "Force Traveller Gallery",
+            icu: "Mobile ICU Gallery",
+            campaign: "Campaign Vehicle Gallery",
+            interior: "Luxury Interior Gallery",
+            all: "Our Portfolio"
+        };
+
+        document.getElementById('gallery-title').textContent = titles[category] || "Our Portfolio";
+
+        // Populate gallery
+        function populateGallery(selectedCategory) {
+            const galleryGrid = document.getElementById('gallery-grid');
+            galleryGrid.innerHTML = '';
+
+            let items = [];
+            
+            if (selectedCategory === 'all') {
+                // Combine all items
+                for (const cat in galleryData) {
+                    items = items.concat(galleryData[cat]);
+                }
+            } else {
+                items = galleryData[selectedCategory] || [];
+            }
+
+            if (items.length === 0) {
+                galleryGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: #666;">No items found in this category.</p>';
+                return;
+            }
+
+            items.forEach(item => {
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-item';
+                galleryItem.innerHTML = `
+                    <img src="${item.image}" alt="Gallery Image" loading="lazy">
+                `;
+                
+                galleryItem.addEventListener('click', () => openLightbox(item.image, ''));
+                galleryGrid.appendChild(galleryItem);
+            });
+        }
+
+        // Category filtering
+        document.querySelectorAll('.category-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                // Update active button
+                document.querySelectorAll('.category-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Populate gallery with selected category
+                const selectedCategory = this.getAttribute('data-category');
+                populateGallery(selectedCategory);
+            });
+        });
+
+        // Lightbox functionality
+        function openLightbox(imageSrc, caption) {
+            document.getElementById('lightbox-img').src = imageSrc;
+            document.getElementById('lightbox-caption').textContent = '';
+            document.getElementById('lightbox').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close lightbox when clicking outside the image
+        document.getElementById('lightbox').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLightbox();
+            }
+        });
+
+        // Initialize gallery
+        populateGallery(category);
+
+        // Keyboard navigation for lightbox
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && document.getElementById('lightbox').style.display === 'flex') {
+                closeLightbox();
+            }
+        });
+    </script>
+</body>
+</html>
