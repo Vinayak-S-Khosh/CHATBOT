@@ -916,6 +916,166 @@
             justify-content: center;
             gap: 6px;
         }
+
+        /* Voice Reply Controls */
+        .voice-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .voice-toggle-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .voice-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .voice-toggle-btn.active {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .voice-speaker-btn {
+            background: transparent;
+            border: none;
+            color: #10a37f;
+            padding: 4px;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            margin-left: 8px;
+        }
+
+        .voice-speaker-btn:hover {
+            background: rgba(16, 163, 127, 0.1);
+        }
+
+        .voice-speaker-btn.speaking {
+            color: #059669;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.7;
+                transform: scale(1.1);
+            }
+        }
+
+        /* Voice Settings Modal */
+        .voice-settings-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .voice-settings-modal.active {
+            display: flex;
+        }
+
+        .voice-settings-content {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+        }
+
+        .voice-settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .voice-settings-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2d2d2d;
+        }
+
+        .close-settings {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            color: #6b6b6b;
+        }
+
+        .setting-group {
+            margin-bottom: 20px;
+        }
+
+        .setting-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: #2d2d2d;
+            margin-bottom: 8px;
+        }
+
+        .setting-group input[type="range"] {
+            width: 100%;
+            height: 4px;
+            border-radius: 2px;
+            background: #e0e0e0;
+            outline: none;
+        }
+
+        .setting-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #10a37f;
+            cursor: pointer;
+        }
+
+        .setting-value {
+            display: inline-block;
+            margin-left: 8px;
+            font-size: 12px;
+            color: #6b6b6b;
+        }
+
+        .setting-group select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #d1d1d1;
+            border-radius: 6px;
+            font-size: 13px;
+            background: white;
+        }
     </style>
 </head>
 <body>
@@ -946,6 +1106,15 @@
             </button>
             <h1>AI Vehicle Expert</h1>
             <div class="header-buttons">
+                <div class="voice-controls">
+                    <button class="voice-toggle-btn" id="voice-reply-toggle" onclick="toggleVoiceReply()" title="Toggle voice replies">
+                        <span class="material-icons" style="font-size: 18px;" id="voice-reply-icon">volume_off</span>
+                        <span id="voice-reply-text">Voice Off</span>
+                    </button>
+                    <button class="voice-toggle-btn" onclick="openVoiceSettings()" title="Voice settings">
+                        <span class="material-icons" style="font-size: 18px;">settings</span>
+                    </button>
+                </div>
                 <button class="website-btn" onclick="goToWebsite()">
                     <span class="material-icons" style="font-size: 18px;">home</span> Back to Website
                 </button>
@@ -1028,6 +1197,55 @@
         </div>
     </div>
 
+    <!-- Voice Settings Modal -->
+    <div class="voice-settings-modal" id="voice-settings-modal">
+        <div class="voice-settings-content">
+            <div class="voice-settings-header">
+                <h3>Voice Settings</h3>
+                <button class="close-settings" onclick="closeVoiceSettings()">
+                    <span class="material-icons">close</span>
+                </button>
+            </div>
+            
+            <div class="setting-group">
+                <label>
+                    Voice Speed
+                    <span class="setting-value" id="speed-value">1.0x</span>
+                </label>
+                <input type="range" id="voice-speed" min="0.5" max="2" step="0.1" value="1" 
+                       oninput="updateSpeed(this.value)">
+            </div>
+            
+            <div class="setting-group">
+                <label>
+                    Volume
+                    <span class="setting-value" id="volume-value">100%</span>
+                </label>
+                <input type="range" id="voice-volume" min="0" max="1" step="0.1" value="1" 
+                       oninput="updateVolume(this.value)">
+            </div>
+            
+            <div class="setting-group">
+                <label>Voice Language</label>
+                <select id="voice-language" onchange="updateVoiceLanguage(this.value)">
+                    <option value="en-IN">English (India)</option>
+                    <option value="hi-IN">Hindi</option>
+                    <option value="ml-IN">Malayalam</option>
+                    <option value="ta-IN">Tamil</option>
+                    <option value="kn-IN">Kannada</option>
+                </select>
+            </div>
+            
+            <div class="setting-group">
+                <label style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" id="auto-play" onchange="updateAutoPlay(this.checked)" 
+                           style="width: auto; height: auto;">
+                    Auto-play responses
+                </label>
+            </div>
+        </div>
+    </div>
+
     <script>
         const chatMessages = document.getElementById('chat-messages');
         const userInput = document.getElementById('user-input');
@@ -1041,7 +1259,272 @@
         let currentChatId = null;
         let chats = JSON.parse(localStorage.getItem('chatHistory')) || [];
 
+        // Voice Reply System
+        let voiceReplyEnabled = localStorage.getItem('voiceReplyEnabled') === 'true';
+        let voiceSettings = JSON.parse(localStorage.getItem('voiceSettings')) || {
+            speed: 1.0,
+            volume: 1.0,
+            language: 'en-IN',
+            autoPlay: false
+        };
+        let currentSpeech = null;
+        const speechSynth = window.speechSynthesis;
+
+        // Initialize voice settings on load
+        function initVoiceSettings() {
+            updateVoiceUI();
+            document.getElementById('voice-speed').value = voiceSettings.speed;
+            document.getElementById('voice-volume').value = voiceSettings.volume;
+            document.getElementById('voice-language').value = voiceSettings.language;
+            document.getElementById('auto-play').checked = voiceSettings.autoPlay;
+            updateSpeed(voiceSettings.speed);
+            updateVolume(voiceSettings.volume);
+            
+            // Load and log available voices
+            loadAvailableVoices();
+        }
+
+        function loadAvailableVoices() {
+            // Wait for voices to load
+            if (speechSynth.getVoices().length === 0) {
+                speechSynth.onvoiceschanged = () => {
+                    logAvailableVoices();
+                };
+            } else {
+                logAvailableVoices();
+            }
+        }
+
+        function logAvailableVoices() {
+            const voices = speechSynth.getVoices();
+            console.log('=== Available Voices ===');
+            console.log('Total voices:', voices.length);
+            
+            // Log all voices
+            voices.forEach((voice, i) => {
+                console.log(`${i + 1}. ${voice.name} (${voice.lang})`);
+            });
+            
+            // Check for Indian languages
+            const indianLangs = ['hi', 'ml', 'ta', 'kn', 'te', 'mr', 'gu', 'bn'];
+            console.log('\n=== Indian Language Voices ===');
+            indianLangs.forEach(lang => {
+                const langVoices = voices.filter(v => v.lang.toLowerCase().includes(lang));
+                if (langVoices.length > 0) {
+                    console.log(`${lang.toUpperCase()}:`, langVoices.map(v => v.name).join(', '));
+                } else {
+                    console.log(`${lang.toUpperCase()}: ❌ Not available`);
+                }
+            });
+        }
+
+        function toggleVoiceReply() {
+            voiceReplyEnabled = !voiceReplyEnabled;
+            localStorage.setItem('voiceReplyEnabled', voiceReplyEnabled);
+            updateVoiceUI();
+            
+            // Stop any ongoing speech
+            if (!voiceReplyEnabled && currentSpeech) {
+                speechSynth.cancel();
+            }
+        }
+
+        function updateVoiceUI() {
+            const icon = document.getElementById('voice-reply-icon');
+            const text = document.getElementById('voice-reply-text');
+            const btn = document.getElementById('voice-reply-toggle');
+            
+            if (voiceReplyEnabled) {
+                icon.textContent = 'volume_up';
+                text.textContent = 'Voice On';
+                btn.classList.add('active');
+            } else {
+                icon.textContent = 'volume_off';
+                text.textContent = 'Voice Off';
+                btn.classList.remove('active');
+            }
+        }
+
+        function openVoiceSettings() {
+            document.getElementById('voice-settings-modal').classList.add('active');
+        }
+
+        function closeVoiceSettings() {
+            document.getElementById('voice-settings-modal').classList.remove('active');
+        }
+
+        function updateSpeed(value) {
+            voiceSettings.speed = parseFloat(value);
+            document.getElementById('speed-value').textContent = value + 'x';
+            localStorage.setItem('voiceSettings', JSON.stringify(voiceSettings));
+        }
+
+        function updateVolume(value) {
+            voiceSettings.volume = parseFloat(value);
+            document.getElementById('volume-value').textContent = Math.round(value * 100) + '%';
+            localStorage.setItem('voiceSettings', JSON.stringify(voiceSettings));
+        }
+
+        function updateVoiceLanguage(value) {
+            voiceSettings.language = value;
+            localStorage.setItem('voiceSettings', JSON.stringify(voiceSettings));
+        }
+
+        function updateAutoPlay(checked) {
+            voiceSettings.autoPlay = checked;
+            localStorage.setItem('voiceSettings', JSON.stringify(voiceSettings));
+        }
+
+        function speakText(text, messageElement) {
+            if (!voiceReplyEnabled || !text) return;
+            
+            // Cancel any ongoing speech
+            if (currentSpeech) {
+                speechSynth.cancel();
+            }
+
+            // Clean text for speech - remove all unwanted elements
+            const cleanText = text
+                .replace(/<[^>]*>/g, ' ') // Remove ALL HTML tags
+                .replace(/!\[([^\]]*)\]\([^)]+\)/g, '') // Remove markdown images
+                .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // Keep only link text, remove URL
+                .replace(/\*\*([^*]+)\*\*/g, '$1') // Remove markdown bold
+                .replace(/\*([^*]+)\*/g, '$1') // Remove markdown italic
+                .replace(/#{1,6}\s/g, '') // Remove markdown headers
+                .replace(/[\u{1F300}-\u{1F9FF}]/gu, '') // Remove emojis
+                .replace(/[\u{2600}-\u{26FF}]/gu, '') // Remove misc symbols
+                .replace(/[\u{2700}-\u{27BF}]/gu, '') // Remove dingbats
+                .replace(/[\u{1F600}-\u{1F64F}]/gu, '') // Remove emoticons
+                .replace(/[\u{1F680}-\u{1F6FF}]/gu, '') // Remove transport symbols
+                .replace(/[\u{2190}-\u{21FF}]/gu, '') // Remove arrows
+                .replace(/[📞📧⏰🏆🎯💎😊📅🔍📊🚨📋📥🗑️🚪←💬]/g, '') // Remove common emojis
+                .replace(/Phone:|Email:|Location:|Address:/gi, '') // Remove labels
+                .replace(/\+91\s*\d+/g, 'phone number') // Replace phone with text
+                .replace(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g, 'email') // Replace email with text
+                .replace(/https?:\/\/[^\s]+/g, '') // Remove URLs
+                .replace(/www\.[^\s]+/g, '') // Remove www links
+                .replace(/\d+%/g, '') // Remove percentages (confidence badges)
+                .replace(/High|Medium|Low(?=\s*confidence)/gi, '') // Remove confidence labels
+                .replace(/[\n\r]+/g, '. ') // Replace line breaks with periods
+                .replace(/\s+/g, ' ') // Normalize spaces
+                .replace(/\.{2,}/g, '.') // Fix multiple periods
+                .replace(/\s*\.\s*\.\s*/g, '. ') // Fix spaced periods
+                .trim();
+
+            if (!cleanText || cleanText.length < 3) return;
+
+            // Map our language codes to Google Translate codes
+            const langMap = {
+                'en-IN': 'en',
+                'hi-IN': 'hi',
+                'ml-IN': 'ml',
+                'ta-IN': 'ta',
+                'kn-IN': 'kn'
+            };
+            
+            const gttsLang = langMap[voiceSettings.language] || 'en';
+            
+            console.log('\n=== Using Google Translate TTS ===');
+            console.log('Language:', voiceSettings.language, '->', gttsLang);
+            console.log('Text:', cleanText.substring(0, 50) + '...');
+
+            // Update speaker button state
+            const speakerBtn = messageElement?.querySelector('.voice-speaker-btn');
+            
+            // Create audio element for Google TTS
+            const audio = new Audio();
+            
+            // Google Translate TTS URL (unofficial but free)
+            const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=${gttsLang}&client=tw-ob&q=${encodeURIComponent(cleanText)}`;
+            
+            audio.src = ttsUrl;
+            audio.playbackRate = voiceSettings.speed;
+            audio.volume = voiceSettings.volume;
+            
+            audio.onplay = () => {
+                console.log('🔊 Audio started playing');
+                if (speakerBtn) {
+                    speakerBtn.classList.add('speaking');
+                    speakerBtn.querySelector('.material-icons').textContent = 'volume_up';
+                }
+                currentSpeech = audio; // Store audio reference
+            };
+            
+            audio.onended = () => {
+                console.log('✅ Audio ended');
+                if (speakerBtn) {
+                    speakerBtn.classList.remove('speaking');
+                    speakerBtn.querySelector('.material-icons').textContent = 'volume_up';
+                }
+                currentSpeech = null;
+            };
+            
+            audio.onerror = (e) => {
+                console.error('❌ Audio error:', e);
+                if (speakerBtn) {
+                    speakerBtn.classList.remove('speaking');
+                }
+                currentSpeech = null;
+                
+                // Fallback to browser TTS if Google TTS fails
+                console.log('Falling back to browser TTS...');
+                useBrowserTTS(cleanText, speakerBtn);
+            };
+            
+            // Play audio
+            audio.play().catch(err => {
+                console.error('Play failed:', err);
+                // Fallback to browser TTS
+                useBrowserTTS(cleanText, speakerBtn);
+            });
+        }
+
+        // Fallback function using browser's native TTS
+        function useBrowserTTS(cleanText, speakerBtn) {
+            const utterance = new SpeechSynthesisUtterance(cleanText);
+            utterance.lang = voiceSettings.language;
+            utterance.rate = voiceSettings.speed;
+            utterance.volume = voiceSettings.volume;
+            
+            const voices = speechSynth.getVoices();
+            const voice = voices.find(v => v.lang === voiceSettings.language) || 
+                         voices.find(v => v.lang.startsWith(voiceSettings.language.split('-')[0])) ||
+                         voices[0];
+            
+            if (voice) {
+                utterance.voice = voice;
+            }
+            
+            utterance.onstart = () => {
+                if (speakerBtn) {
+                    speakerBtn.classList.add('speaking');
+                }
+            };
+            
+            utterance.onend = () => {
+                if (speakerBtn) {
+                    speakerBtn.classList.remove('speaking');
+                }
+            };
+            
+            speechSynth.speak(utterance);
+        }
+
+        function stopSpeech() {
+            if (currentSpeech) {
+                // Check if it's an Audio element or SpeechSynthesisUtterance
+                if (currentSpeech instanceof Audio) {
+                    currentSpeech.pause();
+                    currentSpeech.currentTime = 0;
+                } else {
+                    speechSynth.cancel();
+                }
+                currentSpeech = null;
+            }
+        }
+
         // Initialize
+        initVoiceSettings();
         loadChatHistory();
         if (chats.length === 0) {
             createNewChat();
@@ -1239,9 +1722,34 @@
                 // Format bot messages with rich content
                 bubbleDiv.innerHTML = formatBotMessage(message);
                 
+                // Add speaker button for bot messages
+                const speakerBtn = document.createElement('button');
+                speakerBtn.className = 'voice-speaker-btn';
+                speakerBtn.title = 'Play voice';
+                speakerBtn.innerHTML = '<span class="material-icons" style="font-size: 20px;">volume_up</span>';
+                speakerBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    if (speakerBtn.classList.contains('speaking')) {
+                        stopSpeech();
+                        speakerBtn.classList.remove('speaking');
+                    } else {
+                        speakText(message, messageDiv);
+                    }
+                };
+                bubbleDiv.appendChild(speakerBtn);
+                
                 // Add confidence badge
                 if (data.confidence) {
-                    bubbleDiv.innerHTML += getConfidenceBadge(data.confidence);
+                    bubbleDiv.innerHTML = bubbleDiv.innerHTML.replace(speakerBtn.outerHTML, '') + getConfidenceBadge(data.confidence);
+                    bubbleDiv.appendChild(speakerBtn);
+                }
+                
+                // ONLY auto-play if this is a NEW message (saveToHistory = true) and auto-play is enabled
+                if (saveToHistory && voiceSettings.autoPlay && voiceReplyEnabled) {
+                    // Delay to allow message to render
+                    setTimeout(() => {
+                        speakText(message, messageDiv);
+                    }, 300);
                 }
             }
             
@@ -1339,7 +1847,6 @@
         let userPreferredLanguage = 'en'; // For typed messages (en, ml, ta, kn, hi)
         let recognition = null;
         let isListening = false;
-        let speechSynthesis = window.speechSynthesis;
         
         // Language names for display
         const languageNames = {

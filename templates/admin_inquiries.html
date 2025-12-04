@@ -618,6 +618,8 @@
         <div class="header-content">
             <h1><i class="fas fa-chart-line"></i> Customer Inquiries Dashboard</h1>
             <div class="header-actions">
+                <a href="/admin/training-data" class="btn btn-primary"><i class="fas fa-brain"></i> Training Data</a>
+                <a href="/admin/holidays" class="btn btn-primary"><i class="fas fa-calendar-alt"></i> Holidays</a>
                 <a href="/admin/export-csv" class="btn btn-success"><i class="fas fa-download"></i> Export CSV</a>
                 <button onclick="showBulkDelete()" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Bulk Delete</button>
                 <a href="/admin/logout" class="btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -1024,10 +1026,10 @@
                 analyticsChart = new Chart(ctx, {
                     type: 'bar',
                     data: {
-                        labels: data.services,
+                        labels: data.labels,
                         datasets: [{
                             label: 'Number of Inquiries',
-                            data: data.counts,
+                            data: data.data,
                             backgroundColor: [
                                 'rgba(59, 130, 246, 0.8)',
                                 'rgba(139, 92, 246, 0.8)',

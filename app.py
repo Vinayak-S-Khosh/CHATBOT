@@ -150,6 +150,17 @@ def init_db():
         )
     ''')
     
+    # Create holidays table
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS holidays (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            date DATE UNIQUE NOT NULL,
+            name TEXT NOT NULL,
+            description TEXT,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
+    
     # Create default admin if doesn't exist
     try:
         conn.execute("INSERT INTO admin_users (username, password) VALUES (?, ?)", ('admin', 'admin123'))
@@ -556,6 +567,17 @@ def chat():
         for intent in intents['intents']:
             if tag == intent["tag"]:
                 response = random.choice(intent['responses'])
+                
+                # Check for holidays if asking about working hours
+                if tag == 'working_hours':
+                    today = datetime.now()
+                    today_str = today.strftime('%Y-%m-%d')
+                    holiday = check_if_holiday(today_str)
+                    
+                    if holiday:
+                        response = f"Today ({today.strftime('%B %d, %Y')}) is a holiday - {holiday['name']}. We are closed today. Our regular working hours are Monday to Saturday, 9 AM to 6 PM."
+                    elif today.weekday() == 6:  # Sunday
+                        response = "We're closed on Sundays. Our working hours are Monday to Saturday from 9 AM to 6 PM."
                 
                 # Format response for better readability
                 response = format_response(response, tag)
@@ -998,6 +1020,276 @@ def get_analytics_data():
     # Format data for chart
     services = [row['service'] for row in results]
     counts = [row['count'] for row in results]
+    
+    return jsonify({
+        'labels': services,
+        'data': counts
+    })
+
+@app.route('/admin/training-data')
+def view_training_data():
+    """Admin page to view and manage training data (intents)"""
+    if 'admin_logged_in' not in session:
+        return redirect(url_for('admin_login'))
+    
+    # Load intents from file
+    with open('kalapuraparambil_intents.json', 'r', encoding='utf-8') as f:
+        intents_data = json.load(f)
+    
+    # Get search query if any
+    search_query = request.args.get('search', '').lower()
+    
+    # Filter intents based on search
+    if search_query:
+        filtered_intents = []
+        for intent in intents_data['intents']:
+            # Search in tag, patterns, or responses
+            if (search_query in intent['tag'].lower() or
+                any(search_query in pattern.lower() for pattern in intent['patterns']) or
+                any(search_query in response.lower() for response in intent['responses'])):
+                filtered_intents.append(intent)
+        intents_data['intents'] = filtered_intents
+    
+    return render_template('admin_training.html', 
+                         intents=intents_data['intents'],
+                         search_query=search_query,
+                         total_intents=len(intents_data['intents']))
+
+@app.route('/admin/training-data/get/<tag>')
+def get_intent_data(tag):
+    """Get specific intent data for editing"""
+    if 'admin_logged_in' not in session:
+        return jsonify({'error': 'Unauthorized'}), 401
+    
+    with open('kalapuraparambil_intents.json', 'r', encoding='utf-8') as f:
+        intents_data = json.load(f)
+    
+    for intent in intents_data['intents']:
+        if intent['tag'] == tag:
+            return jsonify({'status': 'success', 'intent': intent})
+    
+    return jsonify({'status': 'error', 'message': 'Intent not found'}), 404
+
+@app.route('/admin/training-data/update', methods=['POST'])
+def update_intent():
+    """Update an existing intent"""
+    if 'admin_logged_in' not in session:
+        return jsonify({'error': 'Unauthorized'}), 401
+    
+    try:
+        data = request.json
+        original_tag = data.get('original_tag')
+        tag = data.get('tag')
+        patterns = data.get('patterns', [])
+        responses = data.get('responses', [])
+        
+        # Validate input
+        if not tag or not patterns or not responses:
+            return jsonify({'status': 'error', 'message': 'Tag, patterns, and responses are required'}), 400
+        
+        # Load intents
+        with open('kalapuraparambil_intents.json', 'r', encoding='utf-8') as f:
+            intents_data = json.load(f)
+        
+        # Find and update the intent
+        found = False
+        for intent in intents_data['intents']:
+            if intent['tag'] == original_tag:
+                intent['tag'] = tag
+                intent['patterns'] = [p.strip() for p in patterns if p.strip()]
+                intent['responses'] = [r.strip() for r in responses if r.strip()]
+                found = True
+                break
+        
+        if not found:
+            return jsonify({'status': 'error', 'message': 'Intent not found'}), 404
+        
+        # Save back to file
+        with open('kalapuraparambil_intents.json', 'w', encoding='utf-8') as f:
+            json.dump(intents_data, f, indent=2, ensure_ascii=False)
+        
+        # Reload intents in memory
+        global intents
+        intents = intents_data
+        
+        return jsonify({
+            'status': 'success', 
+            'message': 'Intent updated successfully. Please retrain the model for changes to take effect.'
+        })
+    
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+@app.route('/admin/training-data/add', methods=['POST'])
+def add_intent():
+    """Add a new intent"""
+    if 'admin_logged_in' not in session:
+        return jsonify({'error': 'Unauthorized'}), 401
+    
+    try:
+        data = request.json
+        tag = data.get('tag')
+        patterns = data.get('patterns', [])
+        responses = data.get('responses', [])
+        
+        # Validate input
+        if not tag or not patterns or not responses:
+            return jsonify({'status': 'error', 'message': 'Tag, patterns, and responses are required'}), 400
+        
+        # Load intents
+        with open('kalapuraparambil_intents.json', 'r', encoding='utf-8') as f:
+            intents_data = json.load(f)
+        
+        # Check if tag already exists
+        for intent in intents_data['intents']:
+            if intent['tag'] == tag:
+                return jsonify({'status': 'error', 'message': 'An intent with this tag already exists'}), 400
+        
+        # Add new intent
+        new_intent = {
+            'tag': tag,
+            'patterns': [p.strip() for p in patterns if p.strip()],
+            'responses': [r.strip() for r in responses if r.strip()]
+        }
+        intents_data['intents'].append(new_intent)
+        
+        # Save back to file
+        with open('kalapuraparambil_intents.json', 'w', encoding='utf-8') as f:
+            json.dump(intents_data, f, indent=2, ensure_ascii=False)
+        
+        # Reload intents in memory
+        global intents
+        intents = intents_data
+        
+        return jsonify({
+            'status': 'success', 
+            'message': 'Intent added successfully. Please retrain the model for changes to take effect.'
+        })
+    
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+@app.route('/admin/training-data/delete/<tag>', methods=['POST'])
+def delete_intent(tag):
+    """Delete an intent"""
+    if 'admin_logged_in' not in session:
+        return jsonify({'error': 'Unauthorized'}), 401
+    
+    try:
+        # Load intents
+        with open('kalapuraparambil_intents.json', 'r', encoding='utf-8') as f:
+            intents_data = json.load(f)
+        
+        # Find and remove the intent
+        original_count = len(intents_data['intents'])
+        intents_data['intents'] = [intent for intent in intents_data['intents'] if intent['tag'] != tag]
+        
+        if len(intents_data['intents']) == original_count:
+            return jsonify({'status': 'error', 'message': 'Intent not found'}), 404
+        
+        # Save back to file
+        with open('kalapuraparambil_intents.json', 'w', encoding='utf-8') as f:
+            json.dump(intents_data, f, indent=2, ensure_ascii=False)
+        
+        # Reload intents in memory
+        global intents
+        intents = intents_data
+        
+        return jsonify({
+            'status': 'success', 
+            'message': 'Intent deleted successfully. Please retrain the model for changes to take effect.'
+        })
+    
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+# Holiday Management Routes
+@app.route('/admin/holidays')
+def view_holidays():
+    """Admin page to view and manage holidays"""
+    if 'admin_logged_in' not in session:
+        return redirect(url_for('admin_login'))
+    
+    conn = get_db_connection()
+    
+    # Get year filter
+    year = request.args.get('year', datetime.now().year)
+    
+    # Get all holidays for the year
+    holidays = conn.execute(
+        'SELECT * FROM holidays WHERE strftime("%Y", date) = ? ORDER BY date',
+        (str(year),)
+    ).fetchall()
+    
+    conn.close()
+    
+    return render_template('admin_holidays.html', 
+                         holidays=holidays,
+                         current_year=int(year),
+                         years=range(datetime.now().year - 1, datetime.now().year + 3))
+
+@app.route('/admin/holidays/add', methods=['POST'])
+def add_holiday():
+    """Add a new holiday"""
+    if 'admin_logged_in' not in session:
+        return jsonify({'error': 'Unauthorized'}), 401
+    
+    try:
+        data = request.json
+        date = data.get('date')
+        name = data.get('name')
+        description = data.get('description', '')
+        
+        if not date or not name:
+            return jsonify({'status': 'error', 'message': 'Date and name are required'}), 400
+        
+        conn = get_db_connection()
+        
+        try:
+            conn.execute(
+                'INSERT INTO holidays (date, name, description) VALUES (?, ?, ?)',
+                (date, name, description)
+            )
+            conn.commit()
+            conn.close()
+            
+            return jsonify({'status': 'success', 'message': 'Holiday added successfully'})
+        except sqlite3.IntegrityError:
+            conn.close()
+            return jsonify({'status': 'error', 'message': 'A holiday already exists for this date'}), 400
+    
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+@app.route('/admin/holidays/delete/<int:holiday_id>', methods=['POST'])
+def delete_holiday(holiday_id):
+    """Delete a holiday"""
+    if 'admin_logged_in' not in session:
+        return jsonify({'error': 'Unauthorized'}), 401
+    
+    try:
+        conn = get_db_connection()
+        conn.execute('DELETE FROM holidays WHERE id = ?', (holiday_id,))
+        conn.commit()
+        conn.close()
+        
+        return jsonify({'status': 'success', 'message': 'Holiday deleted successfully'})
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+def check_if_holiday(date_str=None):
+    """Check if a specific date is a holiday"""
+    if date_str is None:
+        date_str = datetime.now().strftime('%Y-%m-%d')
+    
+    conn = get_db_connection()
+    holiday = conn.execute(
+        'SELECT * FROM holidays WHERE date = ?',
+        (date_str,)
+    ).fetchone()
+    conn.close()
+    
+    return holiday
     
     return jsonify({
         'services': services,
