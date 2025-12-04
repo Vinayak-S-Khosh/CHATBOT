@@ -361,31 +361,73 @@
         }
 
         .contact-link {
-            padding: 6px 12px;
-            background: #10b981;
-            color: white;
+            padding: 8px 14px;
+            background: transparent;
+            color: #475569;
             text-decoration: none;
-            border-radius: 6px;
-            font-size: 0.8rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
             font-weight: 500;
             white-space: nowrap;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             transition: all 0.2s ease;
+            border: 1px solid #e2e8f0;
         }
 
         .contact-link:hover {
-            background: #059669;
+            background: #f8fafc;
+            border-color: #cbd5e1;
             transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .contact-link i {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .phone-link {
+            color: #3b82f6;
+            border-color: #dbeafe;
+        }
+
+        .phone-link:hover {
+            background: #eff6ff;
+            border-color: #93c5fd;
+            color: #2563eb;
         }
 
         .whatsapp-link {
-            background: #25D366;
+            color: #25D366;
+            border-color: #d1fae5;
         }
 
         .whatsapp-link:hover {
-            background: #20ba5a;
+            background: #ecfdf5;
+            border-color: #86efac;
+            color: #16a34a;
+        }
+
+        .contact-cell {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 160px;
+        }
+
+        .phone-number {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .contact-actions {
+            display: flex;
+            gap: 6px;
         }
 
         .empty-state {
@@ -761,8 +803,17 @@
                         <td><strong>#{{ inquiry.id }}</strong></td>
                         <td>{{ inquiry.name }}</td>
                         <td>
-                            <a href="tel:{{ inquiry.phone }}" class="contact-link"><i class="fas fa-phone"></i> {{ inquiry.phone }}</a><br>
-                            <a href="https://wa.me/{{ inquiry.phone.replace('+', '').replace(' ', '') }}" target="_blank" class="contact-link whatsapp-link"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                            <div class="contact-cell">
+                                <span class="phone-number">{{ inquiry.phone }}</span>
+                                <div class="contact-actions">
+                                    <a href="tel:{{ inquiry.phone }}" class="contact-link phone-link" title="Call">
+                                        <i class="fas fa-phone"></i>
+                                    </a>
+                                    <a href="https://wa.me/{{ inquiry.phone.replace('+', '').replace(' ', '') }}" target="_blank" class="contact-link whatsapp-link" title="WhatsApp">
+                                        <i class="fab fa-whatsapp"></i>
+                                    </a>
+                                </div>
+                            </div>
                         </td>
                         <td>{{ inquiry.service }}</td>
                         <td style="max-width: 250px; overflow: hidden; text-overflow: ellipsis;" title="{{ inquiry.message }}">

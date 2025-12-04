@@ -710,6 +710,76 @@
         .gallery-item:hover .gallery-caption {
             /* Caption is always visible */
         }
+
+        /* Gallery Filters */
+        .gallery-filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .filter-btn {
+            padding: 10px 24px;
+            background: white;
+            color: #1e3c72;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .filter-btn:hover {
+            border-color: #1e3c72;
+            background: #f8f9fa;
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border-color: #1e3c72;
+            box-shadow: 0 4px 12px rgba(30, 60, 114, 0.3);
+        }
+
+        /* Category Tag */
+        .category-tag {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .gallery-item.hidden {
+            display: none;
+        }
+
+        /* Workshop Gallery Section */
+        .workshop-gallery {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #f8f9fa;
+        }
+
+        .workshop-gallery h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #1e3c72;
+        }
         .testimonials {
             background: #f8f9fa;
             padding: 80px 20px;
@@ -1069,7 +1139,8 @@
             <ul class="nav-links" id="navLinks">
                 <li><a href="#home" class="nav-link active">Home</a></li>
                 <li><a href="#services" class="nav-link">Services</a></li>
-                <li><a href="#gallery" class="nav-link">Gallery</a></li>
+                <li><a href="#gallery" class="nav-link">Portfolio</a></li>
+                <li><a href="#workshop" class="nav-link">Workshop</a></li>
                 <li><a href="#why-us" class="nav-link">Why Us</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
@@ -1133,7 +1204,7 @@
         </div>
     </section>
 
-    <!-- Gallery Section -->
+    <!-- Our Portfolio Gallery Section -->
     <section class="gallery" id="gallery">
         <h2>Our Portfolio</h2>
         <p style="text-align: center; color: #666; margin-bottom: 40px;">See our masterpieces - Custom builds that turned dreams into reality</p>
@@ -1181,6 +1252,132 @@
                 </div>
             </div>
         </div>
+    </section>
+
+    <!-- Workshop Gallery Section -->
+    <section class="workshop-gallery" id="workshop">
+        <h2>Behind the Scenes - Our Workshop</h2>
+        <p style="text-align: center; color: #666; margin-bottom: 20px; max-width: 700px; margin-left: auto; margin-right: auto;">Witness the craftsmanship and dedication of our skilled team across different departments</p>
+        
+        <!-- Department Filter Tabs -->
+        <div class="gallery-filters">
+            <button class="filter-btn active" onclick="filterGallery('all')">All</button>
+            <button class="filter-btn" onclick="filterGallery('upholstery')">Upholstery & Tailoring</button>
+            <button class="filter-btn" onclick="filterGallery('fiber')">Fiber Works</button>
+            <button class="filter-btn" onclick="filterGallery('electrical')">Electrical</button>
+            <button class="filter-btn" onclick="filterGallery('welding')">Welding</button>
+            <button class="filter-btn" onclick="filterGallery('painting')">Painting</button>
+            <button class="filter-btn" onclick="filterGallery('office')">Office & Management</button>
+        </div>
+
+        <div class="gallery-grid" id="workGallery">
+            <!-- Upholstery & Tailoring -->
+            <div class="gallery-item" data-category="upholstery">
+                <img src="images/workshop/upholstery/seat-making-1.jpg" alt="Seat Making & Tailoring" onerror="this.src='images/interior/10 - Copy - Copy.jpg'">
+                <div class="gallery-caption">
+                    <span class="category-tag">Upholstery</span>
+                    <h4>Seat Crafting</h4>
+                    <p>Expert tailoring and upholstery work for premium seating</p>
+                </div>
+            </div>
+            
+            <div class="gallery-item" data-category="upholstery">
+                <img src="images/workshop/upholstery/fabric-work-1.jpg" alt="Fabric Stitching" onerror="this.src='images/interior/12.jpg'">
+                <div class="gallery-caption">
+                    <span class="category-tag">Upholstery</span>
+                    <h4>Fabric Work</h4>
+                    <p>Precision stitching and custom fabric installation</p>
+                </div>
+            </div>
+
+            <!-- Fiber Works -->
+            <div class="gallery-item" data-category="fiber">
+                <img src="images/workshop/fiber/molding-1.jpg" alt="Fiber Molding" onerror="this.src='images/caravan/IMG-20240405-WA0007.jpg'">
+                <div class="gallery-caption">
+                    <span class="category-tag">Fiber</span>
+                    <h4>Fiber Molding</h4>
+                    <p>Custom fiber work and body modifications</p>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="fiber">
+                <img src="images/workshop/fiber/finishing-1.jpg" alt="Body Finishing" onerror="this.src='images/caravan/IMG-20240405-WA0008.jpg'">
+                <div class="gallery-caption">
+                    <span class="category-tag">Fiber</span>
+                    <h4>Surface Finishing</h4>
+                    <p>Smooth fiber finishing and body shaping</p>
+                </div>
+            </div>
+
+            <!-- Electrical Works -->
+            <div class="gallery-item" data-category="electrical">
+                <img src="images/workshop/electrical/led-work-1.jpg" alt="LED Installation" onerror="this.src='images/interior/632A0129.JPG'">
+                <div class="gallery-caption">
+                    <span class="category-tag">Electrical</span>
+                    <h4>LED Lighting Setup</h4>
+                    <p>Advanced lighting and electrical installations</p>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="electrical">
+                <img src="images/workshop/electrical/wiring-1.jpg" alt="Wiring Work" onerror="this.src='images/interior/632A0132.JPG'">
+                <div class="gallery-caption">
+                    <span class="category-tag">Electrical</span>
+                    <h4>Electrical Wiring</h4>
+                    <p>Professional wiring and circuit installation</p>
+                </div>
+            </div>
+
+            <!-- Welding -->
+            <div class="gallery-item" data-category="welding">
+                <img src="images/workshop/welding/fabrication-1.jpg" alt="Metal Welding" onerror="this.src='images/traveller/IMG-20240405-WA0004.jpg'">
+                <div class="gallery-caption">
+                    <span class="category-tag">Welding</span>
+                    <h4>Metal Fabrication</h4>
+                    <p>Expert welding and metal framework construction</p>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="welding">
+                <img src="images/workshop/welding/structural-1.jpg" alt="Frame Construction" onerror="this.src='images/traveller/IMG-20240405-WA0005.jpg'">
+                <div class="gallery-caption">
+                    <span class="category-tag">Welding</span>
+                    <h4>Structural Work</h4>
+                    <p>Heavy-duty welding for vehicle structures</p>
+                </div>
+            </div>
+
+            <!-- Painting -->
+            <div class="gallery-item" data-category="painting">
+                <img src="images/workshop/painting/spray-work-1.jpg" alt="Vehicle Painting" onerror="this.src='images/campaign/DSC_0344 - Copy.JPG'">
+                <div class="gallery-caption">
+                    <span class="category-tag">Painting</span>
+                    <h4>Auto Painting</h4>
+                    <p>Professional spray painting and color matching</p>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="painting">
+                <img src="images/workshop/painting/finishing-1.jpg" alt="Finishing Touches" onerror="this.src='images/campaign/DSC_0349.JPG'">
+                <div class="gallery-caption">
+                    <span class="category-tag">Painting</span>
+                    <h4>Detail Work</h4>
+                    <p>Fine detailing and glossy finish application</p>
+                </div>
+            </div>
+
+            <!-- Office & Management -->
+            <div class="gallery-item" data-category="office">
+                <img src="images/workshop/office/team-1.jpg" alt="Office Team" onerror="this.src='images/interior/DSC_0053.JPG'">
+                <div class="gallery-caption">
+                    <span class="category-tag">Office</span>
+                    <h4>Management Team</h4>
+                    <p>Our dedicated office staff ensuring smooth operations</p>
+                </div>
+            </div>
+        </div>
+
+        <p style="text-align: center; margin-top: 40px; color: #666; font-style: italic;">📸 Upload your workshop images to showcase the craftsmanship of each department</p>
     </section>
 
     <!-- Testimonials Section -->
@@ -1527,6 +1724,29 @@
         function openGallery(category) {
             // Redirect to the gallery page with the selected category
             window.location.href = `/gallery?category=${category}`;
+        }
+
+        // Gallery Filter Function
+        function filterGallery(category) {
+            const galleryItems = document.querySelectorAll('#workGallery .gallery-item');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            
+            // Update active button
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Filter gallery items
+            galleryItems.forEach(item => {
+                if (category === 'all') {
+                    item.classList.remove('hidden');
+                } else {
+                    if (item.getAttribute('data-category') === category) {
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                }
+            });
         }
         
     </script>
