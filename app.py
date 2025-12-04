@@ -414,7 +414,7 @@ def portfolio_pages(page):
                 'phone': '9744360607',
                 'email': 'vinayaksunilkhosh@gmail.com',
                 'github': 'https://github.com/Vinayak-S-Khosh',
-                'linkedin': 'https://www.linkedin.com/in/vinayak-sunil-khosh-2005',
+                'linkedin': 'https://www.linkedin.com/in/vinayak-sunil-khosh-2005-',
                 'location': 'Ernakulam, Kerala'
             }
         elif page == 'admin':
