@@ -1,0 +1,5 @@
+Flask==3.0.0
+torch==2.1.0
+nltk==3.8.1
+textdistance==4.6.0
+requests==2.31.0

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ Insights - Admin Panel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #10a37f 0%, #0d8c6e 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #10a37f;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0d8c6e;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .summary-card h3 {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .intent-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .intent-item:last-child {
+            border-bottom: none;
+        }
+
+        .intent-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .intent-stats {
+            display: flex;
+            gap: 15px;
+            font-size: 13px;
+        }
+
+        .stat-badge {
+            background: #e3f2fd;
+            padding: 4px 10px;
+            border-radius: 12px;
+            color: #1976d2;
+            font-weight: 600;
+        }
+
+        .patterns-table {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            overflow-x: auto;
+        }
+
+        .patterns-table h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table thead {
+            background: #f8f9fa;
+        }
+
+        table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #555;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        table td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .frequency-bar {
+            background: #e0e0e0;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .frequency-fill {
+            background: linear-gradient(90deg, #10a37f, #0d8c6e);
+            height: 100%;
+            transition: width 0.3s;
+        }
+
+        .frequency-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 12px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .insight-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 30px;
+        }
+
+        .insight-box h3 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+
+        .insight-box ul {
+            margin-left: 20px;
+            color: #1b5e20;
+        }
+
+        .insight-box li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 FAQ Learning Insights</h1>
+            <p>Discover what your customers are asking about most</p>
+        </header>
+
+        <div class="actions">
+            <a href="/admin/analytics-dashboard" class="btn btn-primary">Analytics Dashboard</a>
+            <a href="/admin/conversation-review" class="btn btn-primary">Conversation Review</a>
+            <a href="/admin/inquiries" class="btn btn-secondary">Back to Inquiries</a>
+        </div>
+
+        <div class="insight-box">
+            <h3>💡 What This Shows</h3>
+            <ul>
+                <li><strong>Pattern Count:</strong> How many unique ways users ask about this topic</li>
+                <li><strong>Total Asks:</strong> Total number of times all patterns were asked</li>
+                <li><strong>Popular Topics:</strong> Intents with highest total asks need more detailed training</li>
+            </ul>
+        </div>
+
+        <div class="summary-grid">
+            {% for faq in faq_summary %}
+            <div class="summary-card">
+                <div class="intent-item">
+                    <div>
+                        <div class="intent-name">{{ faq.intent }}</div>
+                        <div class="intent-stats">
+                            <span class="stat-badge">{{ faq.pattern_count }} patterns</span>
+                            <span class="stat-badge">{{ faq.total_asks }} asks</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="patterns-table">
+            <h2>🔍 Detailed Question Patterns (Top 100)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 40%;">Question Pattern</th>
+                        <th>Intent</th>
+                        <th style="width: 200px;">Frequency</th>
+                        <th>Last Asked</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pattern in detailed_patterns %}
+                    <tr>
+                        <td>{{ pattern.original_question }}</td>
+                        <td><span class="badge">{{ pattern.intent }}</span></td>
+                        <td>
+                            <div class="frequency-bar">
+                                <div class="frequency-fill" style="width: {{ (pattern.frequency / detailed_patterns[0].frequency * 100)|round }}%;"></div>
+                                <div class="frequency-text">{{ pattern.frequency }}x</div>
+                            </div>
+                        </td>
+                        <td>{{ pattern.last_asked }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

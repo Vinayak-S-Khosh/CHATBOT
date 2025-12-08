@@ -3,6 +3,9 @@ import os
 import json
 from functools import wraps
 from datetime import datetime
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 app = Flask(__name__)
 
@@ -17,6 +20,7 @@ if not os.path.exists(DATA_DIR):
 
 CERTIFICATES_FILE = os.path.join(DATA_DIR, 'certificates.json')
 SKILLS_FILE = os.path.join(DATA_DIR, 'skills.json')
+MESSAGES_FILE = os.path.join(DATA_DIR, 'contact_messages.json')
 
 # Initialize data files if they don't exist
 def init_data_files():
@@ -40,6 +44,10 @@ def init_data_files():
         }
         with open(SKILLS_FILE, 'w') as f:
             json.dump(default_skills, f, indent=2)
+    
+    if not os.path.exists(MESSAGES_FILE):
+        with open(MESSAGES_FILE, 'w') as f:
+            json.dump([], f, indent=2)
 
 init_data_files()
 
@@ -151,6 +159,50 @@ def contact():
     }
     return render_template('contact.html', contact=contact_info)
 
+@app.route('/send-contact', methods=['POST'])
+def send_contact():
+    try:
+        data = request.json
+        name = data.get('name')
+        email = data.get('email')
+        subject = data.get('subject')
+        message = data.get('message')
+        method = data.get('method', 'email')
+        
+        # Save message to file
+        messages = []
+        if os.path.exists(MESSAGES_FILE):
+            with open(MESSAGES_FILE, 'r') as f:
+                messages = json.load(f)
+        
+        new_message = {
+            'id': len(messages) + 1,
+            'name': name,
+            'email': email,
+            'subject': subject,
+            'message': message,
+            'method': method,
+            'timestamp': datetime.now().isoformat(),
+            'status': 'new'
+        }
+        
+        messages.append(new_message)
+        
+        with open(MESSAGES_FILE, 'w') as f:
+            json.dump(messages, f, indent=2)
+        
+        return jsonify({
+            'status': 'success',
+            'message': f'Message saved! I will respond to you via {"email" if method == "email" else "WhatsApp"} soon.',
+            'redirect': f'mailto:vinayaksunilkhosh@gmail.com?subject={subject}&body=Name: {name}%0AEmail: {email}%0A%0A{message}' if method == 'email' else f'https://wa.me/919744360607?text=*New Contact Message*%0A%0A*Name:* {name}%0A*Email:* {email}%0A*Subject:* {subject}%0A%0A*Message:*%0A{message}'
+        })
+    
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': f'Error saving message: {str(e)}'
+        }), 500
+
 @app.route('/static/images/<path:filename>')
 def serve_image(filename):
     return send_from_directory('static/images', filename)
@@ -179,7 +231,17 @@ def admin_logout():
 def admin_dashboard():
     certificates = load_certificates()
     skills = load_skills()
-    return render_template('admin_dashboard.html', certificates=certificates, skills=skills)
+    
+    # Load messages
+    messages = []
+    if os.path.exists(MESSAGES_FILE):
+        with open(MESSAGES_FILE, 'r') as f:
+            messages = json.load(f)
+    
+    return render_template('admin_dashboard.html', 
+                         certificates=certificates, 
+                         skills=skills,
+                         messages=messages)
 
 # Certificate Management
 @app.route('/admin/certificates/add', methods=['POST'])

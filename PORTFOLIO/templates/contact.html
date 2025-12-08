@@ -21,8 +21,14 @@
                         </div>
                         
                         <div class="contact-item mb-4">
-                            <h5><i class="fas fa-phone text-success"></i> Phone</h5>
-                            <p><a href="tel:{{ contact.phone }}" class="text-decoration-none">{{ contact.phone }}</a></p>
+                            <h5><i class="fas fa-phone text-success"></i> Phone / WhatsApp</h5>
+                            <p>
+                                <a href="tel:9744360607" class="text-decoration-none">9744360607</a>
+                                <br>
+                                <a href="https://wa.me/919744360607" target="_blank" class="btn btn-success btn-sm mt-2">
+                                    <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+                                </a>
+                            </p>
                         </div>
                         
                         <div class="contact-item mb-4">
@@ -41,13 +47,16 @@
                         </div>
                         
                         <div class="social-links-large mt-4">
+                            <a href="https://wa.me/919744360607" class="btn btn-success btn-lg me-2 mb-2" target="_blank">
+                                <i class="fab fa-whatsapp"></i> WhatsApp
+                            </a>
                             <a href="{{ contact.github }}" class="btn btn-dark btn-lg me-2 mb-2" target="_blank">
                                 <i class="fab fa-github"></i> GitHub
                             </a>
                             <a href="{{ contact.linkedin }}" class="btn btn-primary btn-lg me-2 mb-2" target="_blank">
                                 <i class="fab fa-linkedin"></i> LinkedIn
                             </a>
-                            <a href="mailto:{{ contact.email }}" class="btn btn-danger btn-lg mb-2">
+                            <a href="mailto:vinayaksunilkhosh@gmail.com" class="btn btn-danger btn-lg mb-2">
                                 <i class="fas fa-envelope"></i> Email
                             </a>
                         </div>
@@ -68,6 +77,21 @@
                                 <input type="text" class="form-control" id="name" required>
                             </div>
                             
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">Choose how to send:</label>
+                                <div class="btn-group w-100" role="group">
+                                    <input type="radio" class="btn-check" name="contactMethod" id="methodEmail" value="email" checked>
+                                    <label class="btn btn-outline-primary" for="methodEmail">
+                                        <i class="fas fa-envelope"></i> Send via Email
+                                    </label>
+                                    
+                                    <input type="radio" class="btn-check" name="contactMethod" id="methodWhatsApp" value="whatsapp">
+                                    <label class="btn btn-outline-success" for="methodWhatsApp">
+                                        <i class="fab fa-whatsapp"></i> Send via WhatsApp
+                                    </label>
+                                </div>
+                            </div>
+                            
                             <div class="mb-3">
                                 <label for="email" class="form-label">Your Email</label>
                                 <input type="email" class="form-control" id="email" required>
@@ -83,14 +107,15 @@
                                 <textarea class="form-control" id="message" rows="5" required></textarea>
                             </div>
                             
-                            <button type="submit" class="btn btn-primary btn-lg w-100">
-                                <i class="fas fa-paper-plane"></i> Send Message
+                            <button type="submit" class="btn btn-primary btn-lg w-100" id="submitBtn">
+                                <i class="fas fa-paper-plane"></i> <span id="btnText">Send via Email</span>
                             </button>
                         </form>
                         
                         <div class="alert alert-info mt-3">
                             <i class="fas fa-info-circle"></i> 
-                            Or email directly at: <strong>{{ contact.email }}</strong>
+                            Email: <strong>vinayaksunilkhosh@gmail.com</strong><br>
+                            WhatsApp: <strong>9744360607</strong>
                         </div>
                     </div>
                 </div>
@@ -101,18 +126,80 @@
 
 {% block extra_js %}
 <script>
-document.getElementById('contactForm').addEventListener('submit', function(e) {
+// Update button text and color based on selected method
+const methodRadios = document.querySelectorAll('input[name="contactMethod"]');
+const submitBtn = document.getElementById('submitBtn');
+const btnText = document.getElementById('btnText');
+
+methodRadios.forEach(radio => {
+    radio.addEventListener('change', function() {
+        if (this.value === 'email') {
+            submitBtn.className = 'btn btn-primary btn-lg w-100';
+            btnText.textContent = 'Send via Email';
+        } else {
+            submitBtn.className = 'btn btn-success btn-lg w-100';
+            btnText.textContent = 'Send via WhatsApp';
+        }
+    });
+});
+
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
     const subject = document.getElementById('subject').value;
     const message = document.getElementById('message').value;
+    const method = document.querySelector('input[name="contactMethod"]:checked').value;
     
-    // Create mailto link
-    const mailtoLink = `mailto:{{ contact.email }}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\nMessage:\n' + message)}`;
+    // Disable button
+    submitBtn.disabled = true;
+    const originalText = btnText.textContent;
+    btnText.textContent = 'Sending...';
     
-    window.location.href = mailtoLink;
+    try {
+        const response = await fetch('/send-contact', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: name,
+                email: email,
+                subject: subject,
+                message: message,
+                method: method
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.status === 'success') {
+            if (method === 'email') {
+                // For email, just show success and give option to open email client
+                alert('✅ Message saved!\n\nYour message has been recorded. You can also send it directly via email by clicking OK.');
+                // Don't auto-redirect to mailto, give user choice
+                if (confirm('Open your email client to send this message now?')) {
+                    window.location.href = result.redirect;
+                }
+            } else {
+                // For WhatsApp, open in new tab
+                alert('✅ Message saved! Opening WhatsApp...');
+                window.open(result.redirect, '_blank');
+            }
+            
+            // Reset form
+            this.reset();
+        } else {
+            alert('❌ Error: ' + result.message);
+        }
+    } catch (error) {
+        alert('❌ Error sending message: ' + error.message);
+    } finally {
+        // Re-enable button
+        submitBtn.disabled = false;
+        btnText.textContent = originalText;
+    }
 });
 </script>
 {% endblock %}

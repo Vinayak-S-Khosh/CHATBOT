@@ -1644,16 +1644,19 @@
             
             let badgeClass = 'confidence-low';
             let label = 'Low';
+            let icon = '🔴';
             
             if (confidence >= 85) {
                 badgeClass = 'confidence-high';
                 label = 'High';
+                icon = '🟢';
             } else if (confidence >= 75) {
                 badgeClass = 'confidence-medium';
                 label = 'Medium';
+                icon = '🟡';
             }
             
-            return `<span class="confidence-badge ${badgeClass}">${confidence}% ${label}</span>`;
+            return `<span class="confidence-badge ${badgeClass}" title="Bot confidence in understanding your question">${icon} ${confidence}% ${label}</span>`;
         }
 
         function formatBotMessage(text) {
@@ -1742,6 +1745,27 @@
                 if (data.confidence) {
                     bubbleDiv.innerHTML = bubbleDiv.innerHTML.replace(speakerBtn.outerHTML, '') + getConfidenceBadge(data.confidence);
                     bubbleDiv.appendChild(speakerBtn);
+                }
+                
+                // Add WhatsApp quick action button if available
+                if (data.whatsapp_link) {
+                    const whatsappBtn = document.createElement('a');
+                    whatsappBtn.href = data.whatsapp_link;
+                    whatsappBtn.target = '_blank';
+                    whatsappBtn.className = 'whatsapp-quick-btn';
+                    whatsappBtn.innerHTML = '📱 Continue on WhatsApp';
+                    whatsappBtn.style.cssText = 'display: inline-block; margin-top: 10px; padding: 8px 16px; background: #25D366; color: white; text-decoration: none; border-radius: 6px; font-size: 13px; font-weight: 500;';
+                    bubbleDiv.appendChild(whatsappBtn);
+                }
+                
+                // Show context awareness indicator
+                if (data.context_aware) {
+                    const contextBadge = document.createElement('span');
+                    contextBadge.className = 'context-badge';
+                    contextBadge.innerHTML = '🧠 Context-aware';
+                    contextBadge.style.cssText = 'display: inline-block; margin-left: 8px; padding: 3px 8px; background: #e3f2fd; color: #1976d2; border-radius: 10px; font-size: 11px; font-weight: 500;';
+                    contextBadge.title = 'This response considers your previous questions';
+                    bubbleDiv.appendChild(contextBadge);
                 }
                 
                 // ONLY auto-play if this is a NEW message (saveToHistory = true) and auto-play is enabled

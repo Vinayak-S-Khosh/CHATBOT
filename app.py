@@ -66,6 +66,14 @@ LOW_CONFIDENCE = 0.50
 # Database setup
 DATABASE = 'inquiries.db'
 
+# Install textdistance for spell checking if not available
+try:
+    from textdistance import levenshtein
+    SPELL_CHECK_ENABLED = True
+except ImportError:
+    SPELL_CHECK_ENABLED = False
+    print("Warning: textdistance not installed. Spell checking disabled.")
+
 # Gallery images organized by category
 GALLERY_IMAGES = {
     'urbania': [
@@ -115,9 +123,11 @@ GALLERY_IMAGES = {
 }
 
 def get_db_connection():
-    """Create database connection"""
-    conn = sqlite3.connect(DATABASE)
+    """Create database connection with timeout to prevent locks"""
+    conn = sqlite3.connect(DATABASE, timeout=10.0)
     conn.row_factory = sqlite3.Row
+    # Enable WAL mode for better concurrent access
+    conn.execute('PRAGMA journal_mode=WAL')
     return conn
 
 def init_db():
@@ -138,6 +148,35 @@ def init_db():
             notes TEXT DEFAULT '',
             follow_up_date DATE,
             assigned_to TEXT
+        )
+    ''')
+    
+    # Create conversation analytics table
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS conversation_analytics (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            session_id TEXT NOT NULL,
+            user_message TEXT NOT NULL,
+            bot_response TEXT NOT NULL,
+            intent TEXT,
+            confidence REAL,
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+            user_rating INTEGER,
+            detected_language TEXT,
+            response_time REAL
+        )
+    ''')
+    
+    # Create FAQ learning table
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS faq_patterns (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            original_question TEXT NOT NULL,
+            normalized_question TEXT NOT NULL,
+            intent TEXT NOT NULL,
+            frequency INTEGER DEFAULT 1,
+            last_asked DATETIME DEFAULT CURRENT_TIMESTAMP,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )
     ''')
     
@@ -235,6 +274,140 @@ def format_response(response, tag):
         response = response.replace('6)', '\n✓ ')
     
     return response
+
+def spell_check_message(message):
+    """Basic spell check and auto-correction for common patterns"""
+    if not SPELL_CHECK_ENABLED:
+        return message
+    
+    # Common misspellings in automobile context
+    corrections = {
+        'carvan': 'caravan',
+        'carvans': 'caravans',
+        'urbania': 'urbania',  # Keep as is
+        'travler': 'traveller',
+        'traveller': 'traveller',
+        'modifikation': 'modification',
+        'modifcation': 'modification',
+        'custm': 'custom',
+        'luxry': 'luxury',
+        'prise': 'price',
+        'prising': 'pricing',
+        'ambulence': 'ambulance',
+        'vehical': 'vehicle',
+        'vehicel': 'vehicle',
+        'interier': 'interior',
+        'intrior': 'interior',
+        'servises': 'services',
+        'servis': 'service',
+        'contakt': 'contact',
+        'cntact': 'contact',
+        'wurkshop': 'workshop',
+        'qoute': 'quote',
+        'quation': 'quotation',
+        'timline': 'timeline',
+        'costm': 'custom',
+    }
+    
+    words = message.lower().split()
+    corrected_words = []
+    
+    for word in words:
+        # Remove punctuation for checking
+        clean_word = word.strip('.,!?;:')
+        if clean_word in corrections:
+            # Preserve original case
+            if word[0].isupper():
+                corrected = corrections[clean_word].capitalize()
+            else:
+                corrected = corrections[clean_word]
+            corrected_words.append(word.replace(clean_word, corrected))
+        else:
+            corrected_words.append(word)
+    
+    return ' '.join(corrected_words)
+
+def extract_context_from_session():
+    """Extract context from previous conversation"""
+    if 'conversation' not in session or not session['conversation']:
+        return {}
+    
+    context = {
+        'last_intent': session.get('last_intent'),
+        'last_user_message': None,
+        'last_bot_response': None,
+        'mentioned_topics': set(),
+        'conversation_length': len(session['conversation'])
+    }
+    
+    # Get last 3 messages for context
+    recent_messages = session['conversation'][-6:] if len(session['conversation']) >= 6 else session['conversation']
+    
+    for msg in recent_messages:
+        if msg['role'] == 'user':
+            context['last_user_message'] = msg['message']
+            # Extract topics
+            message_lower = msg['message'].lower()
+            if 'urbania' in message_lower:
+                context['mentioned_topics'].add('force_urbania')
+            if 'caravan' in message_lower:
+                context['mentioned_topics'].add('caravan')
+            if 'traveller' in message_lower:
+                context['mentioned_topics'].add('force_traveller')
+            if 'price' in message_lower or 'cost' in message_lower:
+                context['mentioned_topics'].add('pricing')
+        elif msg['role'] == 'bot':
+            context['last_bot_response'] = msg['message']
+    
+    context['mentioned_topics'] = list(context['mentioned_topics'])
+    return context
+
+def learn_from_question(user_message, intent, confidence):
+    """Learn from frequently asked questions"""
+    try:
+        # Normalize the question
+        normalized = user_message.lower().strip()
+        
+        conn = get_db_connection()
+        
+        # Check if similar pattern exists
+        existing = conn.execute(
+            'SELECT * FROM faq_patterns WHERE normalized_question = ? AND intent = ?',
+            (normalized, intent)
+        ).fetchone()
+        
+        if existing:
+            # Update frequency
+            conn.execute(
+                'UPDATE faq_patterns SET frequency = frequency + 1, last_asked = CURRENT_TIMESTAMP WHERE id = ?',
+                (existing['id'],)
+            )
+        else:
+            # Add new pattern
+            conn.execute(
+                'INSERT INTO faq_patterns (original_question, normalized_question, intent) VALUES (?, ?, ?)',
+                (user_message, normalized, intent)
+            )
+        
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        print(f"Error in FAQ learning: {e}")
+
+def log_conversation(session_id, user_message, bot_response, intent, confidence, detected_language, response_time):
+    """Log conversation for analytics"""
+    try:
+        conn = get_db_connection()
+        conn.execute(
+            '''INSERT INTO conversation_analytics 
+               (session_id, user_message, bot_response, intent, confidence, detected_language, response_time)
+               VALUES (?, ?, ?, ?, ?, ?, ?)''',
+            (session_id, user_message, bot_response, intent, confidence, detected_language, response_time)
+        )
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        print(f"Error logging conversation: {e}")
 
 def detect_language(text):
     """Detect language of user input using simple heuristics"""
@@ -445,6 +618,61 @@ def portfolio_static_files(filename):
     """Serve portfolio static files"""
     return send_from_directory(PORTFOLIO_STATIC_DIR, filename)
 
+@app.route('/send-contact', methods=['POST'])
+def send_contact():
+    """Handle contact form submissions from portfolio"""
+    try:
+        data = request.json
+        if not data:
+            return jsonify({
+                'status': 'error',
+                'message': 'No data received'
+            }), 400
+        
+        name = data.get('name', '')
+        email = data.get('email', '')
+        subject = data.get('subject', '')
+        message_text = data.get('message', '')
+        method = data.get('method', 'email')
+        
+        # Save message to database
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        # Use email as phone if email is provided, otherwise use 'Not provided'
+        phone = email if email else 'Not provided'
+        service = 'Portfolio Contact'
+        
+        cursor.execute('''
+            INSERT INTO inquiries (name, phone, email, service, message, timestamp)
+            VALUES (?, ?, ?, ?, ?, ?)
+        ''', (name, phone, email, service, f"Subject: {subject}\n\n{message_text}", datetime.now().isoformat()))
+        
+        conn.commit()
+        conn.close()
+        
+        # Prepare redirect links
+        if method == 'email':
+            redirect_url = f'mailto:vinayaksunilkhosh@gmail.com?subject={quote(subject)}&body={quote(f"Name: {name}\nEmail: {email}\n\n{message_text}")}'
+        else:
+            whatsapp_msg = f'*New Contact Message*\n\n*Name:* {name}\n*Email:* {email}\n*Subject:* {subject}\n\n*Message:*\n{message_text}'
+            redirect_url = f'https://wa.me/919744360607?text={quote(whatsapp_msg)}'
+        
+        return jsonify({
+            'status': 'success',
+            'message': f'Message saved! I will respond to you via {"email" if method == "email" else "WhatsApp"} soon.',
+            'redirect': redirect_url
+        })
+    
+    except Exception as e:
+        print(f"Error in send_contact: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({
+            'status': 'error',
+            'message': f'Error saving message: {str(e)}'
+        }), 500
+
 @app.route('/images/<path:filename>')
 def serve_images(filename):
     """Serve images from the images directory"""
@@ -455,12 +683,25 @@ def chat():
     user_message = request.json.get('message')
     preferred_language = request.json.get('preferredLanguage', 'en')  # Get user's selected language
     
+    start_time = datetime.now()
+    
     if not user_message:
         return jsonify({
             'response': 'Please enter a message.',
             'confidence': 0,
             'suggestions': QUICK_REPLIES['default']
         })
+    
+    # Get session ID for analytics
+    if 'session_id' not in session:
+        session['session_id'] = secrets.token_hex(8)
+    session_id = session['session_id']
+    
+    # Spell check and auto-correct
+    corrected_message = spell_check_message(user_message)
+    
+    # Extract context from previous conversation
+    context = extract_context_from_session()
     
     # Use preferred language if provided, otherwise auto-detect
     if preferred_language and preferred_language != 'en':
@@ -470,9 +711,9 @@ def chat():
     
     # Translate to English if needed (for intent recognition)
     if user_lang != 'en':
-        message_for_processing = translate_text(user_message, target_lang='en', source_lang=user_lang)
+        message_for_processing = translate_text(corrected_message, target_lang='en', source_lang=user_lang)
     else:
-        message_for_processing = user_message
+        message_for_processing = corrected_message
     
     # Initialize session conversation history
     if 'conversation' not in session:
@@ -613,12 +854,25 @@ def chat():
                 })
                 session.modified = True
                 
+                # Calculate response time
+                response_time = (datetime.now() - start_time).total_seconds()
+                
+                # Log conversation for analytics
+                log_conversation(session_id, user_message, response, tag, confidence, user_lang, response_time)
+                
+                # Learn from this question
+                learn_from_question(user_message, tag, confidence)
+                
                 return jsonify({
                     'response': response,
                     'confidence': round(confidence * 100, 1),
                     'intent': tag,
                     'suggestions': suggestions,
-                    'detected_language': user_lang
+                    'detected_language': user_lang,
+                    'context_aware': bool(context.get('last_intent')),
+                    'spell_corrected': corrected_message != user_message,
+                    'whatsapp_link': 'https://wa.me/918148145706?text=' + quote(f"Hi, I'm interested in {tag.replace('_', ' ')}"),
+                    'response_time_ms': round(response_time * 1000, 2)
                 })
     
     elif confidence > LOW_CONFIDENCE:
@@ -1290,6 +1544,208 @@ def check_if_holiday(date_str=None):
     conn.close()
     
     return holiday
+
+# New Analytics and Review Routes
+
+@app.route('/rate-conversation', methods=['POST'])
+def rate_conversation():
+    """Allow users to rate bot responses"""
+    try:
+        data = request.json
+        conversation_id = data.get('conversation_id')
+        rating = data.get('rating')  # 1-5 stars
+        feedback = data.get('feedback', '')
+        
+        if not conversation_id or not rating:
+            return jsonify({'status': 'error', 'message': 'Missing required fields'}), 400
+        
+        conn = get_db_connection()
+        conn.execute(
+            'UPDATE conversation_analytics SET user_rating = ? WHERE id = ?',
+            (rating, conversation_id)
+        )
+        conn.commit()
+        conn.close()
+        
+        return jsonify({
+            'status': 'success',
+            'message': 'Thank you for your feedback!'
+        })
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+@app.route('/admin/analytics-dashboard')
+def analytics_dashboard():
+    """Admin analytics dashboard"""
+    if 'admin_logged_in' not in session:
+        return redirect(url_for('admin_login'))
+    
+    conn = get_db_connection()
+    
+    # Get analytics data
+    total_conversations = conn.execute('SELECT COUNT(*) as count FROM conversation_analytics').fetchone()['count']
+    avg_confidence = conn.execute('SELECT AVG(confidence) as avg FROM conversation_analytics').fetchone()['avg']
+    avg_response_time = conn.execute('SELECT AVG(response_time) as avg FROM conversation_analytics').fetchone()['avg']
+    
+    # Top intents
+    top_intents = conn.execute('''
+        SELECT intent, COUNT(*) as count 
+        FROM conversation_analytics 
+        WHERE intent IS NOT NULL
+        GROUP BY intent 
+        ORDER BY count DESC 
+        LIMIT 10
+    ''').fetchall()
+    
+    # Language distribution
+    language_dist = conn.execute('''
+        SELECT detected_language, COUNT(*) as count 
+        FROM conversation_analytics 
+        GROUP BY detected_language
+    ''').fetchall()
+    
+    # Average ratings
+    avg_rating = conn.execute('''
+        SELECT AVG(user_rating) as avg 
+        FROM conversation_analytics 
+        WHERE user_rating IS NOT NULL
+    ''').fetchone()['avg']
+    
+    # Daily conversation trend (last 7 days)
+    daily_trend = conn.execute('''
+        SELECT DATE(timestamp) as date, COUNT(*) as count 
+        FROM conversation_analytics 
+        WHERE timestamp >= DATE('now', '-7 days')
+        GROUP BY DATE(timestamp)
+        ORDER BY date
+    ''').fetchall()
+    
+    # Most frequently asked questions
+    top_faqs = conn.execute('''
+        SELECT original_question, intent, frequency, last_asked 
+        FROM faq_patterns 
+        ORDER BY frequency DESC 
+        LIMIT 20
+    ''').fetchall()
+    
+    conn.close()
+    
+    analytics_data = {
+        'total_conversations': total_conversations,
+        'avg_confidence': round(avg_confidence * 100, 1) if avg_confidence else 0,
+        'avg_response_time': round(avg_response_time * 1000, 2) if avg_response_time else 0,
+        'avg_rating': round(avg_rating, 2) if avg_rating else 0,
+        'top_intents': [{'intent': r['intent'], 'count': r['count']} for r in top_intents],
+        'language_dist': [{'language': r['detected_language'], 'count': r['count']} for r in language_dist],
+        'daily_trend': [{'date': r['date'], 'count': r['count']} for r in daily_trend],
+        'top_faqs': [{
+            'question': r['original_question'],
+            'intent': r['intent'],
+            'frequency': r['frequency'],
+            'last_asked': r['last_asked']
+        } for r in top_faqs]
+    }
+    
+    return render_template('admin_analytics.html', analytics=analytics_data)
+
+@app.route('/admin/conversation-review')
+def conversation_review():
+    """Review individual conversations"""
+    if 'admin_logged_in' not in session:
+        return redirect(url_for('admin_login'))
+    
+    page = request.args.get('page', 1, type=int)
+    per_page = 50
+    offset = (page - 1) * per_page
+    
+    conn = get_db_connection()
+    
+    # Get total count
+    total = conn.execute('SELECT COUNT(*) as count FROM conversation_analytics').fetchone()['count']
+    
+    # Get conversations
+    conversations = conn.execute('''
+        SELECT * FROM conversation_analytics 
+        ORDER BY timestamp DESC 
+        LIMIT ? OFFSET ?
+    ''', (per_page, offset)).fetchall()
+    
+    conn.close()
+    
+    return render_template('admin_conversation_review.html', 
+                         conversations=conversations,
+                         page=page,
+                         total_pages=(total + per_page - 1) // per_page)
+
+@app.route('/admin/export-analytics', methods=['GET'])
+def export_analytics():
+    """Export analytics as CSV"""
+    if 'admin_logged_in' not in session:
+        return jsonify({'error': 'Unauthorized'}), 401
+    
+    conn = get_db_connection()
+    conversations = conn.execute('SELECT * FROM conversation_analytics ORDER BY timestamp DESC').fetchall()
+    conn.close()
+    
+    # Create CSV in memory
+    output = io.StringIO()
+    writer = csv.writer(output)
+    
+    # Write header
+    writer.writerow(['ID', 'Session ID', 'User Message', 'Bot Response', 'Intent', 'Confidence', 'Rating', 'Language', 'Response Time (ms)', 'Timestamp'])
+    
+    # Write data
+    for conv in conversations:
+        writer.writerow([
+            conv['id'],
+            conv['session_id'],
+            conv['user_message'],
+            conv['bot_response'],
+            conv['intent'],
+            round(conv['confidence'] * 100, 1) if conv['confidence'] else 0,
+            conv['user_rating'] if conv['user_rating'] else 'N/A',
+            conv['detected_language'],
+            round(conv['response_time'] * 1000, 2) if conv['response_time'] else 0,
+            conv['timestamp']
+        ])
+    
+    # Prepare response
+    output.seek(0)
+    return send_file(
+        io.BytesIO(output.getvalue().encode('utf-8')),
+        mimetype='text/csv',
+        as_attachment=True,
+        download_name=f'conversation_analytics_{datetime.now().strftime("%Y%m%d")}.csv'
+    )
+
+@app.route('/admin/faq-insights')
+def faq_insights():
+    """View FAQ learning insights"""
+    if 'admin_logged_in' not in session:
+        return redirect(url_for('admin_login'))
+    
+    conn = get_db_connection()
+    
+    # Get all FAQ patterns grouped by intent
+    faqs = conn.execute('''
+        SELECT intent, COUNT(*) as pattern_count, SUM(frequency) as total_asks
+        FROM faq_patterns
+        GROUP BY intent
+        ORDER BY total_asks DESC
+    ''').fetchall()
+    
+    # Get detailed patterns
+    detailed_patterns = conn.execute('''
+        SELECT * FROM faq_patterns
+        ORDER BY frequency DESC, last_asked DESC
+        LIMIT 100
+    ''').fetchall()
+    
+    conn.close()
+    
+    return render_template('admin_faq_insights.html',
+                         faq_summary=faqs,
+                         detailed_patterns=detailed_patterns)
     
     return jsonify({
         'services': services,
