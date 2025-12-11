@@ -10,12 +10,12 @@
         <div class="row">
             <div class="col-lg-6 mb-4">
                 <div class="card shadow-sm h-100">
-                    <div class="card-header bg-primary text-white">
+                    <div class="card-header text-white" style="background: var(--primary-color);">
                         <h3 class="mb-0"><i class="fas fa-code"></i> Programming</h3>
                     </div>
                     <div class="card-body">
                         {% for skill in skills.programming %}
-                        <span class="badge bg-primary fs-5 me-2 mb-2">{{ skill }}</span>
+                        <span class="badge fs-5 me-2 mb-2" style="background: var(--primary-color); color: white;">{{ skill }}</span>
                         {% endfor %}
                     </div>
                 </div>
@@ -23,12 +23,12 @@
             
             <div class="col-lg-6 mb-4">
                 <div class="card shadow-sm h-100">
-                    <div class="card-header bg-success text-white">
+                    <div class="card-header text-white" style="background: var(--primary-light);">
                         <h3 class="mb-0"><i class="fas fa-database"></i> Database</h3>
                     </div>
                     <div class="card-body">
                         {% for skill in skills.database %}
-                        <span class="badge bg-success fs-5 me-2 mb-2">{{ skill }}</span>
+                        <span class="badge fs-5 me-2 mb-2" style="background: var(--primary-light); color: white;">{{ skill }}</span>
                         {% endfor %}
                     </div>
                 </div>
@@ -36,12 +36,12 @@
             
             <div class="col-lg-6 mb-4">
                 <div class="card shadow-sm h-100">
-                    <div class="card-header bg-warning text-dark">
+                    <div class="card-header text-white" style="background: var(--primary-lighter);">
                         <h3 class="mb-0"><i class="fas fa-globe"></i> Web Development</h3>
                     </div>
                     <div class="card-body">
                         {% for skill in skills.web %}
-                        <span class="badge bg-warning text-dark fs-5 me-2 mb-2">{{ skill }}</span>
+                        <span class="badge fs-5 me-2 mb-2" style="background: var(--primary-lighter); color: white;">{{ skill }}</span>
                         {% endfor %}
                     </div>
                 </div>
@@ -49,12 +49,12 @@
             
             <div class="col-lg-6 mb-4">
                 <div class="card shadow-sm h-100">
-                    <div class="card-header bg-info text-white">
+                    <div class="card-header text-white" style="background: var(--primary-color);">
                         <h3 class="mb-0"><i class="fas fa-brain"></i> AI/ML</h3>
                     </div>
                     <div class="card-body">
                         {% for skill in skills.ai_ml %}
-                        <span class="badge bg-info fs-5 me-2 mb-2">{{ skill }}</span>
+                        <span class="badge fs-5 me-2 mb-2" style="background: var(--primary-color); color: white;">{{ skill }}</span>
                         {% endfor %}
                     </div>
                 </div>
@@ -62,12 +62,12 @@
             
             <div class="col-lg-6 mb-4">
                 <div class="card shadow-sm h-100">
-                    <div class="card-header bg-secondary text-white">
+                    <div class="card-header text-white" style="background: var(--primary-light);">
                         <h3 class="mb-0"><i class="fas fa-tools"></i> Tools</h3>
                     </div>
                     <div class="card-body">
                         {% for skill in skills.tools %}
-                        <span class="badge bg-secondary fs-5 me-2 mb-2">{{ skill }}</span>
+                        <span class="badge fs-5 me-2 mb-2" style="background: var(--primary-light); color: white;">{{ skill }}</span>
                         {% endfor %}
                     </div>
                 </div>
@@ -75,12 +75,12 @@
             
             <div class="col-lg-6 mb-4">
                 <div class="card shadow-sm h-100">
-                    <div class="card-header bg-dark text-white">
+                    <div class="card-header text-white" style="background: var(--primary-lighter);">
                         <h3 class="mb-0"><i class="fas fa-cog"></i> Other</h3>
                     </div>
                     <div class="card-body">
                         {% for skill in skills.other %}
-                        <span class="badge bg-dark fs-5 me-2 mb-2">{{ skill }}</span>
+                        <span class="badge fs-5 me-2 mb-2" style="background: var(--primary-lighter); color: white;">{{ skill }}</span>
                         {% endfor %}
                     </div>
                 </div>
@@ -96,8 +96,8 @@
                             <span>Python</span>
                             <span>75%</span>
                         </div>
-                        <div class="progress">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: 75%"></div>
+                        <div class="progress" style="background-color: var(--primary-lightest);">
+                            <div class="progress-bar" role="progressbar" style="width: 75%; background: var(--primary-lighter);"></div>
                         </div>
                     </div>
                 </div>
@@ -107,8 +107,8 @@
                             <span>PHP</span>
                             <span>70%</span>
                         </div>
-                        <div class="progress">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: 70%"></div>
+                        <div class="progress" style="background-color: var(--primary-lightest);">
+                            <div class="progress-bar" role="progressbar" style="width: 70%; background: var(--primary-lighter);"></div>
                         </div>
                     </div>
                 </div>
@@ -118,8 +118,8 @@
                             <span>MySQL</span>
                             <span>70%</span>
                         </div>
-                        <div class="progress">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: 70%"></div>
+                        <div class="progress" style="background-color: var(--primary-lightest);">
+                            <div class="progress-bar" role="progressbar" style="width: 70%; background: var(--primary-lighter);"></div>
                         </div>
                     </div>
                 </div>
@@ -129,8 +129,8 @@
                             <span>HTML/CSS</span>
                             <span>80%</span>
                         </div>
-                        <div class="progress">
-                            <div class="progress-bar bg-info" role="progressbar" style="width: 80%"></div>
+                        <div class="progress" style="background-color: var(--primary-lightest);">
+                            <div class="progress-bar" role="progressbar" style="width: 80%; background: var(--primary-lighter);"></div>
                         </div>
                     </div>
                 </div>
@@ -140,8 +140,8 @@
                             <span>NLP (Basics)</span>
                             <span>50%</span>
                         </div>
-                        <div class="progress">
-                            <div class="progress-bar bg-danger" role="progressbar" style="width: 50%"></div>
+                        <div class="progress" style="background-color: var(--primary-lightest);">
+                            <div class="progress-bar" role="progressbar" style="width: 50%; background: var(--primary-lighter);"></div>
                         </div>
                     </div>
                 </div>
@@ -151,8 +151,8 @@
                             <span>Git</span>
                             <span>65%</span>
                         </div>
-                        <div class="progress">
-                            <div class="progress-bar bg-secondary" role="progressbar" style="width: 65%"></div>
+                        <div class="progress" style="background-color: var(--primary-lightest);">
+                            <div class="progress-bar" role="progressbar" style="width: 65%; background: var(--primary-lighter);"></div>
                         </div>
                     </div>
                 </div>

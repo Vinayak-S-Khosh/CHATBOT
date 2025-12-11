@@ -199,6 +199,12 @@
             color: white;
         }
 
+        .chat-header h1 img {
+            height: 32px;
+            width: auto;
+            object-fit: contain;
+        }
+
         .chat-header h1::before {
             content: '';
             display: none;
@@ -1104,7 +1110,10 @@
             <button class="toggle-sidebar" onclick="toggleSidebar()">
                 <span class="material-icons" style="font-size: 20px;">menu</span>
             </button>
-            <h1>AI Vehicle Expert</h1>
+            <h1>
+                <img src="/images/logo/Screenshot 2025-11-30 133848.png" alt="Kalapuraparambil Automobiles Logo">
+                Kalapuraparambil Automobiles
+            </h1>
             <div class="header-buttons">
                 <div class="voice-controls">
                     <button class="voice-toggle-btn" id="voice-reply-toggle" onclick="toggleVoiceReply()" title="Toggle voice replies">
@@ -1323,9 +1332,14 @@
             localStorage.setItem('voiceReplyEnabled', voiceReplyEnabled);
             updateVoiceUI();
             
-            // Stop any ongoing speech
-            if (!voiceReplyEnabled && currentSpeech) {
-                speechSynth.cancel();
+            // Stop any ongoing speech when voice is turned off
+            if (!voiceReplyEnabled) {
+                stopSpeech();
+                // Also remove 'speaking' class from all speaker buttons
+                document.querySelectorAll('.voice-speaker-btn.speaking').forEach(btn => {
+                    btn.classList.remove('speaking');
+                    btn.querySelector('.material-icons').textContent = 'volume_up';
+                });
             }
         }
 
@@ -1376,13 +1390,27 @@
         }
 
         function speakText(text, messageElement) {
+            // Only check voiceReplyEnabled for auto-play (not manual clicks)
             if (!voiceReplyEnabled || !text) return;
             
-            // Cancel any ongoing speech
-            if (currentSpeech) {
-                speechSynth.cancel();
-            }
-
+            playAudioDirect(text, messageElement);
+        }
+        
+        // Direct play function that stops previous audio and plays immediately
+        function playAudioDirect(text, messageElement) {
+            if (!text) return;
+            
+            // CRITICAL: Stop any ongoing speech first
+            stopSpeech();
+            
+            // Play audio immediately without setTimeout to avoid race conditions
+            playAudio(text, messageElement);
+        }
+        
+        function playAudio(text, messageElement) {
+            console.log('\n🎵 === playAudio CALLED ===');
+            console.log('Stack trace:', new Error().stack);
+            
             // Clean text for speech - remove all unwanted elements
             const cleanText = text
                 .replace(/<[^>]*>/g, ' ') // Remove ALL HTML tags
@@ -1411,7 +1439,10 @@
                 .replace(/\s*\.\s*\.\s*/g, '. ') // Fix spaced periods
                 .trim();
 
-            if (!cleanText || cleanText.length < 3) return;
+            if (!cleanText || cleanText.length < 3) {
+                console.log('❌ Text too short or empty, aborting');
+                return;
+            }
 
             // Map our language codes to Google Translate codes
             const langMap = {
@@ -1424,7 +1455,6 @@
             
             const gttsLang = langMap[voiceSettings.language] || 'en';
             
-            console.log('\n=== Using Google Translate TTS ===');
             console.log('Language:', voiceSettings.language, '->', gttsLang);
             console.log('Text:', cleanText.substring(0, 50) + '...');
 
@@ -1434,15 +1464,37 @@
             // Create audio element for Google TTS
             const audio = new Audio();
             
-            // Google Translate TTS URL (unofficial but free)
-            const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=${gttsLang}&client=tw-ob&q=${encodeURIComponent(cleanText)}`;
+            // IMPORTANT: Use a simple unique ID instead of timestamp to prevent duplicate requests
+            const uniqueId = Math.random().toString(36).substring(7);
+            const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=${gttsLang}&client=tw-ob&q=${encodeURIComponent(cleanText)}&tk=${uniqueId}`;
             
-            audio.src = ttsUrl;
+            console.log('TTS URL ID:', uniqueId);
+            
+            // Set audio properties BEFORE setting src
             audio.playbackRate = voiceSettings.speed;
             audio.volume = voiceSettings.volume;
             
+            // Track if audio has started to prevent duplicate plays
+            let hasStarted = false;
+            
+            // CRITICAL: Flag to prevent double fallback
+            let fallbackCalled = false;
+            
+            audio.onloadstart = () => {
+                console.log('📥 Audio load started');
+            };
+            
+            audio.oncanplay = () => {
+                console.log('✅ Audio can play');
+            };
+            
             audio.onplay = () => {
-                console.log('🔊 Audio started playing');
+                if (hasStarted) {
+                    console.warn('⚠️ Audio ALREADY started - preventing duplicate!');
+                    return;
+                }
+                hasStarted = true;
+                console.log('🔊 Audio started playing (ID:', uniqueId, ')');
                 if (speakerBtn) {
                     speakerBtn.classList.add('speaking');
                     speakerBtn.querySelector('.material-icons').textContent = 'volume_up';
@@ -1451,7 +1503,8 @@
             };
             
             audio.onended = () => {
-                console.log('✅ Audio ended');
+                console.log('✅ Audio ended (ID:', uniqueId, ')');
+                hasStarted = false;
                 if (speakerBtn) {
                     speakerBtn.classList.remove('speaking');
                     speakerBtn.querySelector('.material-icons').textContent = 'volume_up';
@@ -1460,23 +1513,42 @@
             };
             
             audio.onerror = (e) => {
-                console.error('❌ Audio error:', e);
+                console.error('❌ Audio error (ID:', uniqueId, '):', e);
+                hasStarted = false;
                 if (speakerBtn) {
                     speakerBtn.classList.remove('speaking');
                 }
                 currentSpeech = null;
                 
-                // Fallback to browser TTS if Google TTS fails
-                console.log('Falling back to browser TTS...');
-                useBrowserTTS(cleanText, speakerBtn);
+                // CRITICAL FIX: Only call fallback once
+                if (!fallbackCalled) {
+                    fallbackCalled = true;
+                    console.log('Falling back to browser TTS...');
+                    useBrowserTTS(cleanText, speakerBtn);
+                } else {
+                    console.warn('⚠️ Fallback already called, skipping duplicate');
+                }
             };
             
-            // Play audio
+            // Set source AFTER all event handlers are attached
+            audio.src = ttsUrl;
+            
+            // Play audio with error handling
             audio.play().catch(err => {
-                console.error('Play failed:', err);
-                // Fallback to browser TTS
-                useBrowserTTS(cleanText, speakerBtn);
+                console.error('Play failed (ID:', uniqueId, '):', err);
+                hasStarted = false;
+                
+                // CRITICAL FIX: Only call fallback if onerror hasn't already called it
+                if (!fallbackCalled) {
+                    fallbackCalled = true;
+                    console.log('Falling back to browser TTS from catch...');
+                    useBrowserTTS(cleanText, speakerBtn);
+                } else {
+                    console.warn('⚠️ Fallback already called by onerror, skipping duplicate');
+                }
             });
+            
+            console.log('🎵 === playAudio COMPLETED ===\n');
         }
 
         // Fallback function using browser's native TTS
@@ -1511,16 +1583,25 @@
         }
 
         function stopSpeech() {
+            console.log('🛑 Stopping all speech...');
+            
+            // Stop Audio elements (Google TTS)
             if (currentSpeech) {
-                // Check if it's an Audio element or SpeechSynthesisUtterance
                 if (currentSpeech instanceof Audio) {
                     currentSpeech.pause();
                     currentSpeech.currentTime = 0;
-                } else {
-                    speechSynth.cancel();
+                    currentSpeech = null;
                 }
-                currentSpeech = null;
             }
+            
+            // Also stop browser TTS (speechSynthesis)
+            if (speechSynth.speaking) {
+                speechSynth.cancel();
+            }
+            
+            currentSpeech = null;
+            
+            console.log('✅ All speech stopped');
         }
 
         // Initialize
@@ -1732,11 +1813,15 @@
                 speakerBtn.innerHTML = '<span class="material-icons" style="font-size: 20px;">volume_up</span>';
                 speakerBtn.onclick = (e) => {
                     e.stopPropagation();
+                    
+                    // Allow manual playback regardless of voice toggle state
+                    // Only auto-play respects the voiceReplyEnabled setting
                     if (speakerBtn.classList.contains('speaking')) {
                         stopSpeech();
                         speakerBtn.classList.remove('speaking');
                     } else {
-                        speakText(message, messageDiv);
+                        // For manual clicks, always allow playback
+                        playAudioDirect(message, messageDiv);
                     }
                 };
                 bubbleDiv.appendChild(speakerBtn);

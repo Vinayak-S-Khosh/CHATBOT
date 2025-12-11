@@ -245,7 +245,7 @@ p {
 
 .profile-image-container {
     position: relative;
-    animation: float 6s ease-in-out infinite;
+    /* Removed floating animation - image is now fixed */
 }
 
 .profile-image {

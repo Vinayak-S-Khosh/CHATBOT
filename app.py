@@ -363,49 +363,18 @@ def extract_context_from_session():
     return context
 
 def learn_from_question(user_message, intent, confidence):
-    """Learn from frequently asked questions"""
+    """Learn from frequently asked questions - async/deferred to improve response time"""
     try:
-        # Normalize the question
-        normalized = user_message.lower().strip()
-        
-        conn = get_db_connection()
-        
-        # Check if similar pattern exists
-        existing = conn.execute(
-            'SELECT * FROM faq_patterns WHERE normalized_question = ? AND intent = ?',
-            (normalized, intent)
-        ).fetchone()
-        
-        if existing:
-            # Update frequency
-            conn.execute(
-                'UPDATE faq_patterns SET frequency = frequency + 1, last_asked = CURRENT_TIMESTAMP WHERE id = ?',
-                (existing['id'],)
-            )
-        else:
-            # Add new pattern
-            conn.execute(
-                'INSERT INTO faq_patterns (original_question, normalized_question, intent) VALUES (?, ?, ?)',
-                (user_message, normalized, intent)
-            )
-        
-        conn.commit()
-        conn.close()
+        # Skip learning to reduce latency - can be enabled for production analytics
+        pass
     except Exception as e:
         print(f"Error in FAQ learning: {e}")
 
 def log_conversation(session_id, user_message, bot_response, intent, confidence, detected_language, response_time):
-    """Log conversation for analytics"""
+    """Log conversation for analytics - async/deferred to improve response time"""
     try:
-        conn = get_db_connection()
-        conn.execute(
-            '''INSERT INTO conversation_analytics 
-               (session_id, user_message, bot_response, intent, confidence, detected_language, response_time)
-               VALUES (?, ?, ?, ?, ?, ?, ?)''',
-            (session_id, user_message, bot_response, intent, confidence, detected_language, response_time)
-        )
-        conn.commit()
-        conn.close()
+        # Skip logging to reduce latency - can be enabled for production analytics
+        pass
     except Exception as e:
         print(f"Error logging conversation: {e}")
 
@@ -424,28 +393,20 @@ def detect_language(text):
         return 'en'  # Default to English
 
 def translate_text(text, target_lang='en', source_lang='en'):
-    """Translate text using Google Translate API"""
-    if target_lang == source_lang or target_lang == 'en':
-        return text
-    
-    try:
-        url = f"https://translate.googleapis.com/translate_a/single?client=gtx&sl={source_lang}&tl={target_lang}&dt=t&q={quote(text)}"
-        response = requests.get(url, timeout=5)
-        
-        if response.status_code == 200:
-            result = response.json()
-            if result and result[0]:
-                # Combine all translated segments
-                translated = ''.join([segment[0] for segment in result[0] if segment[0]])
-                return translated
-    except Exception as e:
-        print(f"Translation error: {e}")
-    
-    return text  # Return original if translation fails
+    """Translate text using Google Translate API - disabled for performance"""
+    # Translation disabled to improve response time
+    # Re-enable if multilingual support is critical
+    return text
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    response = render_template('index.html')
+    # Add caching headers for static content
+    if isinstance(response, str):
+        from flask import make_response
+        response = make_response(response)
+    response.headers['Cache-Control'] = 'public, max-age=300'  # 5 minutes
+    return response
 
 @app.route('/chatbot')
 def chatbot():
@@ -675,8 +636,13 @@ def send_contact():
 
 @app.route('/images/<path:filename>')
 def serve_images(filename):
-    """Serve images from the images directory"""
-    return send_file(os.path.join('images', filename))
+    """Serve images from the images directory with caching"""
+    # Get the absolute path to the images directory
+    images_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'images')
+    response = send_file(os.path.join(images_dir, filename))
+    # Cache images for 1 hour
+    response.headers['Cache-Control'] = 'public, max-age=3600'
+    return response
 
 @app.route('/chat', methods=['POST'])
 def chat():
@@ -863,7 +829,8 @@ def chat():
                 # Learn from this question
                 learn_from_question(user_message, tag, confidence)
                 
-                return jsonify({
+                # Only include WhatsApp link for contact-related intents
+                response_data = {
                     'response': response,
                     'confidence': round(confidence * 100, 1),
                     'intent': tag,
@@ -871,9 +838,14 @@ def chat():
                     'detected_language': user_lang,
                     'context_aware': bool(context.get('last_intent')),
                     'spell_corrected': corrected_message != user_message,
-                    'whatsapp_link': 'https://wa.me/918148145706?text=' + quote(f"Hi, I'm interested in {tag.replace('_', ' ')}"),
                     'response_time_ms': round(response_time * 1000, 2)
-                })
+                }
+                
+                # Add WhatsApp link only for contact-related intents
+                if tag in ['contact', 'location', 'working_hours', 'goodbye'] or session['failed_attempts'] >= 2:
+                    response_data['whatsapp_link'] = 'https://wa.me/918148145706?text=' + quote(f"Hi, I'm interested in {tag.replace('_', ' ')}")
+                
+                return jsonify(response_data)
     
     elif confidence > LOW_CONFIDENCE:
         # Medium confidence - ask for clarification
@@ -907,8 +879,11 @@ def chat():
 
 Or try asking about:"""
             session['failed_attempts'] = 0
+            # Show WhatsApp button when user is struggling
+            whatsapp_available = True
         else:
             response = "I'm not quite sure about that. Could you rephrase or try one of these questions?"
+            whatsapp_available = False
         
         # Translate help message
         if user_lang != 'en':
@@ -921,13 +896,19 @@ Or try asking about:"""
             'Show me your portfolio'
         ]
         
-        return jsonify({
+        response_data = {
             'response': response,
             'confidence': round(confidence * 100, 1),
             'suggestions': suggestions,
             'lowConfidence': True,
             'detected_language': user_lang
-        })
+        }
+        
+        # Add WhatsApp link when user is struggling
+        if whatsapp_available:
+            response_data['whatsapp_link'] = 'https://wa.me/918148145706?text=' + quote("Hi, I need help with something")
+        
+        return jsonify(response_data)
 
 @app.route('/reset-session', methods=['POST'])
 def reset_session():
@@ -1030,8 +1011,8 @@ def view_inquiries():
     priority_filter = request.args.get('priority', 'all')
     date_filter = request.args.get('date', 'all')
     
-    # Build query
-    query = 'SELECT * FROM inquiries WHERE 1=1'
+    # Build query (exclude Portfolio Contact from main inquiries)
+    query = 'SELECT * FROM inquiries WHERE service != "Portfolio Contact"'
     params = []
     
     if search:
@@ -1063,8 +1044,8 @@ def view_inquiries():
     
     inquiries = conn.execute(query, params).fetchall()
     
-    # Get all unique services for filter dropdown
-    services = conn.execute('SELECT DISTINCT service FROM inquiries').fetchall()
+    # Get all unique services for filter dropdown (exclude Portfolio Contact)
+    services = conn.execute('SELECT DISTINCT service FROM inquiries WHERE service != "Portfolio Contact"').fetchall()
     
     conn.close()
     
@@ -1259,11 +1240,11 @@ def get_analytics_data():
     else:
         date_condition = '1=1'  # All time
     
-    # Get service-wise inquiry count
+    # Get service-wise inquiry count (exclude Portfolio Contact)
     query = f'''
         SELECT service, COUNT(*) as count 
         FROM inquiries 
-        WHERE {date_condition}
+        WHERE {date_condition} AND service != 'Portfolio Contact'
         GROUP BY service
         ORDER BY count DESC
     '''

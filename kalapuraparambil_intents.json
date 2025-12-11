@@ -514,6 +514,33 @@
         "Absolutely! We provide support and maintenance services. For detailed warranty information specific to your project, contact us at +91 9847297290 or kalapuraparambil.auto@gmail.com.",
         "Quality is our priority! We use premium brands like 3M, Amaron, Hella, and more. For warranty details and after-sales service packages, call us at +91 81481 45706."
       ]
+    },
+    {
+      "tag": "partners_brands",
+      "patterns": [
+        "What brands do you use", "Which brands", "Your partners", "Collaborators",
+        "Brand partners", "Which companies do you work with", "Product brands",
+        "What materials do you use", "Quality brands", "Trusted brands",
+        "Do you use premium brands", "Brand names", "Partners and collaborators"
+      ],
+      "responses": [
+        "We work with premium brands including: EBCO Interior, Cera Sanitary Ware, Jaguar, Roots, DuPont, Amaron, Force Traveller, HELLA, Jindal, 3M, TVS, Century Laminates, Häfele, Salvinz, and Hettich. We source only quality materials for your vehicle!",
+        "Our trusted brand partners include 3M, Amaron, HELLA, DuPont, Häfele, Hettich, Century Laminates, Cera, Jaguar, Jindal, TVS, Force Traveller, and more. We collaborate with the best to deliver premium quality.",
+        "We deal with top brands: Interior - EBCO, Häfele, Hettich, Century Laminates, Salvinz | Automotive - Force Traveller, Amaron, HELLA, TVS | Materials - 3M, DuPont, Jindal | Sanitary - Cera, Jaguar | Quality is guaranteed with these trusted names!"
+      ]
+    },
+    {
+      "tag": "government_associations",
+      "patterns": [
+        "Government associations", "Do you work with government", "Official partnerships",
+        "Collaborations with authorities", "Government projects", "Police vehicles",
+        "Institutional partners", "Government approved", "Certified partners"
+      ],
+      "responses": [
+        "We associate with local governing authorities including Kerala Government, National Insurance, and Kerala Police. We've delivered projects for government bodies, police departments, and public institutions.",
+        "Yes! We collaborate with Kerala Government, Kerala Police, and National Insurance. We build compliant vehicles for government use including police vehicles, medical units, and public service vehicles.",
+        "Our institutional partners include Kerala Government departments, Kerala Police, and National Insurance. We're trusted for government projects and special-purpose vehicle builds with full compliance."
+      ]
     }
   ]
 }

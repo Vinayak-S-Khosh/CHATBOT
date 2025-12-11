@@ -528,9 +528,9 @@
 
         .founders-container {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
-            gap: 0;
+            gap: 100px;
             position: relative;
         }
 
@@ -542,16 +542,11 @@
         }
 
         .founder-with-line {
-            display: flex;
-            align-items: center;
-            gap: 0;
+            display: none;
         }
 
         .horizontal-line {
-            width: 200px;
-            height: 2px;
-            background: #1e3c72;
-            flex-shrink: 0;
+            display: none;
         }
 
         .founder-circle {
@@ -585,7 +580,7 @@
         }
 
         .founder-details {
-            margin-top: 30px;
+            margin-top: 20px;
             text-align: center;
         }
 
@@ -611,11 +606,7 @@
         @media (max-width: 768px) {
             .founders-container {
                 flex-direction: column;
-                gap: 60px;
-            }
-
-            .horizontal-line {
-                display: none;
+                gap: 50px;
             }
 
             .founder-circle {
@@ -673,6 +664,7 @@
             filter: blur(3px);
             transform: scale(1.1);
             transition: filter 0.3s, transform 0.3s;
+            loading: lazy;
         }
 
         .gallery-item:hover img {
@@ -1006,6 +998,142 @@
             color: #ffd700;
         }
 
+        /* Partners Section */
+        .partners {
+            background: #f8f9fa;
+            padding: 80px 20px;
+            overflow: hidden;
+        }
+
+        .partners-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .partners h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .partners-subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 50px;
+        }
+
+        .partners-category {
+            margin-bottom: 70px;
+        }
+
+        .partners-category h3 {
+            text-align: center;
+            font-size: 1.8rem;
+            color: #2a5298;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .category-description {
+            text-align: center;
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 40px;
+        }
+
+        /* Auto-scrolling carousel */
+        .partners-slider {
+            overflow: hidden;
+            position: relative;
+            background: white;
+            padding: 30px 0;
+            border-radius: 15px;
+        }
+
+        .partners-track {
+            display: flex;
+            gap: 40px;
+            animation: scroll 30s linear infinite;
+        }
+
+        .partners-track:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .partner-logo {
+            flex-shrink: 0;
+            width: 180px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .partner-logo:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .partner-name {
+            text-align: center;
+            font-size: 0.95rem;
+            color: #1e3c72;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        /* Government partners - static grid (no animation) */
+        .government-slider {
+            background: transparent;
+            padding: 0;
+        }
+
+        .government-slider .partners-track {
+            animation: none;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .government-slider .partner-logo {
+            width: 200px;
+            height: 130px;
+        }
+
+        @media (max-width: 768px) {
+            .partner-logo {
+                width: 140px;
+                height: 100px;
+                padding: 15px;
+            }
+
+            .government-slider .partner-logo {
+                width: 160px;
+                height: 110px;
+            }
+
+            .partners-track {
+                gap: 25px;
+            }
+        }
+
         @media (max-width: 1024px) {
             .header-content {
                 flex-direction: column;
@@ -1141,6 +1269,7 @@
                 <li><a href="#services" class="nav-link">Services</a></li>
                 <li><a href="#gallery" class="nav-link">Portfolio</a></li>
                 <li><a href="#workshop" class="nav-link">Workshop</a></li>
+                <li><a href="#partners" class="nav-link">Partners</a></li>
                 <li><a href="#why-us" class="nav-link">Why Us</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
@@ -1518,6 +1647,69 @@
         </div>
     </section>
 
+    <!-- Partners & Collaborators Section -->
+    <section class="partners" id="partners">
+        <div class="partners-content">
+            <h2>Our Trusted Partners</h2>
+            <p class="partners-subtitle">Collaborating with leading brands and authorities to deliver excellence</p>
+            
+            <!-- Brand Partners -->
+            <div class="partners-category">
+                <h3>Brands we deals with</h3>
+                <p class="category-description">Trusted partners we collaborate with and brands we proudly source</p>
+                <div class="partners-slider">
+                    <div class="partners-track">
+                        <!-- First set of logos -->
+                        <div class="partner-logo"><div class="partner-name">EBCO Interior</div></div>
+                        <div class="partner-logo"><div class="partner-name">Cera Sanitary Ware</div></div>
+                        <div class="partner-logo"><div class="partner-name">Jaguar</div></div>
+                        <div class="partner-logo"><div class="partner-name">Roots</div></div>
+                        <div class="partner-logo"><div class="partner-name">DuPont</div></div>
+                        <div class="partner-logo"><div class="partner-name">Amaron</div></div>
+                        <div class="partner-logo"><div class="partner-name">Force Traveller</div></div>
+                        <div class="partner-logo"><div class="partner-name">HELLA</div></div>
+                        <div class="partner-logo"><div class="partner-name">Jindal</div></div>
+                        <div class="partner-logo"><div class="partner-name">3M</div></div>
+                        <div class="partner-logo"><div class="partner-name">TVS</div></div>
+                        <div class="partner-logo"><div class="partner-name">Century Laminates</div></div>
+                        <div class="partner-logo"><div class="partner-name">Häfele</div></div>
+                        <div class="partner-logo"><div class="partner-name">Salvinz</div></div>
+                        <div class="partner-logo"><div class="partner-name">Hettich</div></div>
+                        <!-- Duplicate set for seamless loop -->
+                        <div class="partner-logo"><div class="partner-name">EBCO Interior</div></div>
+                        <div class="partner-logo"><div class="partner-name">Cera Sanitary Ware</div></div>
+                        <div class="partner-logo"><div class="partner-name">Jaguar</div></div>
+                        <div class="partner-logo"><div class="partner-name">Roots</div></div>
+                        <div class="partner-logo"><div class="partner-name">DuPont</div></div>
+                        <div class="partner-logo"><div class="partner-name">Amaron</div></div>
+                        <div class="partner-logo"><div class="partner-name">Force Traveller</div></div>
+                        <div class="partner-logo"><div class="partner-name">HELLA</div></div>
+                        <div class="partner-logo"><div class="partner-name">Jindal</div></div>
+                        <div class="partner-logo"><div class="partner-name">3M</div></div>
+                        <div class="partner-logo"><div class="partner-name">TVS</div></div>
+                        <div class="partner-logo"><div class="partner-name">Century Laminates</div></div>
+                        <div class="partner-logo"><div class="partner-name">Häfele</div></div>
+                        <div class="partner-logo"><div class="partner-name">Salvinz</div></div>
+                        <div class="partner-logo"><div class="partner-name">Hettich</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Government & Institutional Partners -->
+            <div class="partners-category">
+                <h3>We associate with</h3>
+                <p class="category-description">We collaborate with local governing authorities</p>
+                <div class="partners-slider government-slider">
+                    <div class="partners-track">
+                        <div class="partner-logo"><div class="partner-name">Kerala Government</div></div>
+                        <div class="partner-logo"><div class="partner-name">National Insurance</div></div>
+                        <div class="partner-logo"><div class="partner-name">Kerala Police</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Founders Section -->
     <section class="founders">
         <div class="founders-content">
@@ -1525,11 +1717,8 @@
             <div class="founders-container">
                 <!-- First Founder -->
                 <div class="founder-item">
-                    <div class="founder-with-line">
-                        <div class="founder-circle">
-                            <img src="/images/founders/shaiju.jpeg" alt="Shaiju KM">
-                        </div>
-                        <div class="horizontal-line"></div>
+                    <div class="founder-circle">
+                        <img src="/images/founders/shaiju.jpeg" alt="Shaiju KM">
                     </div>
                     <div class="founder-details">
                         <div class="founder-name">SHAIJU KM</div>
@@ -1538,11 +1727,8 @@
 
                 <!-- Second Founder -->
                 <div class="founder-item">
-                    <div class="founder-with-line">
-                        <div class="horizontal-line"></div>
-                        <div class="founder-circle">
-                            <img src="/images/founders/laiju.jpeg" alt="Laiju KM">
-                        </div>
+                    <div class="founder-circle">
+                        <img src="/images/founders/laiju.jpeg" alt="Laiju KM">
                     </div>
                     <div class="founder-details">
                         <div class="founder-name">LAIJU KM</div>
@@ -1572,6 +1758,18 @@
     </div>
 
     <script>
+        // Lazy load images for better performance
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                if (img.dataset.src) {
+                    img.src = img.dataset.src;
+                } else {
+                    img.loading = 'lazy';
+                }
+            });
+        });
+
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
