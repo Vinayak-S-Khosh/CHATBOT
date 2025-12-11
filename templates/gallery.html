@@ -521,6 +521,10 @@
                 
                 // Populate gallery with selected category
                 const selectedCategory = this.getAttribute('data-category');
+                
+                // Update the title based on selected category
+                document.getElementById('gallery-title').textContent = titles[selectedCategory] || "Our Portfolio";
+                
                 populateGallery(selectedCategory);
             });
         });
