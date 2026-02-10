@@ -60,9 +60,9 @@
         "What kind of work do you do", "List your services", "What modifications do you do"
       ],
       "responses": [
-        "We offer: 1) Force Traveller Modification 2) Custom Caravan Design & Build 3) Force Urbania Modification 4) Special-Purpose Vehicles (Mobile ICU, Cash Vans, Campaign Vehicles, Mobile ATMs) 5) Luxury Interiors & Installations 6) Vehicle Remodeling, Repair & Painting",
-        "Our main services include custom caravan building, Force Traveller and Urbania modifications, luxury interior installations, special-purpose vehicle builds (ambulances, cash vans, campaign vehicles), and complete vehicle remodeling and painting.",
-        "We provide end-to-end vehicle customization: Custom caravans, Force Traveller/Urbania luxury conversions, A/C fitting, entertainment systems, massage chairs, wood & fiber works, digital painting, and special-purpose vehicle builds."
+        "We offer:\n\n1) Force Traveller Modification\n2) Custom Caravan Design & Build\n3) Force Urbania Modification\n4) Special-Purpose Vehicles (Mobile ICU, Cash Vans, Campaign Vehicles, Mobile ATMs)\n5) Luxury Interiors & Installations\n6) Vehicle Remodeling, Repair & Painting",
+        "Our main services include:\n\n• Custom caravan building\n• Force Traveller and Urbania modifications\n• Luxury interior installations\n• Special-purpose vehicle builds (ambulances, cash vans, campaign vehicles)\n• Complete vehicle remodeling and painting",
+        "We provide end-to-end vehicle customization:\n\n✓ Custom caravans\n✓ Force Traveller/Urbania luxury conversions\n✓ A/C fitting, entertainment systems, massage chairs\n✓ Wood & fiber works, digital painting\n✓ Special-purpose vehicle builds"
       ]
     },
     {
@@ -85,9 +85,9 @@
         "Force Traveller interior", "Tourist vehicle modification", "Traveller conversion"
       ],
       "responses": [
-        "We transform Force Travellers into premium luxury vehicles! Whether it's a family caravan, tourist vehicle, or campaign ride, we provide custom interiors, better seating, advanced entertainment systems, A/C, and complete interior makeovers.",
-        "Our Force Traveller modifications include: luxury seating, entertainment systems, A/C installation, custom wood/fiber interiors, LED lighting, flooring, curtaining, and complete exterior painting. Turn your plain Traveller into a head-turner!",
-        "Force Traveller modification is one of our specialties. We can convert it into a luxury tourist vehicle, family caravan, campaign vehicle, or any custom design you envision. All work done in-house with premium quality."
+        "Our Force Traveller modifications include:\n\n• Luxury seating\n• Entertainment systems\n• A/C installation\n• Custom wood/fiber interiors\n• LED lighting\n• Flooring\n• Curtaining\n• Complete exterior painting\n\nTurn your plain Traveller into a head-turner!",
+        "Force Traveller modification is one of our specialties. We can convert it into a luxury tourist vehicle, family caravan, campaign vehicle, or any custom design you envision. All work done in-house with premium quality.",
+        "We transform Force Travellers into premium luxury vehicles! Whether it's a family caravan, tourist vehicle, or campaign ride, we provide custom interiors, better seating, advanced entertainment systems, A/C, and complete interior makeovers."
       ]
     },
     {
@@ -103,16 +103,82 @@
       ]
     },
     {
-      "tag": "special_purpose",
+      "tag": "medical_vehicles",
       "patterns": [
-        "Special purpose vehicle", "Mobile ICU", "Ambulance", "Cash van",
-        "Campaign vehicle", "Mobile ATM", "Election vehicle", "Advertising vehicle",
-        "Mobile supermarket", "Food truck", "Awareness vehicle"
+        "Mobile ICU", "Ambulance", "Do you build ambulances",
+        "Can you make an ICU vehicle", "Do you provide ambulance service",
+        "Is there an ICU service", "Do you make medical vehicles",
+        "Can I get a mobile ICU", "Need an ambulance",
+        "Looking for ICU vehicle", "Do you build emergency vehicles",
+        "Medical vehicle", "Hospital vehicle", "Emergency medical vehicle",
+        "Ambulance service", "ICU ambulance", "Do you build medical vans",
+        "Emergency vehicle service", "Patient transport vehicle",
+        "Can you build hospital vehicle", "Medical transport",
+        "Life support ambulance", "Advanced ambulance", "Medical van"
       ],
       "responses": [
-        "We build various special-purpose vehicles: Mobile ICUs, Ambulances, RBI-compliant Cash Vans, Mobile ATMs, Election Campaign Vehicles, Public Awareness Vehicles, Mobile Supermarkets, and Food Trucks. All built to exact specifications and compliance requirements.",
-        "Our special-purpose vehicle builds are trusted by hospitals, banks, political parties, NGOs, government bodies, and retailers. We ensure security, functionality, and compliance in every build – from mobile medical units to cash transport vehicles.",
-        "Need a specialized vehicle? We've built mobile homes, cash vans, mobile ATMs, mobile ICUs, campaign vehicles, and advertising vehicles for clients across India. Fully customized, secure, and compliant with all regulations."
+        "Yes! We build Mobile ICUs and Ambulances for hospitals and medical services.\n\nOur medical vehicles include:\n\n• Fully equipped Mobile ICU units\n• Advanced Life Support (ALS) ambulances\n• Basic Life Support (BLS) ambulances\n• Patient transport vehicles\n\nWe ensure compliance with all medical equipment standards and work closely with hospitals across Kerala and India.\n\nContact us at +91 9847297290 or +91 8281944290 to discuss your requirements.",
+        "Absolutely! We specialize in building medical vehicles for hospitals and ambulance operators.\n\nWe build:\n✓ Mobile ICU units with full medical equipment\n✓ ALS (Advanced Life Support) ambulances\n✓ BLS (Basic Life Support) ambulances\n✓ Patient transport vehicles\n\nOur medical vehicle builds are trusted across India. Call +91 9847297290 or +91 8281944290 or email kalapuraparambil.auto@gmail.com",
+        "Yes, we build fully equipped Mobile ICUs and Ambulances! We've delivered medical vehicles to hospitals and ambulance services across Kerala, Karnataka, Tamil Nadu, and beyond.\n\nOur medical vehicles meet all safety and compliance standards. Contact us to discuss your requirements: +91 9847297290 or +91 8281944290"
+      ]
+    },
+    {
+      "tag": "cash_atm_vehicles",
+      "patterns": [
+        "Cash van", "Mobile ATM", "ATM vehicle", "Is mobile ATM available",
+        "Do you build cash vans", "Can you make ATM vehicle",
+        "RBI compliant cash van", "Bank vehicle", "Cash transport vehicle",
+        "Do you build ATM vans", "Mobile banking vehicle",
+        "Security cash van", "Armored cash van", "Cash in transit vehicle",
+        "Need a cash van", "Looking for ATM vehicle", "Bank cash van"
+      ],
+      "responses": [
+        "Yes! We build RBI-compliant Cash Vans and Mobile ATM vehicles for banks and security firms.\n\nOur vehicles include:\n\n• RBI-compliant Cash Vans with advanced security features\n• Mobile ATM units\n• Cash-in-transit vehicles\n• Armored security vans\n\nAll builds meet RBI security standards and compliance requirements. We work with major banks across India.\n\nContact us at +91 9847297290 or +91 8281944290 to discuss your security vehicle requirements.",
+        "Absolutely! We specialize in building secure Cash Vans and Mobile ATMs for the banking sector.\n\n✓ RBI-compliant security features\n✓ Advanced locking systems\n✓ GPS tracking integration\n✓ Fire suppression systems\n✓ Secure cash compartments\n\nTrusted by banks and security firms across India. Call +91 9847297290 or +91 8281944290 or email kalapuraparambil.auto@gmail.com",
+        "Yes, we build RBI-compliant Cash Vans and Mobile ATM vehicles! Our security vehicle builds are trusted by banks, NBFCs, and security firms across Kerala, Karnataka, Tamil Nadu, and beyond.\n\nEvery vehicle is built to exact security specifications. Contact: +91 9847297290 or +91 8281944290"
+      ]
+    },
+    {
+      "tag": "campaign_vehicles",
+      "patterns": [
+        "Campaign vehicle", "Election vehicle", "Political vehicle",
+        "Do you build campaign vehicles", "Election campaign van",
+        "Advertising vehicle", "Awareness vehicle", "Promotional vehicle",
+        "Political campaign van", "Can you make campaign vehicle",
+        "Public awareness vehicle", "Mobile advertisement", "Campaign van"
+      ],
+      "responses": [
+        "Yes! We build Election Campaign Vehicles and Public Awareness Vehicles for political parties, NGOs, and government bodies.\n\nOur campaign vehicles feature:\n\n• High-quality sound systems\n• LED display screens\n• Generator backup\n• Custom branding & graphics\n• Comfortable seating for campaign staff\n\nWe've delivered campaign vehicles for elections across Kerala and India.\n\nContact us at +91 9847297290 or +91 8281944290 to discuss your campaign vehicle project.",
+        "Absolutely! We specialize in building Campaign Vehicles for elections, public awareness programs, and promotional activities.\n\n✓ Professional sound & PA systems\n✓ LED screens for video displays\n✓ Custom exterior graphics\n✓ Generator power backup\n✓ AC & comfortable interiors\n\nTrusted by political parties, NGOs, and government bodies. Call +91 9847297290 or +91 8281944290",
+        "Yes, we build Election Campaign Vehicles and Advertising Vans! Our campaign vehicle builds have been used across Kerala, Karnataka, and Tamil Nadu for successful election campaigns.\n\nFully customized with sound, visuals, and branding. Contact: +91 9847297290 or +91 8281944290"
+      ]
+    },
+    {
+      "tag": "mobile_business_vehicles",
+      "patterns": [
+        "Food truck", "Mobile supermarket", "Mobile shop",
+        "Do you build food trucks", "Can you make mobile shop",
+        "Mobile restaurant", "Mobile store", "Mobile retail vehicle",
+        "Coffee van", "Mobile cafe", "Mobile business vehicle",
+        "Retail van", "Mobile kiosk", "Food van"
+      ],
+      "responses": [
+        "Yes! We build Mobile Supermarkets, Food Trucks, and Mobile Business Vehicles for retailers and entrepreneurs.\n\nOur mobile business vehicles include:\n\n• Food Trucks with full kitchen setups\n• Mobile Supermarkets with shelving & refrigeration\n• Mobile Coffee Shops\n• Mobile Retail Stores\n• Custom business vans\n\nFully equipped with power, storage, and all necessary facilities.\n\nContact us at +91 9847297290 or +91 8281944290 to start your mobile business!",
+        "Absolutely! We specialize in building Food Trucks and Mobile Retail Vehicles for entrepreneurs.\n\n✓ Complete kitchen setup for food trucks\n✓ Refrigeration & storage systems\n✓ Generator power backup\n✓ Custom branding & signage\n✓ Water & waste management\n\nTrusted by retailers and food entrepreneurs across India. Call +91 9847297290 or +91 8281944290",
+        "Yes, we build Food Trucks, Mobile Supermarkets, and Mobile Business Vehicles! We've delivered mobile retail solutions to entrepreneurs across Kerala and South India.\n\nFully customized for your business needs. Contact: +91 9847297290 or +91 8281944290"
+      ]
+    },
+    {
+      "tag": "special_purpose",
+      "patterns": [
+        "Special purpose vehicle", "Custom special vehicle",
+        "Do you build special vehicles", "What special vehicles do you build",
+        "Special vehicle types", "Specialized vehicles"
+      ],
+      "responses": [
+        "Yes! We build various special-purpose vehicles for different industries:\n\n• Medical: Mobile ICUs & Ambulances\n• Banking: RBI-compliant Cash Vans & Mobile ATMs\n• Political: Election Campaign Vehicles\n• Business: Food Trucks & Mobile Supermarkets\n• Government: Public Awareness Vehicles\n\nAll built to exact specifications and compliance requirements.\n\nWhich type interests you? Contact us at +91 9847297290 or +91 8281944290 to discuss!",
+        "We specialize in custom special-purpose vehicles:\n\n✓ Medical vehicles (ICU, Ambulances)\n✓ Security vehicles (Cash Vans, ATMs)\n✓ Campaign & awareness vehicles\n✓ Mobile business vehicles\n\nTrusted by hospitals, banks, political parties, NGOs, and entrepreneurs across India. Call +91 9847297290 or +91 8281944290",
+        "We build specialized vehicles for healthcare, banking, politics, retail, and more. From Mobile ICUs to Food Trucks, each build is customized to meet your specific needs.\n\nContact: +91 9847297290 or +91 8281944290 to discuss your project!"
       ]
     },
     {
@@ -123,9 +189,9 @@
         "Massage chairs", "LED lighting", "Flooring", "Curtains"
       ],
       "responses": [
-        "Our luxury interior services include: Custom wood & fiber works, digital painting, A/C fitting and maintenance, LED & ambient lighting, premium flooring, curtaining, massage chair installation, sliding doors, and entertainment systems. All designed to match your vision!",
+        "Our luxury interior services include:\n\n• Custom wood & fiber works\n• Digital painting\n• A/C fitting and maintenance\n• LED & ambient lighting\n• Premium flooring\n• Curtaining\n• Massage chair installation\n• Sliding doors\n• Entertainment systems\n\nAll designed to match your vision!",
         "We obsess over every detail – seating comfort, lighting, climate control, entertainment, and finish. Our luxury interiors feature premium materials, custom woodwork, advanced A/C systems, entertainment setups, and beautiful aesthetics.",
-        "Transform your vehicle's interior with our luxury installation services: Reclining massage seats, entertainment systems, custom wood panels, fiber works, LED mood lighting, A/C systems, premium flooring, and elegant curtaining."
+        "Transform your vehicle's interior with our luxury installation services:\n\n✓ Reclining massage seats\n✓ Entertainment systems\n✓ Custom wood panels & fiber works\n✓ LED mood lighting\n✓ A/C systems\n✓ Premium flooring\n✓ Elegant curtaining"
       ]
     },
     {
@@ -148,9 +214,9 @@
         "Contact you", "WhatsApp number", "Call you", "How do I reach you"
       ],
       "responses": [
-        "You can reach us at: Phone: +91 81481 45706 or +91 9847297290 or +91 8281944290 | Email: kalapuraparambil.auto@gmail.com | We're open Monday to Saturday, 9 AM to 6 PM.",
-        "Contact Kalapuraparambil Automobiles: 📞 +91 81481 45706, +91 9847297290, +91 8281944290 | 📧 kalapuraparambil.auto@gmail.com | ⏰ Mon-Sat: 9 AM - 6 PM",
-        "Call us at +91 81481 45706 or +91 9847297290. Email: kalapuraparambil.auto@gmail.com. We're available Monday to Saturday from 9 AM to 6 PM."
+        "You can reach us at: Phone: +91 9847297290 or +91 8281944290 | Email: kalapuraparambil.auto@gmail.com | We're open Monday to Saturday, 9 AM to 6 PM.",
+        "Contact Kalapuraparambil Automobiles: 📞 +91 9847297290, +91 8281944290 | 📧 kalapuraparambil.auto@gmail.com | ⏰ Mon-Sat: 9 AM - 6 PM",
+        "Call us at +91 9847297290 or +91 8281944290. Email: kalapuraparambil.auto@gmail.com. We're available Monday to Saturday from 9 AM to 6 PM."
       ]
     },
     {
@@ -185,9 +251,9 @@
         "Is it expensive", "Cost of caravan", "Modification cost"
       ],
       "responses": [
-        "The cost depends on the type of modification, vehicle model, and customization level. For an accurate quote, please contact us at +91 81481 45706 or email kalapuraparambil.auto@gmail.com with your requirements.",
+        "The cost depends on the type of modification, vehicle model, and customization level. For an accurate quote, please contact us at +91 9847297290 or +91 8281944290 or email kalapuraparambil.auto@gmail.com with your requirements.",
         "Pricing varies based on your specific needs – vehicle type, interior design, features, and customization. Contact our team for a personalized quote: +91 9847297290 or kalapuraparambil.auto@gmail.com",
-        "Each project is unique, so costs vary. Share your requirements with us and we'll provide a detailed estimate. Call +91 81481 45706 or email kalapuraparambil.auto@gmail.com"
+        "Each project is unique, so costs vary. Share your requirements with us and we'll provide a detailed estimate. Call +91 9847297290 or +91 8281944290 or email kalapuraparambil.auto@gmail.com"
       ]
     },
     {
@@ -199,7 +265,7 @@
       "responses": [
         "Project timelines vary based on complexity and customization level. Typically, modifications take 2-8 weeks. For an accurate timeline for your project, please contact us with your specific requirements.",
         "The duration depends on the scope of work. Simple modifications may take 2-3 weeks, while complete custom builds can take 6-8 weeks. We'll give you an exact timeline once we discuss your project.",
-        "Timeline varies by project complexity. Contact us at +91 81481 45706 with your requirements, and we'll provide a specific delivery schedule."
+        "Timeline varies by project complexity. Contact us at +91 9847297290 or +91 8281944290 with your requirements, and we'll provide a specific delivery schedule."
       ]
     },
     {
@@ -210,8 +276,8 @@
         "Visit your workshop", "Book a visit"
       ],
       "responses": [
-        "Absolutely! You can visit our workshop or schedule a consultation. Call us at +91 81481 45706 or +91 9847297290 to book an appointment. We're open Monday to Saturday, 9 AM to 6 PM.",
-        "We'd love to discuss your project! Call +91 81481 45706 to schedule a consultation or visit us at Manakkappady, Karumalloor, North Paravur, Ernakulam. Monday to Saturday, 9 AM - 6 PM.",
+        "Absolutely! You can visit our workshop or schedule a consultation. Call us at +91 9847297290 or +91 8281944290 to book an appointment. We're open Monday to Saturday, 9 AM to 6 PM.",
+        "We'd love to discuss your project! Call +91 9847297290 or +91 8281944290 to schedule a consultation or visit us at Manakkappady, Karumalloor, North Paravur, Ernakulam. Monday to Saturday, 9 AM - 6 PM.",
         "Yes, please visit us or book a consultation call. Reach out at +91 9847297290 or email kalapuraparambil.auto@gmail.com to schedule your appointment."
       ]
     },
@@ -235,7 +301,7 @@
         "Do you work with tour operators", "Do you work with hospitals"
       ],
       "responses": [
-        "We work with: Families & Travelers, Tour Operators, Hospitals & Ambulance Services, Banks & Security Firms, Political Parties, NGOs & Government Bodies, Retailers & Entrepreneurs (food trucks, mobile shops).",
+        "We work with:\n\n• Families & Travelers\n• Tour Operators\n• Hospitals & Ambulance Services\n• Banks & Security Firms\n• Political Parties\n• NGOs & Government Bodies\n• Retailers & Entrepreneurs (food trucks, mobile shops)",
         "Our clients include tour operators, hospitals, banks, political campaign managers, government organizations, families, and businesses needing custom vehicle solutions. We serve diverse needs across India.",
         "We cater to tour operators, medical facilities, banks, political parties, NGOs, government bodies, retailers, and individual families looking for custom caravans or vehicle modifications."
       ]
@@ -247,9 +313,9 @@
         "Your advantages", "What's special about you", "Why choose your company"
       ],
       "responses": [
-        "Why choose us? 1) 28+ years of proven expertise 2) 5500+ vehicles delivered 3) End-to-end in-house solutions 4) Attention to every detail 5) India's trusted vehicle customization experts 6) Premium quality with customer satisfaction focus.",
+        "Why choose us?\n\n1) 28+ years of proven expertise\n2) 5500+ vehicles delivered\n3) End-to-end in-house solutions\n4) Attention to every detail\n5) India's trusted vehicle customization experts\n6) Premium quality with customer satisfaction focus",
         "We're different because we obsess over every detail – seating comfort, lighting, climate control, and finish. With 28 years of experience, 50+ expert team members, and 5500+ successful builds, we deliver perfection every time.",
-        "Choose Kalapuraparambil for: Proven expertise in custom builds, end-to-end in-house solutions (design to delivery), obsessive attention to detail, trusted by thousands across India, and a passion for creating experiences, not just vehicles."
+        "Choose Kalapuraparambil for:\n\n✓ Proven expertise in custom builds\n✓ End-to-end in-house solutions (design to delivery)\n✓ Obsessive attention to detail\n✓ Trusted by thousands across India\n✓ Passion for creating experiences, not just vehicles"
       ]
     },
     {
@@ -295,9 +361,9 @@
         "I need pricing details", "Can you send a quote"
       ],
       "responses": [
-        "I'd be happy to help with that! Please contact our team at +91 81481 45706 or email kalapuraparambil.auto@gmail.com with your vehicle details and requirements for a detailed quote.",
+        "I'd be happy to help with that! Please contact our team at +91 9847297290 or +91 8281944290 or email kalapuraparambil.auto@gmail.com with your vehicle details and requirements for a detailed quote.",
         "For a personalized quote, please share your requirements with our team. Call +91 9847297290 or email kalapuraparambil.auto@gmail.com with vehicle type, modification needs, and any specific features you want.",
-        "Let's get you a quote! Contact us at +91 81481 45706 or kalapuraparambil.auto@gmail.com with your project details, and we'll provide a comprehensive estimate."
+        "Let's get you a quote! Contact us at +91 9847297290 or +91 8281944290 or kalapuraparambil.auto@gmail.com with your project details, and we'll provide a comprehensive estimate."
       ]
     },
     {
@@ -467,8 +533,9 @@
     {
       "tag": "waiting_response",
       "patterns": [
-        "Are you there", "Hello?", "Anyone there", "You there",
-        "Are you available", "Can you hear me", "Still there"
+        "Are you there", "Anyone there", "You there",
+        "Are you available", "Can you hear me", "Still there",
+        "Are you listening", "Anybody home"
       ],
       "responses": [
         "Yes, I'm here! How can I assist you?",
@@ -484,8 +551,8 @@
         "Online presence"
       ],
       "responses": [
-        "Yes! You can follow us on social media to see our latest builds and projects. For our social media links and updates, please contact us at +91 81481 45706 or visit our website.",
-        "We showcase our amazing builds on social media! Contact us at +91 81481 45706 or kalapuraparambil.auto@gmail.com for our social media handles and to see our portfolio.",
+        "Yes! You can follow us on social media to see our latest builds and projects. For our social media links and updates, please contact us at +91 9847297290 or +91 8281944290 or visit our website.",
+        "We showcase our amazing builds on social media! Contact us at +91 9847297290 or +91 8281944290 or kalapuraparambil.auto@gmail.com for our social media handles and to see our portfolio.",
         "Absolutely! We regularly share our projects on social media. Reach out to us at +91 9847297290 for our social media links and latest updates!"
       ]
     },
@@ -510,9 +577,9 @@
         "What if something breaks", "Support after delivery"
       ],
       "responses": [
-        "Yes! We stand behind our work with quality assurance and after-sales support. For specific warranty details and service packages, please contact our team at +91 81481 45706. We use premium materials and trusted brands to ensure longevity.",
+        "Yes! We stand behind our work with quality assurance and after-sales support. For specific warranty details and service packages, please contact our team at +91 9847297290 or +91 8281944290. We use premium materials and trusted brands to ensure longevity.",
         "Absolutely! We provide support and maintenance services. For detailed warranty information specific to your project, contact us at +91 9847297290 or kalapuraparambil.auto@gmail.com.",
-        "Quality is our priority! We use premium brands like 3M, Amaron, Hella, and more. For warranty details and after-sales service packages, call us at +91 81481 45706."
+        "Quality is our priority! We use premium brands like 3M, Amaron, Hella, and more. For warranty details and after-sales service packages, call us at +91 9847297290 or +91 8281944290."
       ]
     },
     {

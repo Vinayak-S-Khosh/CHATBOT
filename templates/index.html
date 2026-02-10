@@ -758,20 +758,7 @@
             display: none;
         }
 
-        /* Workshop Gallery Section */
-        .workshop-gallery {
-            padding: 80px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-            background: #f8f9fa;
-        }
 
-        .workshop-gallery h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            color: #1e3c72;
-        }
         .testimonials {
             background: #f8f9fa;
             padding: 80px 20px;
@@ -1053,10 +1040,54 @@
             border-radius: 15px;
         }
 
+        .slider-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(30, 60, 114, 0.9);
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .slider-nav:hover {
+            background: rgba(30, 60, 114, 1);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+        }
+
+        .slider-nav:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+
+        .slider-nav-left {
+            left: 10px;
+        }
+
+        .slider-nav-right {
+            right: 10px;
+        }
+
+        .slider-nav:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
         .partners-track {
             display: flex;
             gap: 40px;
             animation: scroll 30s linear infinite;
+            transition: transform 0.5s ease;
         }
 
         .partners-track:hover {
@@ -1086,18 +1117,21 @@
             transition: all 0.3s ease;
         }
 
+        .partner-logo img {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            transition: all 0.3s ease;
+        }
+
         .partner-logo:hover {
             transform: translateY(-8px);
             box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
 
-        .partner-name {
-            text-align: center;
-            font-size: 0.95rem;
-            color: #1e3c72;
-            font-weight: 600;
-            line-height: 1.3;
-        }
+
 
         /* Government partners - static grid (no animation) */
         .government-slider {
@@ -1131,6 +1165,20 @@
 
             .partners-track {
                 gap: 25px;
+            }
+
+            .slider-nav {
+                width: 35px;
+                height: 35px;
+                font-size: 16px;
+            }
+
+            .slider-nav-left {
+                left: 5px;
+            }
+
+            .slider-nav-right {
+                right: 5px;
             }
         }
 
@@ -1268,7 +1316,6 @@
                 <li><a href="#home" class="nav-link active">Home</a></li>
                 <li><a href="#services" class="nav-link">Services</a></li>
                 <li><a href="#gallery" class="nav-link">Portfolio</a></li>
-                <li><a href="#workshop" class="nav-link">Workshop</a></li>
                 <li><a href="#partners" class="nav-link">Partners</a></li>
                 <li><a href="#why-us" class="nav-link">Why Us</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
@@ -1383,131 +1430,7 @@
         </div>
     </section>
 
-    <!-- Workshop Gallery Section -->
-    <section class="workshop-gallery" id="workshop">
-        <h2>Behind the Scenes - Our Workshop</h2>
-        <p style="text-align: center; color: #666; margin-bottom: 20px; max-width: 700px; margin-left: auto; margin-right: auto;">Witness the craftsmanship and dedication of our skilled team across different departments</p>
-        
-        <!-- Department Filter Tabs -->
-        <div class="gallery-filters">
-            <button class="filter-btn active" onclick="filterGallery('all')">All</button>
-            <button class="filter-btn" onclick="filterGallery('upholstery')">Upholstery & Tailoring</button>
-            <button class="filter-btn" onclick="filterGallery('fiber')">Fiber Works</button>
-            <button class="filter-btn" onclick="filterGallery('electrical')">Electrical</button>
-            <button class="filter-btn" onclick="filterGallery('welding')">Welding</button>
-            <button class="filter-btn" onclick="filterGallery('painting')">Painting</button>
-            <button class="filter-btn" onclick="filterGallery('office')">Office & Management</button>
-        </div>
 
-        <div class="gallery-grid" id="workGallery">
-            <!-- Upholstery & Tailoring -->
-            <div class="gallery-item" data-category="upholstery">
-                <img src="images/workshop/upholstery/seat-making-1.jpg" alt="Seat Making & Tailoring" onerror="this.src='images/interior/10 - Copy - Copy.jpg'">
-                <div class="gallery-caption">
-                    <span class="category-tag">Upholstery</span>
-                    <h4>Seat Crafting</h4>
-                    <p>Expert tailoring and upholstery work for premium seating</p>
-                </div>
-            </div>
-            
-            <div class="gallery-item" data-category="upholstery">
-                <img src="images/workshop/upholstery/fabric-work-1.jpg" alt="Fabric Stitching" onerror="this.src='images/interior/12.jpg'">
-                <div class="gallery-caption">
-                    <span class="category-tag">Upholstery</span>
-                    <h4>Fabric Work</h4>
-                    <p>Precision stitching and custom fabric installation</p>
-                </div>
-            </div>
-
-            <!-- Fiber Works -->
-            <div class="gallery-item" data-category="fiber">
-                <img src="images/workshop/fiber/molding-1.jpg" alt="Fiber Molding" onerror="this.src='images/caravan/IMG-20240405-WA0007.jpg'">
-                <div class="gallery-caption">
-                    <span class="category-tag">Fiber</span>
-                    <h4>Fiber Molding</h4>
-                    <p>Custom fiber work and body modifications</p>
-                </div>
-            </div>
-
-            <div class="gallery-item" data-category="fiber">
-                <img src="images/workshop/fiber/finishing-1.jpg" alt="Body Finishing" onerror="this.src='images/caravan/IMG-20240405-WA0008.jpg'">
-                <div class="gallery-caption">
-                    <span class="category-tag">Fiber</span>
-                    <h4>Surface Finishing</h4>
-                    <p>Smooth fiber finishing and body shaping</p>
-                </div>
-            </div>
-
-            <!-- Electrical Works -->
-            <div class="gallery-item" data-category="electrical">
-                <img src="images/workshop/electrical/led-work-1.jpg" alt="LED Installation" onerror="this.src='images/interior/632A0129.JPG'">
-                <div class="gallery-caption">
-                    <span class="category-tag">Electrical</span>
-                    <h4>LED Lighting Setup</h4>
-                    <p>Advanced lighting and electrical installations</p>
-                </div>
-            </div>
-
-            <div class="gallery-item" data-category="electrical">
-                <img src="images/workshop/electrical/wiring-1.jpg" alt="Wiring Work" onerror="this.src='images/interior/632A0132.JPG'">
-                <div class="gallery-caption">
-                    <span class="category-tag">Electrical</span>
-                    <h4>Electrical Wiring</h4>
-                    <p>Professional wiring and circuit installation</p>
-                </div>
-            </div>
-
-            <!-- Welding -->
-            <div class="gallery-item" data-category="welding">
-                <img src="images/workshop/welding/fabrication-1.jpg" alt="Metal Welding" onerror="this.src='images/traveller/IMG-20240405-WA0004.jpg'">
-                <div class="gallery-caption">
-                    <span class="category-tag">Welding</span>
-                    <h4>Metal Fabrication</h4>
-                    <p>Expert welding and metal framework construction</p>
-                </div>
-            </div>
-
-            <div class="gallery-item" data-category="welding">
-                <img src="images/workshop/welding/structural-1.jpg" alt="Frame Construction" onerror="this.src='images/traveller/IMG-20240405-WA0005.jpg'">
-                <div class="gallery-caption">
-                    <span class="category-tag">Welding</span>
-                    <h4>Structural Work</h4>
-                    <p>Heavy-duty welding for vehicle structures</p>
-                </div>
-            </div>
-
-            <!-- Painting -->
-            <div class="gallery-item" data-category="painting">
-                <img src="images/workshop/painting/spray-work-1.jpg" alt="Vehicle Painting" onerror="this.src='images/campaign/DSC_0344 - Copy.JPG'">
-                <div class="gallery-caption">
-                    <span class="category-tag">Painting</span>
-                    <h4>Auto Painting</h4>
-                    <p>Professional spray painting and color matching</p>
-                </div>
-            </div>
-
-            <div class="gallery-item" data-category="painting">
-                <img src="images/workshop/painting/finishing-1.jpg" alt="Finishing Touches" onerror="this.src='images/campaign/DSC_0349.JPG'">
-                <div class="gallery-caption">
-                    <span class="category-tag">Painting</span>
-                    <h4>Detail Work</h4>
-                    <p>Fine detailing and glossy finish application</p>
-                </div>
-            </div>
-
-            <!-- Office & Management -->
-            <div class="gallery-item" data-category="office">
-                <img src="images/workshop/office/team-1.jpg" alt="Office Team" onerror="this.src='images/interior/DSC_0053.JPG'">
-                <div class="gallery-caption">
-                    <span class="category-tag">Office</span>
-                    <h4>Management Team</h4>
-                    <p>Our dedicated office staff ensuring smooth operations</p>
-                </div>
-            </div>
-        </div>
-
-        <p style="text-align: center; margin-top: 40px; color: #666; font-style: italic;">📸 Upload your workshop images to showcase the craftsmanship of each department</p>
-    </section>
 
     <!-- Testimonials Section -->
     <section class="testimonials" id="testimonials">
@@ -1632,8 +1555,7 @@
                 </div>
                 <div class="contact-item">
                     <h3>📞 Phone</h3>
-                    <p>+91 81481 45706<br>
-                    +91 9847297290<br>
+                    <p>+91 9847297290<br>
                     +91 8281944290</p>
                 </div>
                 <div class="contact-item">
@@ -1657,40 +1579,34 @@
             <div class="partners-category">
                 <h3>Brands we deals with</h3>
                 <p class="category-description">Trusted partners we collaborate with and brands we proudly source</p>
-                <div class="partners-slider">
-                    <div class="partners-track">
+                <div class="partners-slider" id="brandSlider">
+                    <button class="slider-nav slider-nav-left" id="brandPrevBtn" aria-label="Previous brands">‹</button>
+                    <button class="slider-nav slider-nav-right" id="brandNextBtn" aria-label="Next brands">›</button>
+                    <div class="partners-track" id="brandTrack">
                         <!-- First set of logos -->
-                        <div class="partner-logo"><div class="partner-name">EBCO Interior</div></div>
-                        <div class="partner-logo"><div class="partner-name">Cera Sanitary Ware</div></div>
-                        <div class="partner-logo"><div class="partner-name">Jaguar</div></div>
-                        <div class="partner-logo"><div class="partner-name">Roots</div></div>
-                        <div class="partner-logo"><div class="partner-name">DuPont</div></div>
-                        <div class="partner-logo"><div class="partner-name">Amaron</div></div>
-                        <div class="partner-logo"><div class="partner-name">Force Traveller</div></div>
-                        <div class="partner-logo"><div class="partner-name">HELLA</div></div>
-                        <div class="partner-logo"><div class="partner-name">Jindal</div></div>
-                        <div class="partner-logo"><div class="partner-name">3M</div></div>
-                        <div class="partner-logo"><div class="partner-name">TVS</div></div>
-                        <div class="partner-logo"><div class="partner-name">Century Laminates</div></div>
-                        <div class="partner-logo"><div class="partner-name">Häfele</div></div>
-                        <div class="partner-logo"><div class="partner-name">Salvinz</div></div>
-                        <div class="partner-logo"><div class="partner-name">Hettich</div></div>
+                        <div class="partner-logo"><img src="/images/logo/ebco.png" alt="EBCO Interior" loading="lazy"></div>
+                        <div class="partner-logo"><img src="/images/logo/cera.jpeg" alt="Cera Sanitary Ware" loading="lazy"></div>
+                        <div class="partner-logo"><img src="/images/logo/jaquar.png" alt="Jaquar" loading="lazy"></div>
+                        <div class="partner-logo"><img src="/images/logo/roots.png" alt="Roots" loading="lazy"></div>
+                        <div class="partner-logo"><img src="/images/logo/dupond.png" alt="DuPont" loading="lazy"></div>
+                        <div class="partner-logo"><img src="/images/logo/amaron.jpeg" alt="Amaron" loading="lazy"></div>
+                        <div class="partner-logo"><img src="/images/logo/force.png" alt="Force Traveller" loading="lazy"></div>
+                        <div class="partner-logo"><img src="/images/logo/hella.png" alt="HELLA" loading="lazy"></div>
+                        <div class="partner-logo"><img src="/images/logo/jindal.png" alt="Jindal" loading="lazy"></div>
+                        <div class="partner-logo"><img src="/images/logo/3M.png" alt="3M" loading="lazy"></div>
+                        <div class="partner-logo"><img src="/images/logo/hettich.png" alt="Hettich" loading="lazy"></div>
                         <!-- Duplicate set for seamless loop -->
-                        <div class="partner-logo"><div class="partner-name">EBCO Interior</div></div>
-                        <div class="partner-logo"><div class="partner-name">Cera Sanitary Ware</div></div>
-                        <div class="partner-logo"><div class="partner-name">Jaguar</div></div>
-                        <div class="partner-logo"><div class="partner-name">Roots</div></div>
-                        <div class="partner-logo"><div class="partner-name">DuPont</div></div>
-                        <div class="partner-logo"><div class="partner-name">Amaron</div></div>
-                        <div class="partner-logo"><div class="partner-name">Force Traveller</div></div>
-                        <div class="partner-logo"><div class="partner-name">HELLA</div></div>
-                        <div class="partner-logo"><div class="partner-name">Jindal</div></div>
-                        <div class="partner-logo"><div class="partner-name">3M</div></div>
-                        <div class="partner-logo"><div class="partner-name">TVS</div></div>
-                        <div class="partner-logo"><div class="partner-name">Century Laminates</div></div>
-                        <div class="partner-logo"><div class="partner-name">Häfele</div></div>
-                        <div class="partner-logo"><div class="partner-name">Salvinz</div></div>
-                        <div class="partner-logo"><div class="partner-name">Hettich</div></div>
+                        <div class="partner-logo"><img src="/images/logo/ebco.png" alt="EBCO Interior" loading="lazy"></div>
+                        <div class="partner-logo"><img src="/images/logo/cera.jpeg" alt="Cera Sanitary Ware" loading="lazy"></div>
+                        <div class="partner-logo"><img src="/images/logo/jaquar.png" alt="Jaquar" loading="lazy"></div>
+                        <div class="partner-logo"><img src="/images/logo/roots.png" alt="Roots" loading="lazy"></div>
+                        <div class="partner-logo"><img src="/images/logo/dupond.png" alt="DuPont" loading="lazy"></div>
+                        <div class="partner-logo"><img src="/images/logo/amaron.jpeg" alt="Amaron" loading="lazy"></div>
+                        <div class="partner-logo"><img src="/images/logo/force.png" alt="Force Traveller" loading="lazy"></div>
+                        <div class="partner-logo"><img src="/images/logo/hella.png" alt="HELLA" loading="lazy"></div>
+                        <div class="partner-logo"><img src="/images/logo/jindal.png" alt="Jindal" loading="lazy"></div>
+                        <div class="partner-logo"><img src="/images/logo/3M.png" alt="3M" loading="lazy"></div>
+                        <div class="partner-logo"><img src="/images/logo/hettich.png" alt="Hettich" loading="lazy"></div>
                     </div>
                 </div>
             </div>
@@ -1701,9 +1617,9 @@
                 <p class="category-description">We collaborate with local governing authorities</p>
                 <div class="partners-slider government-slider">
                     <div class="partners-track">
-                        <div class="partner-logo"><div class="partner-name">Kerala Government</div></div>
-                        <div class="partner-logo"><div class="partner-name">National Insurance</div></div>
-                        <div class="partner-logo"><div class="partner-name">Kerala Police</div></div>
+                        <div class="partner-logo"><img src="/images/logo/kerala giv.png" alt="Kerala Government" loading="lazy"></div>
+                        <div class="partner-logo"><img src="/images/logo/national insurance.png" alt="National Insurance" loading="lazy"></div>
+                        <div class="partner-logo"><img src="/images/logo/kerala police.jpeg" alt="Kerala Police" loading="lazy"></div>
                     </div>
                 </div>
             </div>
@@ -1944,6 +1860,69 @@
                         item.classList.add('hidden');
                     }
                 }
+            });
+        }
+
+        // Manual Partner Slider Navigation
+        const brandSlider = document.getElementById('brandSlider');
+        const brandTrack = document.getElementById('brandTrack');
+        const brandPrevBtn = document.getElementById('brandPrevBtn');
+        const brandNextBtn = document.getElementById('brandNextBtn');
+        
+        if (brandSlider && brandTrack) {
+            let currentScroll = 0;
+            const scrollAmount = 220; // Logo width (180px) + gap (40px)
+            let isAutoScrolling = true;
+            let autoScrollInterval;
+
+            // Pause auto-scroll on hover
+            brandSlider.addEventListener('mouseenter', () => {
+                isAutoScrolling = false;
+                clearInterval(autoScrollInterval);
+                brandTrack.style.animationPlayState = 'paused';
+            });
+
+            // Resume auto-scroll on mouse leave
+            brandSlider.addEventListener('mouseleave', () => {
+                isAutoScrolling = true;
+                brandTrack.style.animationPlayState = 'running';
+            });
+
+            // Previous button
+            brandPrevBtn.addEventListener('click', () => {
+                isAutoScrolling = false;
+                clearInterval(autoScrollInterval);
+                brandTrack.style.animation = 'none';
+                
+                const currentTransform = getComputedStyle(brandTrack).transform;
+                const matrix = new DOMMatrix(currentTransform);
+                currentScroll = matrix.m41;
+                
+                currentScroll += scrollAmount;
+                if (currentScroll > 0) currentScroll = 0;
+                
+                brandTrack.style.transform = `translateX(${currentScroll}px)`;
+            });
+
+            // Next button
+            brandNextBtn.addEventListener('click', () => {
+                isAutoScrolling = false;
+                clearInterval(autoScrollInterval);
+                brandTrack.style.animation = 'none';
+                
+                const currentTransform = getComputedStyle(brandTrack).transform;
+                const matrix = new DOMMatrix(currentTransform);
+                currentScroll = matrix.m41;
+                
+                const maxScroll = -(brandTrack.scrollWidth / 2);
+                currentScroll -= scrollAmount;
+                
+                // Reset to beginning when reaching the end
+                if (currentScroll < maxScroll) {
+                    currentScroll = 0;
+                }
+                
+                brandTrack.style.transform = `translateX(${currentScroll}px)`;
             });
         }
         

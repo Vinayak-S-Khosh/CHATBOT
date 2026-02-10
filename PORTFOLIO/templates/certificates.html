@@ -13,10 +13,9 @@
             <div class="col-md-6 col-lg-4 mb-4">
                 <div class="card shadow-sm h-100 hover-card">
                     <div class="certificate-image">
-                        <img src="{{ url_for('static', filename='images/cert_' ~ loop.index|string ~ '.jpg') }}" 
+                        <img src="https://via.placeholder.com/400x300/4a90e2/ffffff?text={{ cert.name|urlencode }}" 
                              alt="{{ cert.name }}" 
-                             class="card-img-top"
-                             onerror="this.src='https://via.placeholder.com/400x300?text={{ cert.name|urlencode }}'">
+                             class="card-img-top">
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">

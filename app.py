@@ -59,9 +59,9 @@ QUICK_REPLIES = {
 }
 
 # Confidence thresholds
-HIGH_CONFIDENCE = 0.85
-MEDIUM_CONFIDENCE = 0.75
-LOW_CONFIDENCE = 0.50
+HIGH_CONFIDENCE = 0.80  # Reduced from 0.85
+MEDIUM_CONFIDENCE = 0.60  # Reduced from 0.75 for better responses
+LOW_CONFIDENCE = 0.40  # Reduced from 0.50
 
 # Database setup
 DATABASE = 'inquiries.db'
@@ -681,6 +681,42 @@ def chat():
     else:
         message_for_processing = corrected_message
     
+    # Check if user is asking about a specific date
+    date_query_keywords = ['working', 'open', 'closed', 'holiday', 'available', 'office open', 'are you open']
+    is_date_query = any(keyword in message_for_processing.lower() for keyword in date_query_keywords)
+    
+    if is_date_query:
+        try:
+            parsed_date = parse_date_from_message(user_message)
+            if parsed_date:
+                print(f"Parsed date: {parsed_date.strftime('%Y-%m-%d')} from message: {user_message}")
+                # Check if the date is a working day or holiday
+                availability = check_date_availability(parsed_date)
+                
+                # Add to conversation history
+                session['conversation'].append({
+                    'role': 'bot',
+                    'message': availability['message'],
+                    'confidence': 100,
+                    'intent': 'date_availability',
+                    'timestamp': datetime.now().isoformat()
+                })
+                session.modified = True
+                
+                return jsonify({
+                    'response': availability['message'],
+                    'confidence': 100,
+                    'intent': 'date_availability',
+                    'suggestions': ['Contact information', 'Working hours', 'Book consultation'],
+                    'whatsapp_link': 'https://wa.me/919847297290?text=' + quote("Hi, I have a query about availability")
+                })
+            else:
+                print(f"Could not parse date from message: {user_message}")
+        except Exception as e:
+            print(f"Error processing date query: {str(e)}")
+            import traceback
+            traceback.print_exc()
+    
     # Initialize session conversation history
     if 'conversation' not in session:
         session['conversation'] = []
@@ -843,7 +879,7 @@ def chat():
                 
                 # Add WhatsApp link only for contact-related intents
                 if tag in ['contact', 'location', 'working_hours', 'goodbye'] or session['failed_attempts'] >= 2:
-                    response_data['whatsapp_link'] = 'https://wa.me/918148145706?text=' + quote(f"Hi, I'm interested in {tag.replace('_', ' ')}")
+                    response_data['whatsapp_link'] = 'https://wa.me/919847297290?text=' + quote(f"Hi, I'm interested in {tag.replace('_', ' ')}")
                 
                 return jsonify(response_data)
     
@@ -873,7 +909,7 @@ def chat():
         if session['failed_attempts'] >= 3:
             response = """I'm having trouble understanding. Let me connect you with our team:
             
-📞 Phone: +91 81481 45706, +91 9847297290
+📞 Phone: +91 9847297290, +91 8281944290
 📧 Email: kalapuraparambil.auto@gmail.com
 ⏰ Hours: Mon-Sat, 9 AM - 6 PM
 
@@ -906,7 +942,7 @@ Or try asking about:"""
         
         # Add WhatsApp link when user is struggling
         if whatsapp_available:
-            response_data['whatsapp_link'] = 'https://wa.me/918148145706?text=' + quote("Hi, I need help with something")
+            response_data['whatsapp_link'] = 'https://wa.me/919847297290?text=' + quote("Hi, I need help with something")
         
         return jsonify(response_data)
 
@@ -1525,6 +1561,101 @@ def check_if_holiday(date_str=None):
     conn.close()
     
     return holiday
+
+def parse_date_from_message(message):
+    """Extract and parse date from user message"""
+    import re
+    from dateutil import parser as date_parser
+    
+    message_lower = message.lower()
+    current_year = datetime.now().year
+    
+    # Check for relative dates
+    if 'today' in message_lower:
+        return datetime.now()
+    elif 'tomorrow' in message_lower:
+        return datetime.now() + timedelta(days=1)
+    elif 'day after tomorrow' in message_lower:
+        return datetime.now() + timedelta(days=2)
+    elif 'yesterday' in message_lower:
+        return datetime.now() - timedelta(days=1)
+    
+    # Try to find date patterns (including without year)
+    date_patterns = [
+        r'\b(\d{1,2})[/-](\d{1,2})[/-](\d{2,4})\b',  # DD/MM/YYYY or DD-MM-YYYY
+        r'\b(\d{4})[/-](\d{1,2})[/-](\d{1,2})\b',  # YYYY-MM-DD
+        r'\b(\d{1,2})(?:st|nd|rd|th)?\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+(\d{2,4})\b',  # DD Month YYYY
+        r'\b(\d{1,2})(?:st|nd|rd|th)?\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\b',  # DD Month (no year)
+        r'\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+(\d{1,2})(?:st|nd|rd|th)?[,]?\s+(\d{2,4})\b',  # Month DD, YYYY
+        r'\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+(\d{1,2})(?:st|nd|rd|th)?\b',  # Month DD (no year)
+    ]
+    
+    for pattern in date_patterns:
+        match = re.search(pattern, message_lower)
+        if match:
+            try:
+                date_str = match.group(0)
+                # If no year in the pattern, append current year
+                if not re.search(r'\d{4}', date_str):
+                    date_str = f"{date_str} {current_year}"
+                parsed_date = date_parser.parse(date_str, dayfirst=True)
+                
+                # If the parsed date is in the past (more than a month ago), assume next year
+                if (datetime.now() - parsed_date).days > 30:
+                    parsed_date = parsed_date.replace(year=current_year + 1)
+                
+                return parsed_date
+            except Exception as e:
+                print(f"Date parsing error: {e}")
+                continue
+    
+    # Try natural language parsing as fallback
+    try:
+        parsed_date = date_parser.parse(message, fuzzy=True)
+        # If year is in the past, assume current/next year
+        if parsed_date.year < current_year:
+            parsed_date = parsed_date.replace(year=current_year)
+        # If date is more than a month in the past, assume next year
+        if (datetime.now() - parsed_date).days > 30:
+            parsed_date = parsed_date.replace(year=current_year + 1)
+        # Only return if the date seems valid (not too far in future)
+        if (parsed_date - datetime.now()).days < 365:
+            return parsed_date
+    except Exception as e:
+        print(f"Fallback date parsing error: {e}")
+        pass
+    
+    return None
+
+def check_date_availability(date_obj):
+    """Check if a given date is a working day or holiday"""
+    date_str = date_obj.strftime('%Y-%m-%d')
+    day_name = date_obj.strftime('%A')
+    formatted_date = date_obj.strftime('%B %d, %Y')
+    
+    # Check if Sunday
+    if date_obj.weekday() == 6:
+        return {
+            'is_working': False,
+            'reason': 'Sunday',
+            'message': f"{formatted_date} ({day_name}) is a Sunday. We are closed on Sundays.\n\n🏢 Regular working hours: Monday to Saturday, 9 AM - 6 PM\n📞 For urgent queries, contact: +91 9847297290 or +91 8281944290"
+        }
+    
+    # Check holidays database
+    holiday = check_if_holiday(date_str)
+    if holiday:
+        return {
+            'is_working': False,
+            'reason': 'Holiday',
+            'holiday_name': holiday['name'],
+            'message': f"{formatted_date} ({day_name}) is a holiday - {holiday['name']}. We will be closed on this day.\n\n🏢 Regular working hours: Monday to Saturday, 9 AM - 6 PM\n📞 For urgent queries, contact: +91 9847297290 or +91 8281944290"
+        }
+    
+    # It's a working day
+    return {
+        'is_working': True,
+        'message': f"{formatted_date} ({day_name}) is a working day. We will be open from 9 AM to 6 PM.\n\n📞 Contact us: +91 9847297290 or +91 8281944290\n📧 Email: kalapuraparambil.auto@gmail.com"
+    }
 
 # New Analytics and Review Routes
 

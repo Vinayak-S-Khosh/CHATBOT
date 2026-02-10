@@ -1916,7 +1916,7 @@
 
             } catch (error) {
                 typingIndicator.style.display = 'none';
-                addMessage('Sorry, something went wrong. Please try again or contact us directly at +91 81481 45706', false);
+                addMessage('Sorry, something went wrong. Please try again or contact us directly at +91 9847297290', false);
             }
         }
 
@@ -1934,16 +1934,16 @@
             }
         });
 
-        // WhatsApp-style: Toggle between mic and send button
+        // Show send button when typing, but keep mic button visible
         userInput.addEventListener('input', () => {
             const hasText = userInput.value.trim().length > 0;
             if (hasText) {
-                voiceBtn.style.display = 'none';
                 sendBtn.style.display = 'flex';
             } else {
-                voiceBtn.style.display = 'flex';
                 sendBtn.style.display = 'none';
             }
+            // Voice button stays visible always
+            voiceBtn.style.display = 'flex';
         });
 
         userInput.focus();
@@ -2020,7 +2020,10 @@
             };
         } else {
             console.warn('Speech recognition not supported');
-            voiceBtn.style.display = 'none';
+            // Don't hide the button - just disable it and show why
+            voiceBtn.title = 'Voice input not supported in this browser. Please use Chrome, Edge, or Safari.';
+            voiceBtn.style.opacity = '0.5';
+            voiceBtn.style.cursor = 'not-allowed';
         }
         
         // Voice button click handler

@@ -99,7 +99,7 @@ while True:
         speak("I do not understand...")
         flag += 1
         if flag == 3:
-            contact_info = "Please Contact us: Phone: +91 81481 45706, +91 9847297290 | Email: kalapuraparambil.auto@gmail.com"
+            contact_info = "Please Contact us: Phone: +91 9847297290, +91 8281944290 | Email: kalapuraparambil.auto@gmail.com"
             print(contact_info)
             speak(contact_info)
             flag = 0
